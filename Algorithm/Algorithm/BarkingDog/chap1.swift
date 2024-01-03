@@ -13,10 +13,10 @@ import Foundation
 
 //for (i, arr) in [16,34567,27639].enumerated() {
 //    let test = [60, 278812814, 178254968]
-//    print("\(func1(arr) == test[i])")
+//    print("\(chap1Func1(arr) == test[i])")
 //}
 
-func func1(_ n: Int) -> Int {
+func chap1Func1(_ n: Int) -> Int {
     var result = 0
     
     for i in 1...n {
@@ -37,10 +37,10 @@ func func1(_ n: Int) -> Int {
 // arr의 각 수는 0이상 100이하이고 N은 1000이하다.
 
 //for arr in [[1,52,48], [50,42], [4,13,63,87]] {
-//    print("\(func2(arr))")
+//    print("\(chap1Func2(arr))")
 //}
 
-func func2(_ arr: [Int]) -> Int {
+func chap1Func2(_ arr: [Int]) -> Int {
     for i in 0..<arr.count {
         for j in i + 1..<arr.count {
             if arr[i] + arr[j] == 100 {
@@ -56,10 +56,10 @@ func func2(_ arr: [Int]) -> Int {
 // N은 10억 이하의 자연수이다.
 
 //for n in [9, 693953651, 756580036] {
-//    print("\(func3(n))")
+//    print("\(chap1Func3(n))")
 //}
 
-func func3(_ n: Int) -> Int {
+func chap1Func3(_ n: Int) -> Int {
     let sqrtN: Int = Int(sqrt(Double(n)))
     for i in 1...sqrtN {
         if i * i == n {
@@ -74,10 +74,10 @@ func func3(_ n: Int) -> Int {
 // N은 10억 이하의 자연수이다.
 
 //for n in [5, 97615282, 1024] {
-//    print("\(func4(n))")
+//    print("\(chap1func4(n))")
 //}
 
-func func4(_ n: Int) -> Int {
+func chap1func4(_ n: Int) -> Int {
     var result: Int = 0
     
     while Int(pow(2.0, Float(result))) <= n / 2 {
