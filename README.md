@@ -1,8 +1,7 @@
-# Algorithm
-
+# 다시 풀어볼 문제
 | <center>순번</center> | <center>날짜</center> |<center>분류</center>|  <center>문제</center> |  <center>소스코드</center> | 
 |:--------:|:--------:|:--------:|:--------:|:--------:|
-|1|**<center>2024.01.03</center>** | 자료구조 | <center>[백준 10871 X보다 작은 수](https://www.acmicpc.net/problem/10871) </center>|*[Code](https://github.com/99yuseong/Algorithm/tree/main/%EB%B0%B1%EC%A4%80/Bronze/10871.%E2%80%85X%EB%B3%B4%EB%8B%A4%E2%80%85%EC%9E%91%EC%9D%80%E2%80%85%EC%88%98)*|
+|1|**<center>2024.01.06</center>** | 정렬, 투 포인터 | <center>[백준 3273 두 수의 합](https://www.acmicpc.net/problem/3273) </center>|*[Code](https://github.com/99yuseong/Algorithm/tree/main/%EB%B0%B1%EC%A4%80/Silver/3273.%E2%80%85%EB%91%90%E2%80%85%EC%88%98%EC%9D%98%E2%80%85%ED%95%A9)*|
 
 <br>
 
