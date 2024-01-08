@@ -3,6 +3,8 @@
 |:--------:|:--------:|:--------:|:--------:|:--------:|
 |1|**<center>2024.01.06</center>** | 정렬, 투 포인터 | <center>[백준 3273 두 수의 합](https://www.acmicpc.net/problem/3273) </center>|*[Code](https://github.com/99yuseong/Algorithm/tree/main/%EB%B0%B1%EC%A4%80/Silver/3273.%E2%80%85%EB%91%90%E2%80%85%EC%88%98%EC%9D%98%E2%80%85%ED%95%A9)*|
 |2|**<center>2024.01.06</center>** | 구현, 문자열 | <center>[백준 11328 Strfry](https://www.acmicpc.net/problem/11328) </center>|*[Code](https://github.com/99yuseong/Algorithm/tree/main/%EB%B0%B1%EC%A4%80/Bronze/11328.%E2%80%85Strfry)*|
+|2|**<center>2024.01.08</center>** | 자료구조, 스택, 연결리스트 | <center>[백준 1406 에디터](https://www.acmicpc.net/problem/1406) </center>|*[Code](https://github.com/99yuseong/Algorithm/tree/main/%EB%B0%B1%EC%A4%80/Silver/1406.%E2%80%85%EC%97%90%EB%94%94%ED%84%B0)*|
+|2|**<center>2024.01.08</center>** | 구현, 자료구조, 큐 | <center>[백준 1158 요세푸스 문제](https://www.acmicpc.net/problem/1158) </center>|*[Code](https://github.com/99yuseong/Algorithm/tree/main/%EB%B0%B1%EC%A4%80/Silver/1158.%E2%80%85%EC%9A%94%EC%84%B8%ED%91%B8%EC%8A%A4%E2%80%85%EB%AC%B8%EC%A0%9C)*|
 
 <br>
 
