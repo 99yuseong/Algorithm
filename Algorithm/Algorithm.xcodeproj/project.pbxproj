@@ -13,6 +13,8 @@
 		42CD5B492B48F589004C63D9 /* 0x03Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CD5B482B48F589004C63D9 /* 0x03Array.swift */; };
 		42CD5B742B4AC09D004C63D9 /* 0x04LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CD5B732B4AC09D004C63D9 /* 0x04LinkedList.swift */; };
 		42CD5B772B4AE7F8004C63D9 /* SingleLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CD5B762B4AE7F8004C63D9 /* SingleLinkedList.swift */; };
+		42E52AC62B4CD8290073BC69 /* 0x05Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E52AC52B4CD8290073BC69 /* 0x05Stack.swift */; };
+		42E52AC92B4CD95E0073BC69 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E52AC82B4CD95E0073BC69 /* Stack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -35,6 +37,8 @@
 		42CD5B482B48F589004C63D9 /* 0x03Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 0x03Array.swift; sourceTree = "<group>"; };
 		42CD5B732B4AC09D004C63D9 /* 0x04LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 0x04LinkedList.swift; sourceTree = "<group>"; };
 		42CD5B762B4AE7F8004C63D9 /* SingleLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLinkedList.swift; sourceTree = "<group>"; };
+		42E52AC52B4CD8290073BC69 /* 0x05Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 0x05Stack.swift; sourceTree = "<group>"; };
+		42E52AC82B4CD95E0073BC69 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +85,7 @@
 				42CD5B252B45830B004C63D9 /* 0x02.swift */,
 				42CD5B482B48F589004C63D9 /* 0x03Array.swift */,
 				42CD5B732B4AC09D004C63D9 /* 0x04LinkedList.swift */,
+				42E52AC52B4CD8290073BC69 /* 0x05Stack.swift */,
 			);
 			path = BarkingDog;
 			sourceTree = "<group>";
@@ -88,6 +93,7 @@
 		42CD5B752B4AE7E6004C63D9 /* DataStructure */ = {
 			isa = PBXGroup;
 			children = (
+				42E52AC72B4CD9560073BC69 /* Stack */,
 				42CD5B782B4AE8CA004C63D9 /* LinkedList */,
 			);
 			path = DataStructure;
@@ -99,6 +105,14 @@
 				42CD5B762B4AE7F8004C63D9 /* SingleLinkedList.swift */,
 			);
 			path = LinkedList;
+			sourceTree = "<group>";
+		};
+		42E52AC72B4CD9560073BC69 /* Stack */ = {
+			isa = PBXGroup;
+			children = (
+				42E52AC82B4CD95E0073BC69 /* Stack.swift */,
+			);
+			path = Stack;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,7 +177,9 @@
 				42CD5B742B4AC09D004C63D9 /* 0x04LinkedList.swift in Sources */,
 				42CD5B232B458294004C63D9 /* main.swift in Sources */,
 				42CD5B492B48F589004C63D9 /* 0x03Array.swift in Sources */,
+				42E52AC92B4CD95E0073BC69 /* Stack.swift in Sources */,
 				42CD5B212B442E74004C63D9 /* 0x01.swift in Sources */,
+				42E52AC62B4CD8290073BC69 /* 0x05Stack.swift in Sources */,
 				42CD5B262B45830B004C63D9 /* 0x02.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
