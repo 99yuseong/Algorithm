@@ -60,20 +60,20 @@ for _ in 0..<n {
     let cmd = file.readString()
 
     switch cmd {
-        case 335:
+        case 335: // pop
             if queue.count == index {
                 answer += "-1\n"
             } else {
                 answer += "\(queue[index])\n"
                 index += 1
             }
-        case 443:
+        case 443: // size
             answer += "\(queue.count - index)\n"
-        case 559:
+        case 559: // empty
             answer += queue.count == index ? "1\n": "0\n"
-        case 553:
+        case 553: // front
             answer += queue.count == index ? "-1\n" : "\(queue[index])\n"
-        case 401:
+        case 401: // back
             answer += queue.count == index ? "-1\n" : "\(queue.last!)\n"
         default: // push X
             queue.append(file.readInt())
