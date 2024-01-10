@@ -1,5 +1,6 @@
 import Foundation
 
+/// control + D 눌러야 EOF로 command Line에서 실행 됨
 final class FileIO {
     private var buffer:[UInt8]
     private var index: Int
@@ -48,72 +49,36 @@ final class FileIO {
     }
 }
 
-struct Queue {
-    private var array: [Int] = []
-    private var index: Int = 0
-    
-    var size: Int {
-        return array.count - index
-    }
-    
-    var front: Int {
-        return self.isEmpty ? -1 : array[index]
-    }
-    
-    var back: Int {
-        return self.isEmpty ? -1 : array.last!
-    }
-    
-    var empty: Int {
-        return self.isEmpty ? 1 : 0
-    }
-    
-    var isEmpty: Bool {
-        return array.count - index <= 0
-    }
-    
-    mutating func push(_ element: Int) {
-        array.append(element)
-    }
-    
-    mutating func pop() -> Int {
-        guard !self.isEmpty else {
-            return -1
-        }
-        let element = array[index]
-        index += 1
-        return element
-    }
-}
 
 let file = FileIO()
 let n = file.readInt()
-var queue: Queue = Queue()
-var answer = ""
+var queue: [Int] = []
+var index: Int = 0
+var answer: String = ""
 
 for _ in 0..<n {
-    let command = file.readString()
-    switch command {
-    case 448:
-        // push
-        queue.push(file.readInt())
-    case 335:
-        // pop
-        answer += "\(queue.pop())\n"
-    case 443:
-        // size
-        answer += "\(queue.size)\n"
-    case 559:
-        // empty
-        answer += "\(queue.empty)\n"
-    case 553:
-        // front
-        answer += "\(queue.front)\n"
-    case 401:
-        // back
-        answer += "\(queue.back)\n"
-    default:
-        continue
+    let cmd = file.readString()
+
+    switch cmd {
+        case 335:
+            if queue.count == index {
+                answer += "-1\n"
+            } else {
+                answer += "\(queue[index])\n"
+                index += 1
+            }
+        case 443:
+            answer += "\(queue.count - index)\n"
+        case 559:
+            answer += queue.count == index ? "1\n": "0\n"
+        case 553:
+            answer += queue.count == index ? "-1\n" : "\(queue[index])\n"
+        case 401:
+            answer += queue.count == index ? "-1\n" : "\(queue.last!)\n"
+        default: // push X
+            queue.append(file.readInt())
     }
 }
+
 print(answer)
+
