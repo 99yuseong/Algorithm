@@ -8,6 +8,9 @@
 |5|**<center>2024.01.09</center>** | 자료구조, 스택 | <center>[백준 2493 탑](https://www.acmicpc.net/problem/2493) </center>|*[Code](https://github.com/99yuseong/Algorithm/tree/main/%EB%B0%B1%EC%A4%80/Gold/2493.%E2%80%85%ED%83%91)*|
 |6|**<center>2024.01.09</center>** | 자료구조, 스택 | <center>[백준 3015 오아시스 재결합](https://www.acmicpc.net/problem/3015) </center>|*[Code](https://github.com/99yuseong/Algorithm/tree/main/%EB%B0%B1%EC%A4%80/Platinum/3015.%E2%80%85%EC%98%A4%EC%95%84%EC%8B%9C%EC%8A%A4%E2%80%85%EC%9E%AC%EA%B2%B0%ED%95%A9)*|
 |7|**<center>2024.01.09</center>** | 자료 구조, 분할 정복, 세그먼트 트리, 스택 | <center>[백준 6549 히스토그램에서 가장 큰 직사각형](https://www.acmicpc.net/problem/6549) </center>|*[Code](https://github.com/99yuseong/Algorithm/tree/main/%EB%B0%B1%EC%A4%80/Platinum/6549.%E2%80%85%ED%9E%88%EC%8A%A4%ED%86%A0%EA%B7%B8%EB%9E%A8%EC%97%90%EC%84%9C%E2%80%85%EA%B0%80%EC%9E%A5%E2%80%85%ED%81%B0%E2%80%85%EC%A7%81%EC%82%AC%EA%B0%81%ED%98%95)*|
+|8|**<center>2024.01.10</center>** | 구현, 자료구조, 문자열, 파싱, 덱 | <center>[백준 5430 AC](https://www.acmicpc.net/problem/5430) </center>|*[Code](https://github.com/99yuseong/Algorithm/tree/main/%EB%B0%B1%EC%A4%80/Gold/5430.%E2%80%85AC)*|
+|9|**<center>2024.01.11</center>** | 자료구조, 스택 | <center>[백준 10799 쇠막대기](https://www.acmicpc.net/problem/10799) </center>|*[Code](https://github.com/99yuseong/Algorithm/tree/main/%EB%B0%B1%EC%A4%80/Silver/10799.%E2%80%85%EC%87%A0%EB%A7%89%EB%8C%80%EA%B8%B0)*|
+|10|**<center>2024.01.11</center>** | 구현, 자료구조, 스택 | <center>[백준 2504 괄호의 값](https://www.acmicpc.net/problem/2504) </center>|*[Code](https://github.com/99yuseong/Algorithm/tree/main/%EB%B0%B1%EC%A4%80/Gold/2504.%E2%80%85%EA%B4%84%ED%98%B8%EC%9D%98%E2%80%85%EA%B0%92)*|
 
 <br>
 
