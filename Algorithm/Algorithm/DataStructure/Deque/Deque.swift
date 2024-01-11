@@ -23,6 +23,10 @@ struct Deque<T> {
         return dequeue.isEmpty ? enqueue.first : dequeue.last
     }
     
+    var last: T? {
+        return enqueue.isEmpty ? dequeue.first : enqueue.last
+    }
+    
     public mutating func pushFirst(_ n: T) {
         dequeue.append(n)
     }
