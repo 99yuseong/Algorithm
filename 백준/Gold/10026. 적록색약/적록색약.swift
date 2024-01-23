@@ -2,9 +2,6 @@ import Foundation
 
 let n = Int(readLine()!)!
 var arr: [[Character]] = []
-var section1 = 0
-var section2 = 0
-
 let dx = [0, 0, -1, 1]
 let dy = [-1, 1, 0, 0]
 
@@ -21,7 +18,6 @@ func bfs(_ isNormal: Bool) -> Int {
         for j in 0..<n {
             if !visited[i][j] {
                 let sec = arr[i][j]
-                let isBlue = sec == "B"
                 section += 1
                     
                 queue.append([i, j])
