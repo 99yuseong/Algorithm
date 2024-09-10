@@ -1,13 +1,15 @@
 import Foundation
 
-let result = readLine()!.components(separatedBy: " ").map { Int($0)! }
-let arr = readLine()!.components(separatedBy: " ").map { Int($0)! }
-var output: [Int] = []
+let input = readLine()!
+                .components(separatedBy: " ")
+                .map { Int($0)! }
 
-for item in arr {
-    if item < result[1] {
-        output.append(item)
-    }
+let n = input.first!
+let x = input.last!
+var result = ""
+
+for num in readLine()!.components(separatedBy: " ").map({ Int($0)! }) {
+    result += num < x ? "\(num) " : ""
 }
 
-print(output.map { String($0) }.joined(separator: " "))
+print(result)
