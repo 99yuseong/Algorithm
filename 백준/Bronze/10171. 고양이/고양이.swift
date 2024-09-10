@@ -1,5 +1,3 @@
-import Foundation
-
 print("\\    /\\")
 print(" )  ( ')")
 print("(  /  )")
