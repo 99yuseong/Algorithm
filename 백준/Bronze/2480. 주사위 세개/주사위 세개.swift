@@ -1,19 +1,13 @@
 import Foundation
 
-let input = readLine()!.components(separatedBy: " ").map { Int($0)! }
+let nums = readLine()!
+    .split(separator: " ")
+    .map { Int($0)! }
 
-let a = input[0]
-let b = input[1]
-let c = input[2]
-
-if a == b && a == c {
-    print(10000 + a * 1000)
-} else if a != b && b != c && a != c {
-    print(input.max()! * 100)
+if Set(nums).count == 3 {
+    print("\(nums.max()! * 100)")
+} else if Set(nums).count == 1 {
+    print("\(10000 + nums[0] * 1000)")
 } else {
-    if a == b || a == c{
-        print(1000 + a * 100)
-    } else {
-        print(1000 + b * 100)
-    }
+    print("\(1000 + (nums[0] == nums[1] ? nums[0] : nums[2]) * 100)")
 }
