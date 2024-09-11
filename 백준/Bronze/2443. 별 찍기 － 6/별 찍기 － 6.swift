@@ -1,8 +1,6 @@
 import Foundation
 
-let n = Int(readLine()!)!
-
-for i in 1...n {
-    let line = String(repeating: " ", count: i - 1) + String(repeating: "*", count: 2 * (n - i + 1) - 1)
-    print(line)
+let N = Int(readLine()!)!
+for i in 1...N {
+    print(String(repeating: " ", count: i-1) + String(repeating: "*", count: 2 * (N - i) + 1))
 }
