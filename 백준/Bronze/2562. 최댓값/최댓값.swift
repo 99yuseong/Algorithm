@@ -1,16 +1,15 @@
 import Foundation
 
-var i = 0
-var nums: [Int] = []
+var max = 0
+var idx = 0
 
-while i < 9 {
-    let n = Int(readLine()!)!
-    nums.append(n)
-    i += 1
+for i in 1...9 {
+    let num = Int(readLine()!)!
+    if max < num {
+        max = num
+        idx = i
+    }
 }
 
-let max = nums.max()!
-let index = nums.firstIndex(of: max)!
-
 print(max)
-print(index + 1)
+print(idx)
