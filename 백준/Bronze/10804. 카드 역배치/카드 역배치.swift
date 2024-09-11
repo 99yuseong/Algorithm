@@ -1,27 +1,20 @@
 import Foundation
 
-var i: Int = 0
-var cards: [Int] = []
+let N = 10
+var arr = Array(1...20)
 
-for num in 1...20 {
-    cards.append(num)
-}
-
-while i < 10 {
-    let input = readLine()!.components(separatedBy: " ").map { Int($0)! }
-    var a = input[0] - 1
-    var b = input[1] - 1
+for _ in 0..<N {
+    let input = readLine()!.split(separator: " ").map { Int($0)! }
     
-    var j = Int((b - a + 1) / 2)
-    while j > 0 {
-        let tmp = cards[a]
-        cards[a] = cards[b]
-        cards[b] = tmp
-        a += 1
-        b -= 1
-        j -= 1
+    let loopCnt = (input[1] - input[0] + 1) / 2
+    
+    for i in 0..<loopCnt {
+        let startIdx = (input[0] - 1) + i
+        let endIdx = (input[1] - 1) - i
+        let tmp = arr[startIdx]
+        arr[startIdx] = arr[endIdx]
+        arr[endIdx] = tmp
     }
-    i += 1
 }
 
-print(cards.map { String($0) }.joined(separator: " "))
+print(arr.map { String($0) }.joined(separator: " "))
