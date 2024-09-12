@@ -1,22 +1,14 @@
 import Foundation
 
 let n = Int(readLine()!)!
-let nums = readLine()!.components(separatedBy: " ").map { Int($0)! }.sorted()
+let nums = readLine()!.split(separator: " ").map { Int($0)! }
 let x = Int(readLine()!)!
 
-var start: Int = 0
-var end: Int = n - 1
-var count: Int = 0
+let set = Set(nums)
+var result = 0
 
-while start < end {
-    if nums[start] + nums[end] == x {
-        count += 1
-        start += 1
-        end -= 1
-    } else if nums[start] + nums[end] < x {
-        start += 1
-    } else {
-        end -= 1
-    }
+for num in nums {
+    if set.contains(x - num) { result += 1 }
 }
-print(count)
+
+print(result / 2)
