@@ -1,24 +1,22 @@
 import Foundation
 
-let n = Int(readLine()!)!
-
-out: for _ in 0..<n {
-    let test = readLine()!.components(separatedBy: " ")
-    var alphabets = [Int](repeating: 0, count: 26)
-    
-    for char in test[0] {
-        alphabets[Int(char.asciiValue!) - 97] += 1
+var n = Int(readLine()!)!
+for _ in 0..<n {
+    let stringValue = readLine()!.split(separator: " ").map{String($0)}
+    var alphabet = Array(repeating: 0, count: 26)
+    var flag = true
+    for s in stringValue[0]{
+        alphabet[Int(exactly: s.asciiValue!)! - 97] += 1
     }
-    
-    for char in test[1] {
-        alphabets[Int(char.asciiValue!) - 97] -= 1
+    for s in stringValue[1]{
+        alphabet[Int(exactly: s.asciiValue!)! - 97] -= 1
     }
-    
-    for i in 0..<alphabets.count {
-        if alphabets[i] != 0 {
-            print("Impossible")
-            continue out
+    for a in alphabet {
+        if a != 0 {
+            flag = false
+            break
         }
     }
-    print("Possible")
+    print(flag ? "Possible" : "Impossible")
 }
+
