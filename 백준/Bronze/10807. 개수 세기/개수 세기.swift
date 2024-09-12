@@ -1,15 +1,7 @@
 import Foundation
 
 let n = Int(readLine()!)!
-let nums = readLine()!.components(separatedBy: " ").map { Int($0)! }
-let v = Int(readLine()!)!
+let nums = readLine()!.split(separator: " ").map { Int($0)! }
+let x = Int(readLine()!)!
 
-var count: Int = 0
-
-for num in nums {
-    if num == v {
-        count += 1
-    }
-}
-
-print(count)
+print(nums.reduce(0) { $0 + ($1 == x ? 1 : 0) })
