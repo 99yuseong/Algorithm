@@ -1,21 +1,16 @@
 import Foundation
 
-let first = readLine()!
-let second = readLine()!
+let a = readLine()!
+let b = readLine()!
 
-var alphabets = [Int](repeating: 0, count: 26)
+var arr = Array(repeating: 0, count: 26)
 
-for char in first {
-    alphabets[Int(char.asciiValue!) - 97] += 1
+for char in a {
+    arr[Int(String(char.asciiValue!))! - 97] += 1
 }
 
-for char in second {
-    alphabets[Int(char.asciiValue!) - 97] -= 1
+for char in b {
+    arr[Int(String(char.asciiValue!))! - 97] -= 1
 }
 
-var count: Int = 0
-
-for alphabet in alphabets {
-    count += abs(alphabet)
-}
-print(count)
+print(arr.reduce(0) { $0 + ($1 == 0 ? 0 : abs($1)) })
