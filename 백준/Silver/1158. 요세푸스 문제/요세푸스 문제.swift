@@ -1,18 +1,17 @@
 import Foundation
 
-let input = readLine()!.components(separatedBy: " ").map { Int($0)! }
+let input = readLine()!.split(separator: " ").map { Int($0)! }
+let N = input.first!
+let K = input.last!
 
-let n: Int = input[0]
-let k: Int = input[1]
-
-var arr = Array(1...n)
-var result: [Int] = []
-var idx: Int = k - 1
+var arr = Array(1...N)
+var curIdx = K-1
+var resultArr: [Int] = []
 
 while true {
-    result.append(arr.remove(at: idx))
+    resultArr.append(arr.remove(at: curIdx))
     if arr.isEmpty { break }
-    idx = (idx - 1 + k) % arr.count
+    curIdx = (curIdx - 1 + K) % arr.count
 }
 
-print("<\(result.map { String($0) }.joined(separator: ", "))>")
+print("<" + resultArr.map { String($0) }.joined(separator: ", ") + ">")
