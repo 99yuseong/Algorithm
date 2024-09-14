@@ -1,31 +1,19 @@
 import Foundation
 
-let n = Int(readLine()!)!
-
-for _ in 0..<n {
-    let commands = Array(readLine()!)
+let N = Int(readLine()!)!
+for _ in 0..<N {
+    let input = readLine()!
+    var left: [String] = []
+    var right: [String] = []
     
-    var left: [Character] = []
-    var right: [Character] = []
-    
-    for command in commands {
-        switch command {
-            case "<":
-                if !left.isEmpty {
-                    right.append(left.removeLast())
-                }
-            case ">":
-                if !right.isEmpty {
-                    left.append(right.removeLast())
-                }
-            case "-":
-                if !left.isEmpty {
-                    left.removeLast()
-                }
-            default:
-                left.append(command)
+    for key in input {
+        switch key {
+        case "-": if !left.isEmpty { left.removeLast() }
+        case "<": if !left.isEmpty { right.append(left.removeLast()) }
+        case ">": if !right.isEmpty { left.append(right.removeLast()) }
+        default: left.append(String(key))
         }
     }
     
-    print(String(left + right.reversed()))
+    print((left + right.reversed()).joined())
 }
