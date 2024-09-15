@@ -1,30 +1,21 @@
 import Foundation
 
-let n = Int(readLine()!)!
+let N = Int(readLine()!)!
 var stack: [Int] = []
 
-
-for _ in 0..<n {
-    let command = readLine()!.components(separatedBy: " ")
+for _ in 0..<N {
+    let cmd = readLine()!.split(separator: " ")
     
-    switch command[0] {
-        case "pop":
-            if stack.isEmpty {
-                print(-1)
-                break
-            }
-            print(stack.popLast()!)
-        case "size":
-            print(stack.count)
-        case "empty":
-            print(stack.count == 0 ? 1 : 0)
-        case "top":
-            if let last = stack.last {
-                print(last)
-            } else {
-                print(-1)
-            }
-        default:
-            stack.append(Int(command[1])!)
+    switch cmd.first! {
+    case "push":
+        stack.append(Int(cmd.last!)!)
+    case "pop":
+        print(stack.popLast() ?? -1)
+    case "size":
+        print(stack.count)
+    case "empty":
+        print(stack.isEmpty ? 1 : 0)
+    default: // top
+        print(stack.last ?? -1)
     }
 }
