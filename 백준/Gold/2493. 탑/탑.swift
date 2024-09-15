@@ -1,17 +1,16 @@
 import Foundation
 
-let n = Int(readLine()!)!
+let N = Int(readLine()!)!
 
-var answer: [Int] = Array(repeating: 0, count: n)
-var towers = readLine()!.components(separatedBy: " ").map { Int($0)! }
+var tower = readLine()!.split(separator: " ").map { Int($0)! }
 var stack: [Int] = []
+var result = Array(repeating: 0, count: tower.count)
 
-for i in (0..<n).reversed() {
-    while !stack.isEmpty && towers[i] > towers[stack.last!] {
-        let popped = stack.popLast()!
-        answer[popped] = i + 1
+for i in (0..<N).reversed() {
+    while !stack.isEmpty && tower[i] >= tower[stack.last!] {
+        result[stack.popLast()!] = i + 1
     }
     stack.append(i)
 }
 
-print(answer.map { String($0) }.joined(separator: " "))
+print(result.map { String($0) }.joined(separator: " "))
