@@ -1,27 +1,26 @@
 import Foundation
 
 let n = Int(readLine()!)!
-
-var count: Int = 1
 var stack: [Int] = []
-var command: [String] = []
+var result: [String] = []
+var curValue = 1
 
 for _ in 0..<n {
-    let num = Int(readLine()!)!
+    let input = Int(readLine()!)!
     
-    while count <= num {
-        stack.append(count)
-        command.append("+")
-        count += 1
+    while curValue <= input {
+        stack.append(curValue)
+        result.append("+")
+        curValue += 1
     }
     
-    if stack.last == num {
-        stack.popLast()
-        command.append("-")
+    if stack.last == input {
+        _ = stack.popLast()
+        result.append("-")
     } else {
         print("NO")
         exit(0)
     }
 }
 
-print(command.joined(separator: "\n"))
+print(result.joined(separator: "\n"))
