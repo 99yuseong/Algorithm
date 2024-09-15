@@ -1,15 +1,14 @@
 import Foundation
 
+let K = Int(readLine()!)!
 var stack: [Int] = []
 
-let n = Int(readLine()!)!
-
-for _ in 0..<n {
-    let num = Int(readLine()!)!
-    if num == 0 {
-        stack.popLast()
+for _ in 0..<K {
+    let input = Int(readLine()!)!
+    if input == 0 {
+        _ = stack.popLast()
     } else {
-        stack.append(num)
+        stack.append(input)
     }
 }
 
