@@ -1,25 +1,22 @@
 import Foundation
 
-let n = Int(readLine()!)!
-var answer = 0
+// 모든 글자가 ABfh
+// A - A. A - B
+// 1억개의 입력 -> 0(N)
 
-for _ in 0..<n {
-    let string = readLine()!
+let N = Int(readLine()!)!
+var num = 0
+
+for _ in 0..<N {
     var stack: [Character] = []
-    
-    for char in string {
-        if stack.isEmpty {
-            stack.append(char)
+    let sentence = readLine()!
+    for char in sentence {
+        if !stack.isEmpty && char == stack.last! {
+            _ = stack.popLast()
         } else {
-            if stack.last! == char {
-                stack.popLast()
-            } else {
-                stack.append(char)
-            }
+            stack.append(char)
         }
     }
-    
-    answer += stack.isEmpty ? 1 : 0
+    num += stack.isEmpty ? 1 : 0
 }
-
-print(answer)
+print(num)
