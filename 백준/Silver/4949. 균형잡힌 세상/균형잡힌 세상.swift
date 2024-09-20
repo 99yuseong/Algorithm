@@ -1,30 +1,34 @@
 import Foundation
+// "(", ")", "[", "]"
 
 out: while true {
-    let input = readLine()!
-    if input == "." { break }
+    let sentense = readLine()!
+    if sentense.first! == "." { exit(0) } // 종료 조건
     
     var stack: [Character] = []
     
-    for char in input {
-        if char == "(" || char == "[" {
-            stack.append(char)
-        } else if char == ")" || char == "]" {
-            if stack.isEmpty {
-                print("no")
-                continue out
-            } else if stack.last! == "(" && char == ")" || stack.last! == "[" && char == "]" {
-                stack.popLast()
+    for word in sentense {
+        switch word {
+        case "(":
+            stack.append("(")
+        case ")":
+            if !stack.isEmpty && stack.last! == "(" {
+                _ = stack.popLast()
             } else {
-                print("no")
-                continue out
+                stack.append(")")
             }
+        case "[":
+            stack.append("[")
+        case "]":
+            if !stack.isEmpty && stack.last! == "[" {
+                _ = stack.popLast()
+            } else {
+                stack.append("]")
+            }
+        default:
+            break
         }
     }
     
-    if stack.isEmpty {
-        print("yes")
-    } else {
-        print("no")
-    }
+    print(stack.isEmpty ? "yes" : "no")
 }
