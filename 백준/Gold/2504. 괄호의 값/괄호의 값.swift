@@ -2,39 +2,41 @@ import Foundation
 
 let input = Array(readLine()!)
 var stack: [Character] = []
-var tmp = 1
 var answer = 0
-var isError = false
+var cal = 1
 
 for i in 0..<input.count {
-    if input[i] == "(" || input[i] == "[" {
-        tmp *= input[i] == "(" ? 2 : 3
-        stack.append(input[i])
-    } else {
-        if stack.isEmpty {
-            isError = true
-            break
-        } else if stack.last! == "(" && input[i] == ")" {
+    switch input[i] {
+    case "(":
+        stack.append("(")
+        cal *= 2
+    case "[":
+        stack.append("[")
+        cal *= 3
+    case ")":
+        if !stack.isEmpty && stack.last! == "(" {
             if input[i-1] == "(" {
-                answer += tmp
+                answer += cal
             }
-            tmp /= 2
-            stack.popLast()
-        } else if stack.last! == "[" && input[i] == "]" {
-            if input[i-1] == "[" {
-                answer += tmp
-            }
-            tmp /= 3
-            stack.popLast()
+            cal /= 2
+            _ = stack.popLast()
         } else {
-            isError = true
-            break
+            print(0)
+            exit(0)
         }
+    case "]":
+        if !stack.isEmpty && stack.last! == "[" {
+            if input[i-1] == "[" {
+                answer += cal
+            }
+            cal /= 3
+            _ = stack.popLast()
+        } else {
+            print(0)
+            exit(0)
+        }
+    default:
+        break
     }
 }
-
-if isError || !stack.isEmpty {
-    print(0)
-} else {
-    print(answer)
-}
+print(stack.isEmpty ? answer : 0)
