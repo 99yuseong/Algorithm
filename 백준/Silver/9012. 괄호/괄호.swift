@@ -1,32 +1,21 @@
-import Foundation
-
 let T = Int(readLine()!)!
-
-for _ in 0..<T {
-    let string = readLine()!
+out: for _ in 0..<T {
     var stack: [Character] = []
-    var result = ""
-    
-    for char in string {
-        if stack.isEmpty {
-            stack.append(char)
-        } else {
-            if char == "(" {
-                stack.append(char)
-            } else if char == ")" && stack.last! == "("{
-                stack.popLast()
+    let line = readLine()!
+    for char in line {
+        switch char {
+        case "(":
+            stack.append("(")
+        case ")":
+            if !stack.isEmpty && stack.last! == "(" {
+                _ = stack.popLast()
             } else {
-                result = "NO"
-                break
+                print("NO")
+                continue out
             }
+        default:
+            break
         }
     }
-    
-    if stack.isEmpty {
-        result = "YES"
-    } else {
-        result = "NO"
-    }
-    
-    print(result)
+    print(stack.isEmpty ? "YES" : "NO")
 }
