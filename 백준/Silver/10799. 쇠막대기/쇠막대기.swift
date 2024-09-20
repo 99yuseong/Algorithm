@@ -1,23 +1,27 @@
-import Foundation
+let line = readLine()!
+var stack: [Character] = []
+var layer = 0
+var num = 0
+var isL = false
 
-let input = readLine()!
-var answer = 0
-var stick = 0
-var isLastClosed = false
-
-for char in input {
-    if char == "(" {
-        stick += 1
-        isLastClosed = false
-    } else {
-        stick -= 1
-        if isLastClosed {
-            answer += 1
+for char in line {
+    switch char {
+    case "(":
+        stack.append("(")
+        layer += 1
+        isL = true
+    case ")":
+        if !stack.isEmpty && stack.last! == "(" && isL{
+            _ = stack.popLast()
+            layer -= 1
+            num += layer
         } else {
-            answer += stick
+            layer -= 1
+            num += 1
         }
-        isLastClosed = true
+        isL = false
+    default:
+        break
     }
 }
-
-print(answer)
+print(num)
