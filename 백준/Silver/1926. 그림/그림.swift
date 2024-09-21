@@ -2,6 +2,24 @@
 // 0 -> 색칠 x, 1 -> 색칠 O
 // 그림의 개수 & 그림의 넓이 출력
 
+struct Queue {
+    var inBox: [[Int]] = []
+    var outBox: [[Int]] = []
+    var isEmpty: Bool {
+        inBox.isEmpty && outBox.isEmpty
+    }
+    mutating func enqueue(_ value: [Int]) {
+        inBox.append(value)
+    }
+    mutating func dequeue() -> [Int]? {
+        if outBox.isEmpty {
+            outBox = inBox.reversed()
+            inBox.removeAll()
+        }
+        return outBox.popLast()
+    }
+}
+
 let nm = readLine()!.split(separator: " ").map { Int($0)! }
 let mx = nm.first!
 let my = nm.last!
@@ -29,13 +47,13 @@ print(maxArea)
 
 func BFS_MaxArea(_ sx: Int, _ sy: Int) -> Int {
     var area = 1
-    var queue: [[Int]] = []
+    var queue = Queue()
     pictures[sx][sy] = 0
     
-    queue.append([sx,sy])
+    queue.enqueue([sx,sy])
     
     while !queue.isEmpty {
-        let cur = queue.removeFirst()
+        let cur = queue.dequeue()!
 
         for i in 0..<4 {
             let x = cur[0] + dx[i]
@@ -43,7 +61,7 @@ func BFS_MaxArea(_ sx: Int, _ sy: Int) -> Int {
             
             if (0..<mx) ~= x && (0..<my) ~= y && pictures[x][y] == 1 {
                 pictures[x][y] = 0
-                queue.append([x,y])
+                queue.enqueue([x,y])
                 area += 1
             }
         }
