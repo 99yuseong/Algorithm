@@ -1,14 +1,16 @@
-import Foundation
+// 500 * 500 > 25000
+// 0 -> 색칠 x, 1 -> 색칠 O
+// 그림의 개수 & 그림의 넓이 출력
 
-let input = readLine()!.split(separator: " ").map { Int($0)! }
-let mx = input[0]
-let my = input[1]
-let dx = [1, 0, -1, 0]
-let dy = [0, -1, 0, 1]
+let nm = readLine()!.split(separator: " ").map { Int($0)! }
+let mx = nm.first!
+let my = nm.last!
 
 var pictures: [[Int]] = []
-var picNum = 0
+var count = 0
 var maxArea = 0
+let dx = [0, 1, 0, -1]
+let dy = [1, 0, -1, 0]
 
 for _ in 0..<mx {
     pictures.append(readLine()!.split(separator: " ").map { Int($0)! })
@@ -17,29 +19,31 @@ for _ in 0..<mx {
 for i in 0..<mx {
     for j in 0..<my {
         if pictures[i][j] == 1 {
-            let area = bfs(i, j)
-            picNum += 1
-            maxArea = max(maxArea, area)
+            maxArea = max(maxArea, BFS_MaxArea(i, j))
+            count += 1
         }
     }
 }
+print(count)
+print(maxArea)
 
-func bfs(_ sx: Int, _ sy: Int) -> Int {
+func BFS_MaxArea(_ sx: Int, _ sy: Int) -> Int {
     var area = 1
+    var queue: [[Int]] = []
     pictures[sx][sy] = 0
     
-    var queue: [[Int]] = []
     queue.append([sx,sy])
-
+    
     while !queue.isEmpty {
         let cur = queue.removeFirst()
+
         for i in 0..<4 {
             let x = cur[0] + dx[i]
             let y = cur[1] + dy[i]
             
             if (0..<mx) ~= x && (0..<my) ~= y && pictures[x][y] == 1 {
-                queue.append([x, y])
                 pictures[x][y] = 0
+                queue.append([x,y])
                 area += 1
             }
         }
@@ -47,9 +51,3 @@ func bfs(_ sx: Int, _ sy: Int) -> Int {
     
     return area
 }
-
-print(picNum)
-print(maxArea)
-
-
-
