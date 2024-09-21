@@ -1,34 +1,33 @@
-import Foundation
+// 1 이동할 수 있는 칸
+// 0 벽
 
 let input = readLine()!.split(separator: " ").map { Int($0)! }
-let n = input[0]
-let m = input[1]
-
+let mx = input.first!
+let my = input.last!
 var map: [[Int]] = []
 
-for _ in 0..<n {
-    map.append(Array(readLine()!).map { Int(String($0))! })
+for _ in 0..<mx {
+    map.append(readLine()!.map { Int(String($0))! })
 }
 
-var queue: [[Int]] = [[0,0]]
+var queue: [[Int]] = []
+let dx = [0, 1, 0, -1]
+let dy = [1, 0, -1, 0]
 
-let dx = [0, 0, -1, 1]
-let dy = [-1, 1, 0, 0]
+queue.append([0,0])
 
 while !queue.isEmpty {
     let cur = queue.removeFirst()
-    let move = map[cur[0]][cur[1]]
     
     for i in 0..<4 {
-        let x = cur[0] + dx[i]
-        let y = cur[1] + dy[i]
+        let x = cur.first! + dx[i]
+        let y = cur.last! + dy[i]
         
-        if 0..<n ~= x && 0..<m ~= y && map[x][y] == 1 {
-            map[x][y] = move + 1
-            queue.append([x, y])
+        if (0..<mx) ~= x && (0..<my) ~= y && map[x][y] == 1 && (x,y) != (0,0) {
+            queue.append([x,y])
+            map[x][y] = map[cur.first!][cur.last!] + 1
         }
     }
 }
 
-print(map[n-1][m-1])
-
+print(map[mx-1][my-1])
