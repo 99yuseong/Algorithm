@@ -1,66 +1,44 @@
-import Foundation
-
-struct Q<T> {
-    var inbox: [T] = []
-    var outbox: [T] = []
-    var isEmpty: Bool {
-        return inbox.isEmpty && outbox.isEmpty
-    }
-    
-    mutating func append(_ x: T) {
-        inbox.append(x)
-    }
-    
-    mutating func removeFirst() -> T? {
-        if outbox.isEmpty {
-            outbox = inbox.reversed()
-            inbox.removeAll()
-        }
-        
-        return outbox.popLast()
-    }
-}
-
-let T = Int(readLine()!)!
+let T = Int(readLine()!)! // 테스트 케이스
 
 for _ in 0..<T {
-    let data = readLine()!.split(separator: " ").map { Int($0)! }
-    let (m, n, k) = (data[0], data[1], data[2])
+    let input = readLine()!.split(separator: " ").map { Int($0)! }
+    let mx = input[0] // 가로
+    let my = input[1] // 세로
+    let mk = input[2] // 배추 갯수
+    var map = Array(repeating: Array(repeating: 0, count: my), count: mx)
     
-    var arr = Array(repeating: Array(repeating: 0, count: m), count: n)
-    var queue = Q<[Int]>()
-    var section = 0
-    let dx = [0, 0, -1, 1]
-    let dy = [-1, 1, 0, 0]
-    
-    for _ in 0..<k {
+    for _ in 0..<mk {
         let input = readLine()!.split(separator: " ").map { Int($0)! }
-        arr[input[1]][input[0]] = 1
+        map[input[0]][input[1]] = 1
     }
     
-    for i in 0..<n {
-        for j in 0..<m {
-            if arr[i][j] == 1 {
+    let dx = [0, 1, 0, -1]
+    let dy = [1, 0, -1, 0]
+    var answer = 0
+    
+    for i in 0..<mx {
+        for j in 0..<my {
+            if map[i][j] == 1 {
+                var queue: [[Int]] = []
                 queue.append([i,j])
-                arr[i][j] = 0
-                section += 1
                 
                 while !queue.isEmpty {
-                    let cur = queue.removeFirst()!
+                    let cur = queue.removeFirst()
                     
                     for i in 0..<4 {
                         let x = cur[0] + dx[i]
                         let y = cur[1] + dy[i]
                         
-                        if 0..<n ~= x && 0..<m ~= y && arr[x][y] == 1 {
+                        if (0..<mx) ~= x && (0..<my) ~= y && map[x][y] == 1 {
                             queue.append([x,y])
-                            arr[x][y] = 0
+                            map[x][y] = 0
                         }
                     }
                 }
+                answer += 1
             }
         }
     }
     
-    print(section)
+    print(answer)
 }
