@@ -1,76 +1,81 @@
 import Foundation
 
-struct Q<T> {
+struct Q<T: Equatable> {
     var inbox: [T] = []
     var outbox: [T] = []
-    var isEmpty: Bool {
-        return inbox.isEmpty && outbox.isEmpty
-    }
-    
-    mutating func append(_ x: T) {
-        inbox.append(x)
-    }
-    
-    mutating func removeFirst() -> T? {
+    var isEmpty: Bool { inbox.isEmpty && outbox.isEmpty }
+    mutating func enqueue(_ value: T) { inbox.append(value) }
+    mutating func dequeue() -> T? {
         if outbox.isEmpty {
             outbox = inbox.reversed()
             inbox.removeAll()
         }
-        
         return outbox.popLast()
     }
 }
 
-let input = readLine()!.split(separator: " ").map { Int($0)! }
-let m = input[0]
-let n = input[1]
-let h = input[2]
-var arr: [[[Int]]] = Array(repeating: Array(repeating: Array(repeating: -1, count: m), count: n), count: h)
+let line = readLine()!.split(separator: " ").map { Int($0)! }
 
-for k in 0..<h {
-    for i in 0..<n {
+let mz = line[0] // 최대 100 // m
+let my = line[1] // 최대 100 // n
+let mx = line[2] // 최대 100 // h
+
+// 1 - 익은 토마토
+// 0 - 익지 않은 토마토
+// -1 - 토마토 없음
+var box: [[[Int]]] = []
+
+for _ in 0..<mx {
+    var layer: [[Int]] = []
+    for _ in 0..<my {
         let line = readLine()!.split(separator: " ").map { Int($0)! }
-        arr[k][i] = line
+        layer.append(line)
     }
+    box.append(layer)
 }
 
 var queue = Q<[Int]>()
-let dx = [0, 0, 0, 0, -1, 1]
-let dy = [0, 0, -1, 1, 0, 0]
-let dz = [-1, 1, 0, 0, 0, 0]
-var result = 0
 
-for i in 0..<n {
-    for j in 0..<m {
-        for k in 0..<h {
-            if arr[k][i][j] == 1 {
-                queue.append([i, j, k])
+var time = 0
+let dx = [0, 0, 1, -1, 0, 0]
+let dy = [0, 1, 0, 0, -1, 0]
+let dz = [1, 0, 0, 0, 0, -1]
+
+for i in 0..<mx {
+    for j in 0..<my {
+        for k in 0..<mz {
+            if box[i][j][k] == 1 {
+                queue.enqueue([i,j,k])
             }
         }
     }
 }
 
 while !queue.isEmpty {
-    let cur = queue.removeFirst()!
-    let time = arr[cur[2]][cur[0]][cur[1]]
+    let cur = queue.dequeue()!
     
-    for a in 0..<6 {
-        let x = cur[0] + dx[a]
-        let y = cur[1] + dy[a]
-        let z = cur[2] + dz[a]
+    for i in 0..<6 {
+        let x = cur[0] + dx[i]
+        let y = cur[1] + dy[i]
+        let z = cur[2] + dz[i]
         
-        if 0..<n ~= x && 0..<m ~= y && 0..<h ~= z && arr[z][x][y] == 0 {
-            queue.append([x,y,z])
-            arr[z][x][y] = time + 1
-            result = max(result, time)
+        if
+            (0..<mx) ~= x
+            && (0..<my) ~= y
+            && (0..<mz) ~= z
+            && box[x][y][z] == 0
+        {
+            queue.enqueue([x,y,z])
+            box[x][y][z] = box[cur[0]][cur[1]][cur[2]] + 1
+            time = max(box[cur[0]][cur[1]][cur[2]], time)
         }
     }
 }
 
-for i in 0..<n {
-    for j in 0..<m {
-        for k in 0..<h {
-            if arr[k][i][j] == 0 {
+for i in 0..<mx {
+    for j in 0..<my {
+        for k in 0..<mz {
+            if box[i][j][k] == 0 {
                 print(-1)
                 exit(0)
             }
@@ -78,4 +83,4 @@ for i in 0..<n {
     }
 }
 
-print(result)
+print(time)
