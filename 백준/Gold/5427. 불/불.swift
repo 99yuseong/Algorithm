@@ -1,86 +1,73 @@
 import Foundation
 
-struct Q<T> {
+struct Q<T: Equatable> {
     var inbox: [T] = []
     var outbox: [T] = []
-    var isEmpty: Bool {
-        return inbox.isEmpty && outbox.isEmpty
-    }
-    
-    mutating func append(_ x: T) {
-        inbox.append(x)
-    }
-    
-    mutating func popFirst() -> T? {
+    var isEmpty: Bool { inbox.isEmpty && outbox.isEmpty }
+    mutating func enqueue(_ value: T) { inbox.append(value) }
+    mutating func dequeue() -> T? {
         if outbox.isEmpty {
             outbox = inbox.reversed()
             inbox.removeAll()
         }
-        
         return outbox.popLast()
     }
 }
 
-let T = Int(readLine()!)!
+let N = Int(readLine()!)!
 
-out: for _ in 0..<T {
+out: for _ in 0..<N {
     let input = readLine()!.split(separator: " ").map { Int($0)! }
-    let m = input[0]
-    let n = input[1]
+    let my = input[0]
+    let mx = input[1]
+    let dx = [0, 1, 0, -1]
+    let dy = [1, 0, -1, 0]
     
-    var arr: [[Character]] = []
-    var map = Array(repeating: Array(repeating: -1, count: m), count: n)
+    var map = Array(repeating: Array(repeating: "", count: my), count: mx)
+    var visited = Array(repeating: Array(repeating: -1, count: my), count: mx)
     var sPos: [Int] = []
     var queue = Q<[Int]>()
     
-    for i in 0..<n {
-        var input = Array(readLine()!)
-        
-        for j in 0..<m {
-            switch input[j] {
-            case "*":
-                queue.append([i,j])
-                map[i][j] = 0
-            case "@":
+    for i in 0..<mx {
+        let line = readLine()!.map { String($0) }
+        for (j, item) in line.enumerated() {
+            map[i][j] = item
+            if item == "@" {
                 sPos = [i,j]
-                input[j] = "."
-                map[i][j] = 0
-            case ".":
-                map[i][j] = 0
-            default:
-                break
+                visited[i][j] = 0
+            }
+            if item == "*" {
+                queue.enqueue([i,j])
+                visited[i][j] = 1
+            }
+            if item == "." {
+                visited[i][j] = 0
             }
         }
-        
-        arr.append(input)
     }
-
-    let dx = [0, 0, -1, 1]
-    let dy = [-1, 1, 0, 0]
-
+    
     while !queue.isEmpty {
-        let cur = queue.popFirst()!
+        let cur = queue.dequeue()!
         
         for i in 0..<4 {
             let x = cur[0] + dx[i]
             let y = cur[1] + dy[i]
             
-            if 0..<n ~= x && 0..<m ~= y && arr[x][y] == "." && map[x][y] == 0 {
-                queue.append([x, y])
-                map[x][y] = map[cur[0]][cur[1]] + 1
+            if 0..<mx ~= x && 0..<my ~= y && visited[x][y] == 0 {
+                queue.enqueue([x,y])
+                visited[x][y] = visited[cur[0]][cur[1]] + 1
             }
         }
     }
-
-    queue.append([sPos[0], sPos[1], 0])
-    arr[sPos[0]][sPos[1]] = " "
-
+    
+    queue.enqueue(sPos)
+    visited[sPos[0]][sPos[1]] = 1
+    
     while !queue.isEmpty {
-        let cur = queue.popFirst()!
-        let time = cur[2]
+        let cur = queue.dequeue()!
         
-        if cur[0] == 0 || cur[0] == n-1 || cur[1] == 0 || cur[1] == m-1 {
-            print(time + 1)
+        if cur[0] == 0 || cur[0] == mx-1 || cur[1] == 0 || cur[1] == my-1 {
+            print(visited[cur[0]][cur[1]])
             continue out
         }
         
@@ -88,12 +75,15 @@ out: for _ in 0..<T {
             let x = cur[0] + dx[i]
             let y = cur[1] + dy[i]
             
-            if 0..<n ~= x && 0..<m ~= y && arr[x][y] == "." && (map[x][y] == 0 || time < map[x][y] - 1) {
-                queue.append([x, y, time + 1])
-                arr[x][y] = " "
+            if 0..<mx ~= x
+                && 0..<my ~= y
+                && (visited[x][y] == 0 || visited[x][y] > visited[cur[0]][cur[1]] + 1)
+            {
+                queue.enqueue([x,y])
+                visited[x][y] = visited[cur[0]][cur[1]] + 1
             }
         }
     }
-
+    
     print("IMPOSSIBLE")
 }
