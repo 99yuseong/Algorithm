@@ -1,42 +1,36 @@
-import Foundation
-
-let T = Int(readLine()!)!
+let T = Int(readLine()!)! // 10만
 
 for _ in 0..<T {
-    let n = Int(readLine()!)!
+    let N = Int(readLine()!)!
     let arr = readLine()!.split(separator: " ").map { Int($0)! - 1 }
+    var visited = Array(repeating: -1, count: N)
     
-    var visited = Array(repeating: -1, count: n)
-    var count = n
-    
-    out: for i in 0..<n {
-        if visited[i] == -1 { // -1 : not visited
-            var cur = i
+    out: for i in 0..<N {
+        if visited[i] == -1 {
+            var curIdx = i
             
             while true {
-                visited[cur] = i // cur cycle
-                cur = arr[cur]
+                visited[curIdx] = i
+                curIdx = arr[curIdx]
                 
-                if visited[cur] == i {
-                    while visited[cur] != -2 { // -2 : cycle-in
-                        visited[cur] = -2
-                        cur = arr[cur]
+                if visited[curIdx] == i {
+                    while visited[curIdx] != -2 {
+                        visited[curIdx] = -2
+                        curIdx = arr[curIdx]
                     }
                     continue out
-                }
-                if visited[cur] != -1 {
+                } else if visited[curIdx] != -1 {
                     continue out
                 }
             }
         }
     }
     
-    var result = 0
-    for i in 0..<n {
-        if visited[i] != -2 {
-            result += 1
+    var answer = 0
+    for j in 0..<N {
+        if visited[j] != -2 {
+            answer += 1
         }
     }
-    
-    print(result)
+    print(answer)
 }
