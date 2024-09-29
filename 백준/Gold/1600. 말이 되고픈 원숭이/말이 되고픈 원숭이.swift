@@ -1,18 +1,32 @@
 import Foundation
 
+struct Q<T: Equatable> {
+    var inbox: [T] = []
+    var outbox: [T] = []
+    var isEmpty: Bool { inbox.isEmpty && outbox.isEmpty }
+    mutating func enqueue(_ value: T) { inbox.append(value) }
+    mutating func dequeue() -> T? {
+        if outbox.isEmpty {
+            outbox = inbox.reversed()
+            inbox.removeAll()
+        }
+        return outbox.popLast()
+    }
+}
+
 let K = Int(readLine()!)!
 let input = readLine()!.split(separator: " ").map { Int($0)! }
 let my = input.first!
 let mx = input.last!
 var map: [[Int]] = []
 var visited = Array(repeating: Array(repeating: Array(repeating: false, count: K+1), count: my), count: mx)
-var queue: [[Int]] = []
+var queue = Q<[Int]>()
 
 for _ in 0..<mx {
     map.append(readLine()!.split(separator: " ").map { Int($0)! })
 }
 
-queue.append([0,0,0])
+queue.enqueue([0,0,0])
 visited[0][0][0] = true
 let dx = [0,1,0,-1]
 let dy = [1,0,-1,0]
@@ -20,7 +34,7 @@ let hx = [2,2,1,1,-1,-1,-2,-2]
 let hy = [1,-1,2,-2,2,-2,1,-1]
 
 while !queue.isEmpty {
-    let cur = queue.removeFirst()
+    let cur = queue.dequeue()!
     
     if cur[0] == mx-1 && cur[1] == my-1 {
         print(map[mx-1][my-1] * (-1))
@@ -36,7 +50,7 @@ while !queue.isEmpty {
             && !visited[x][y][cur[2]]
             && map[x][y] <= 0
         {
-            queue.append([x,y,cur[2]])
+            queue.enqueue([x,y,cur[2]])
             visited[x][y][cur[2]] = true
             map[x][y] = map[cur[0]][cur[1]] - 1
         }
@@ -52,7 +66,7 @@ while !queue.isEmpty {
                 && !visited[x][y][cur[2]+1]
                 && map[x][y] <= 0
             {
-                queue.append([x,y,cur[2]+1])
+                queue.enqueue([x,y,cur[2]+1])
                 visited[x][y][cur[2]+1] = true
                 map[x][y] = map[cur[0]][cur[1]] - 1
             }
