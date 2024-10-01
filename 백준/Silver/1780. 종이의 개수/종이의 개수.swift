@@ -7,6 +7,7 @@ for _ in 0..<N {
     paper.append(line)
 }
 
+// 종이의 숫자가 모두 같은 지 체크
 func check(_ x: Int, _ y: Int, _ n: Int) -> Bool {
     for i in x..<x+n {
         for j in y..<y+n {
@@ -18,12 +19,15 @@ func check(_ x: Int, _ y: Int, _ n: Int) -> Bool {
     return true
 }
 
+// x,y부터 시작해서 n까지 해당하는 영역의 개수를 세는 함수
 func sol(_ x: Int, _ y: Int, _ n: Int) {
     if check(x,y,n) {
+        // 종이의 숫자가 모두 같다면 해당 위치에 +1
         answer[paper[x][y]+1] += 1
         return
     }
     
+    // 아니라면 9등분해서 더해주기 연산
     for i in 0..<3 {
         for j in 0..<3 {
             sol(x + (i * n) / 3 , y + (j * n) / 3, n / 3)
