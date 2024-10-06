@@ -3,7 +3,6 @@ let N = input[0]
 let M = input[1]
 
 var arr = Array(repeating: 0, count: M)
-var isUsed = Array(repeating: 0, count: N)
 var answer = ""
 
 func sol(_ k: Int) {
@@ -13,12 +12,8 @@ func sol(_ k: Int) {
     }
     
     for i in 0..<N {
-        if isUsed[i] <= M {
-            arr[k] = i+1
-            isUsed[i] += 1
-            sol(k+1)
-            isUsed[i] -= 1
-        }
+        arr[k] = i+1
+        sol(k+1)
     }
 }
 
