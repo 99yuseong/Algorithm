@@ -19,16 +19,15 @@ while true {
 
 func sol(_ n: Int) { // n번째로 뽑은 수
     if n == 6 {
-        print(ans.prefix(6).map { String($0) }.joined(separator: " "))
+        print(ans.prefix(6).map { String(arr[$0]) }.joined(separator: " "))
         return
     }
     
-    for i in 0..<k {
-        if !isUsed[i] && (n == 0 || ans[n-1] < arr[i]) {
-            isUsed[i] = true
-            ans[n] = arr[i]
-            sol(n+1)
-            isUsed[i] = false
-        }
+    var start = 0
+    if n != 0 { start = ans[n-1] + 1 }
+    
+    for i in start..<k {
+        ans[n] = i
+        sol(n+1)
     }
 }
