@@ -10,10 +10,7 @@ func box(_ k: Int) { // 현재까지 k개의 수를 택함
         return
     }
     
-    var start = 0
-    if k != 0 { start = ans[k-1] }
-    
-    guard start < N else { return }
+    let start = k == 0 ? 0 : ans[k-1]
     
     for i in start..<N {
         ans[k] = i
