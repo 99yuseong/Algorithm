@@ -1,21 +1,20 @@
-let input = readLine()!.split(separator: " ").map { Int($0)! }
-let N = input[0]
-let S = input[1]
-var arr = readLine()!.split(separator: " ").map { Int($0)! }
-var count = 0
+let NandS = readLine()!.split(separator: " ").compactMap { Int($0) }
+let N = NandS[0] // N개의 정수
+let S = NandS[1] // 합이 S가 되도록
+let arr = readLine()!.split(separator: " ").compactMap { Int($0) }
 
-func solo(_ cur: Int, _ tot: Int) {
-    if cur == N {
-        if tot == S { count += 1 }
+// N개의 정수 중 0~N개를 뽑아서 합이 S가 되는 경우의 수를 달라
+var cnt = 0
+
+func sol(_ k: Int, tot: Int) { // k개의 원소를 선택!
+    if k == N {
+        if tot == S { cnt += 1 }
         return
     }
     
-    solo(cur+1, tot)
-    solo(cur+1, tot+arr[cur])
+    sol(k+1, tot: tot)
+    sol(k+1, tot: tot + arr[k])
 }
-
-solo(0, 0)
-if S == 0 {
-    count -= 1
-}
-print(count)
+sol(0, tot: 0)
+if S == 0 { cnt -= 1 }
+print(cnt)
