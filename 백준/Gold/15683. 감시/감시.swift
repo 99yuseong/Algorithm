@@ -1,29 +1,13 @@
-// N * M의 직사각형
-// K개의 CCTV
-// 1번 오른쪽
-// 2번 양쪽
-// 3번 위/오른쪽
-// 4번 왼/위/오른쪽
-// 5번 모든 방향
-
-
-// 0은 빈칸
-// 6은 벽
-// 1~5는 CCTV
-// 감시가능영역 #
-// 사각지대의 최소 크기를 구하는 프로그램
-
 let NandM = readLine()!.split(separator: " ").compactMap { Int($0) }
 let N = NandM[0]
 let M = NandM[1]
 var box: [[Int]] = []
+var cctv: [[Int]] = [] // x, y
 
 for _ in 0..<N {
     let input = readLine()!.split(separator: " ").compactMap { Int($0) }
     box.append(input)
 }
-
-var cctv: [[Int]] = [] // x, y
 
 for i in 0..<N {
     for j in 0..<M {
