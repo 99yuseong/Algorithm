@@ -24,8 +24,8 @@ out: for _ in 0..<K {
             continue
         }
             
-        for i in 0...max(0, N-r) {
-            for j in 0...max(0, M-c) {
+        for i in 0...N-r {
+            for j in 0...M-c {
                 if pastable(x: i, y: j) {
                     paste(x: i, y: j)
                     continue out
