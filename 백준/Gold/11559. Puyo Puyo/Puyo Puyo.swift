@@ -32,7 +32,7 @@ let dy = [1, 0, -1, 0]
 var map: [[Character]] = []
 var stack: [[Int]] = []
 var visited = Array(repeating: Array(repeating: false, count: 6), count: 12)
-var changed = Array(repeating: false, count: 6)
+var changedY: [Int] = []
 var ans = 0
 
 for _ in 0..<12 {
@@ -41,7 +41,6 @@ for _ in 0..<12 {
 
 while true {
     visited = Array(repeating: Array(repeating: false, count: 6), count: 12)
-    changed = Array(repeating: false, count: 6)
     
     for i in 0..<12 {
         for j in 0..<6 {
@@ -53,17 +52,14 @@ while true {
                 if puyos.count >= 4 {
                     for puyo in puyos {
                         map[puyo[0]][puyo[1]] = "."
-                        changed[puyo[1]] = true
+                        changedY.append(puyo[1])
                     }
                 }
             }
         }
     }
     
-    var isGravity = false
-    for i in 0..<6 { if changed[i] { isGravity = true } }
-    
-    if isGravity {
+    if !changedY.isEmpty {
         gravity()
         ans += 1
     } else {
@@ -98,21 +94,19 @@ func bfs() -> [[Int]] {
 
 
 func gravity() {
-    for j in 0..<6 {
+    for j in changedY {
         var puyos: [Character] = []
         
-        if changed[j] {
-            
-            for i in 0..<12 {
-                if map[i][j] != "." {
-                    puyos.append(map[i][j])
-                    map[i][j] = "."
-                }
-            }
-            
-            for k in 0..<puyos.count {
-                map[11-k][j] = puyos.removeLast()
+        for i in 0..<12 {
+            if map[i][j] != "." {
+                puyos.append(map[i][j])
+                map[i][j] = "."
             }
         }
+        
+        for k in 0..<puyos.count {
+            map[11-k][j] = puyos.removeLast()
+        }
     }
+    changedY = []
 }
