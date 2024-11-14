@@ -27,75 +27,44 @@ var roles = readLine()!.split(separator: " ").map { Int($0)! }
 for role in roles {
     switch role {
     case 1:
-        let newX = x
-        let newY = y+1
-        
-        if 0..<N ~= newX && 0..<M ~= newY {
+        if 0..<N ~= x && 0..<M ~= y+1 {
             roleEast()
-            print(dice[1][1])
-            x = newX
-            y = newY
-            
-            if map[x][y] == 0 {
-                map[x][y] = dice[1][3]
-            } else {
-                dice[1][3] = map[x][y]
-                map[x][y] = 0
-            }
+            copy(newX: x, newY: y+1)
         }
+        
     case 2:
-        let newX = x
-        let newY = y-1
-        
-        if 0..<N ~= newX && 0..<M ~= newY {
+        if 0..<N ~= x && 0..<M ~= y-1 {
             roleWest()
-            print(dice[1][1])
-            x = newX
-            y = newY
-            
-            if map[x][y] == 0 {
-                map[x][y] = dice[1][3]
-            } else {
-                dice[1][3] = map[x][y]
-                map[x][y] = 0
-            }
+            copy(newX: x, newY: y-1)
         }
+        
     case 3:
-        let newX = x-1
-        let newY = y
-        
-        if 0..<N ~= newX && 0..<M ~= newY {
+        if 0..<N ~= x-1 && 0..<M ~= y {
             roleNorth()
-            print(dice[1][1])
-            x = newX
-            y = newY
-            
-            if map[x][y] == 0 {
-                map[x][y] = dice[1][3]
-            } else {
-                dice[1][3] = map[x][y]
-                map[x][y] = 0
-            }
+            copy(newX: x-1, newY: y)
         }
-    case 4:
-        let newX = x+1
-        let newY = y
         
-        if 0..<N ~= newX && 0..<M ~= newY {
+    case 4:
+        if 0..<N ~= x+1 && 0..<M ~= y {
             roleSouth()
-            print(dice[1][1])
-            x = newX
-            y = newY
-            
-            if map[x][y] == 0 {
-                map[x][y] = dice[1][3]
-            } else {
-                dice[1][3] = map[x][y]
-                map[x][y] = 0
-            }
+            copy(newX: x+1, newY: y)
         }
+        
     default:
         continue
+    }
+}
+
+func copy(newX: Int, newY: Int) {
+    print(dice[1][1])
+    x = newX
+    y = newY
+    
+    if map[x][y] == 0 {
+        map[x][y] = dice[1][3]
+    } else {
+        dice[1][3] = map[x][y]
+        map[x][y] = 0
     }
 }
 
