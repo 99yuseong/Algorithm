@@ -9,25 +9,8 @@
 // 1 <= N <= 10^6 (백만)
 
 let N = Int(readLine()!)!
-var queue = Q<[Int]>()
+var queue: [[Int]] = []
 var visited = Array(repeating: false, count: N)
-
-struct Q<T> {
-    var inbox: [T] = []
-    var outbox: [T] = []
-    var isEmpty: Bool { inbox.isEmpty && outbox.isEmpty }
-    mutating func append(_ item: T) {
-        inbox.append(item)
-    }
-    mutating func removeFirst() -> T {
-        if outbox.isEmpty {
-            outbox = inbox.reversed()
-            inbox.removeAll()
-        }
-        
-        return outbox.removeLast()
-    }
-}
 
 queue.append([N, 0])
 while !queue.isEmpty {
