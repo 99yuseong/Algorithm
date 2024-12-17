@@ -1,30 +1,19 @@
-let N = Int(readLine()!)!
-let pattern = readLine()!
-
-// 패턴을 "*" 기준으로 나눈다.
-let parts = pattern.split(separator: "*").map { String($0) }
-let prefix = parts[0]  // "*" 앞부분
-let suffix = parts[1]  // "*" 뒷부분
+let N = Int(readLine()!)! // 1~100개
+let pattern = readLine()!.split(separator: "*").map { String($0) } // 3~100자
+let left = pattern[0]
+let right = pattern[1]
 
 for _ in 0..<N {
-    let word = readLine()!
+    let input = Array(readLine()!)
     
-    // 문자열의 길이가 prefix와 suffix 길이보다 작으면 무조건 NE
-    if word.count < prefix.count + suffix.count {
+    if input.count < left.count + right.count {
         print("NE")
         continue
     }
     
-    // 문자열의 앞부분과 뒷부분이 일치하는지 검사
-    let startIndex = word.startIndex
-    let endIndex = word.index(word.endIndex, offsetBy: -suffix.count)
-    
-    let wordPrefix = word[word.startIndex..<word.index(startIndex, offsetBy: prefix.count)]
-    let wordSuffix = word[word.index(endIndex, offsetBy: 0)..<word.endIndex]
-    
-    if wordPrefix == prefix && wordSuffix == suffix {
+    if String(input[0..<left.count]) == left && String(input[input.count-right.count..<input.count]) == right {
         print("DA")
     } else {
-        print("NE")
+        print("NE") // 불일치
     }
 }
