@@ -1,19 +1,20 @@
-let N = Int(readLine()!)! // 1~100개
-let pattern = readLine()!.split(separator: "*").map { String($0) } // 3~100자
-let left = pattern[0]
-let right = pattern[1]
+let N = Int(readLine()!)!
+let pattern = readLine()!.split(separator: "*")
+let start = pattern[0]
+let end = pattern[1]
 
 for _ in 0..<N {
-    let input = Array(readLine()!)
+    let word = readLine()!
     
-    if input.count < left.count + right.count {
+    if word.count < start.count + end.count {
         print("NE")
         continue
     }
     
-    if String(input[0..<left.count]) == left && String(input[input.count-right.count..<input.count]) == right {
+    if word.prefix(start.count) == start && word.suffix(end.count) == end {
         print("DA")
     } else {
-        print("NE") // 불일치
+        print("NE")
     }
 }
+
