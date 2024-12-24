@@ -1,19 +1,14 @@
 let N = Int(readLine()!)!
 
-var num = 1
-var cnt = 1
-
-out: while true {
-    for i in 1...num {
-        if cnt == N {
-            if num % 2 == 0 {
-                print("\(i)/\(num-i+1)")
-            } else {
-                print("\(num-i+1)/\(i)")
-            }
-            break out
-        }
-        cnt += 1
-    }
-    num += 1
+var x = N
+var i = 1
+while i < x {
+    x -= i
+    i += 1
 }
+// i번째 무리의 x번째 수
+// (11) (12 21) (31 22 13) (14 32 23 41)
+var first = i+1 - x
+var second = x
+if i % 2 == 1 { print("\(first)/\(second)") }
+else { print("\(second)/\(first)") }
