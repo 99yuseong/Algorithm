@@ -17,21 +17,24 @@ let N = NK[0]
 let K = NK[1]
 
 var isPrime = Array(repeating: true, count: N+1)
-var kth = Array(repeating: 0, count: N+1)
-var curIdx = 1
+var kth: [Int] = []
 
 for i in 2...N {
     if isPrime[i] {
-        kth[curIdx] = i
-        if curIdx == K { print(kth[curIdx]); exit(0) }
-        curIdx += 1
+        kth.append(i)
+        if kth.count == K {
+            print(kth.last!)
+            exit(0)
+        }
 
         for j in stride(from: i*2, through: N, by: i) {
             if isPrime[j] {
                 isPrime[j] = false
-                kth[curIdx] = j
-                if curIdx == K { print(kth[curIdx]); exit(0) }
-                curIdx += 1
+                kth.append(j)
+                if kth.count == K {
+                    print(kth.last!)
+                    exit(0)
+                }
             }
         }
     }
