@@ -22,7 +22,6 @@
 // 3년차 x:
 
 let T = Int(readLine()!)!
-var sum: [Int] = [0, 1]
 
 for _ in 0..<T {
     let xy = readLine()!.split(separator: " ").map { Int($0)! }
@@ -37,18 +36,16 @@ for _ in 0..<T {
         left -= move
         year += 1
         
-        if sum.count == move+1 {
-            sum.append(sum[move] + move+1)
-        }
+        let sum = (move+2) * (move+1) / 2
         
-        if left > sum[move+1] {
+        if left > sum {
             move += 1
-        } else if left == sum[move+1] {
+        } else if left == sum {
             year += move + 1
             break
-        } else if left > sum[move] {
+        } else if left > sum - (move+1) {
             continue
-        } else if left == sum[move] {
+        } else if left == sum - (move+1) {
             year += move
             break
         } else {
