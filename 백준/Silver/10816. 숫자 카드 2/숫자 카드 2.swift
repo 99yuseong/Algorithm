@@ -18,39 +18,74 @@
 // 정렬, [num, count]배열로 변경
 // NlogN + N + MlogN
 
-func binarySearch(_ x: Int) -> Int {
-    var min = 0
-    var max = A.count - 1
-    
-    while min <= max {
-        let mid = (min + max) / 2
-        
-        if A[mid][0] == x { return A[mid][1] }
-        
-        if A[mid][0] < x {
-            min = mid + 1
-        } else {
-            max = mid - 1
-        }
-    }
-    
-    return 0
-}
+//func binarySearch(_ x: Int) -> Int {
+//    var min = 0
+//    var max = A.count - 1
+//    
+//    while min <= max {
+//        let mid = (min + max) / 2
+//        
+//        if A[mid][0] == x { return A[mid][1] }
+//        
+//        if A[mid][0] < x {
+//            min = mid + 1
+//        } else {
+//            max = mid - 1
+//        }
+//    }
+//    
+//    return 0
+//}
+//
+//let N = Int(readLine()!)!
+//var _A = readLine()!.split(separator: " ").map { Int($0)! }.sorted()
+//var A: [[Int]] = []
+//
+//A.append([_A[0], 1])
+//for i in 1..<_A.count {
+//    if A.last![0] == _A[i] {
+//        A[A.count-1][1] += 1
+//    } else {
+//        A.append([_A[i],1])
+//    }
+//}
+//
+//let M = Int(readLine()!)!
+//var Ms = readLine()!.split(separator: " ").map { Int($0)! }
+//print(Ms.map { String(binarySearch($0)) }.joined(separator: " "))
+
 
 let N = Int(readLine()!)!
 var _A = readLine()!.split(separator: " ").map { Int($0)! }.sorted()
-var A: [[Int]] = []
-
-A.append([_A[0], 1])
-for i in 1..<_A.count {
-    if A.last![0] == _A[i] {
-        A[A.count-1][1] += 1
-    } else {
-        A.append([_A[i],1])
-    }
-}
-
 let M = Int(readLine()!)!
 var Ms = readLine()!.split(separator: " ").map { Int($0)! }
-print(Ms.map { String(binarySearch($0)) }.joined(separator: " "))
 
+print(Ms.map { String(upperIndex($0) - lowerIndex($0)) }.joined(separator: " "))
+
+func lowerIndex(_ x: Int) -> Int {
+    var min = 0
+    var max = _A.count
+    
+    while min < max {
+        let mid = (min + max) / 2
+        
+        if x <= _A[mid] { max = mid }
+        else { min = mid + 1 } // _A[mid] < x
+    }
+    
+    return min
+}
+
+func upperIndex(_ x: Int) -> Int {
+    var min = 0
+    var max = _A.count
+    
+    while min < max {
+        let mid = (min + max) / 2
+        
+        if x < _A[mid] { max = mid }
+        else { min = mid + 1 }
+    }
+    
+    return min
+}
