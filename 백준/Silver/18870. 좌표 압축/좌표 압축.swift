@@ -32,6 +32,9 @@ func upperBound(_ target: Int) -> Int {
 
 let N = Int(readLine()!)!
 let A = readLine()!.split(separator: " ").map { Int($0)! }
+
+// 중복 제거 & 정렬 
 var sortedA = Array(Set(A)).sorted()
 
+// upperBound(이분탐색) 값을 합쳐서 출력
 print(A.map { String(upperBound($0)) }.joined(separator: " "))
