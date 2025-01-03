@@ -1,4 +1,5 @@
 import Foundation
 
-let input = readLine()!.components(separatedBy: " ").map { Int($0)! }
-print(input[0] + input[1])
+let nums = readLine()!.components(separatedBy: " ").map { Int($0)! }
+print(nums[0] + nums[1])
+
