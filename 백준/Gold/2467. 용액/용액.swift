@@ -41,48 +41,75 @@
 // O(N^2) -> O(NlgN)
 // 연산 편의를 위해 일단 10억씩 더해
 
+//let N = Int(readLine()!)!
+//var A = readLine()!.split(separator: " ").map { Int($0)! }
+//
+//func lowerBound(_ x: Int) -> Int { // lowerBound를 리턴
+//    var min = 0
+//    var max = A.count-1
+//    
+//    while min < max {
+//        let mid = (min + max) / 2
+//        
+//        if A[mid] < x { min = mid + 1 }
+//        else { max = mid }
+//    }
+//    
+//    return min
+//}
+//
+//var minA = 1000000000
+//var minB = 1000000000
+//
+//for i in 0..<A.count {
+//    let idx = lowerBound(-A[i]) // -A[i]보다 같거나 큰 수의 인덱스
+//    
+//    if i != idx && abs(A[idx] + A[i]) < abs(minA+minB) {
+//        minA = A[idx]
+//        minB = A[i]
+//    }
+//    
+//    if 0..<A.count ~= idx-1 && idx-1 != i && abs(A[idx-1] + A[i]) < abs(minA+minB) {
+//        minA = A[idx-1]
+//        minB = A[i]
+//    }
+//    
+//    if 0..<A.count ~= idx+1 && idx+1 != i && abs(A[idx+1] + A[i]) < abs(minA+minB) {
+//        minA = A[idx+1]
+//        minB = A[i]
+//    }
+//}
+//
+//if minA < minB {
+//    print("\(minA) \(minB)")
+//} else {
+//    print("\(minB) \(minA)")
+//}
+//
+
+
+// 풀이 3
+// 투포인터
+// 정렬된 상황에서 두 요소의 합이 0에 가까운 두 수를 찾기
+
 let N = Int(readLine()!)!
 var A = readLine()!.split(separator: " ").map { Int($0)! }
 
-func lowerBound(_ x: Int) -> Int { // lowerBound를 리턴
-    var min = 0
-    var max = A.count-1
+var st = 0
+var en = N-1
+var minSum = 2000000000
+var result = (0, 0)
+
+while st < en {
+    let sum = A[st] + A[en]
     
-    while min < max {
-        let mid = (min + max) / 2
-        
-        if A[mid] < x { min = mid + 1 }
-        else { max = mid }
+    if abs(sum) < minSum {
+        minSum = abs(sum)
+        result = (A[st], A[en])
     }
     
-    return min
+    if sum > 0 { en -= 1 }
+    else { st += 1 }
 }
 
-var minA = 1000000000
-var minB = 1000000000
-
-for i in 0..<A.count {
-    let idx = lowerBound(-A[i]) // -A[i]보다 같거나 큰 수의 인덱스
-    
-    if i != idx && abs(A[idx] + A[i]) < abs(minA+minB) {
-        minA = A[idx]
-        minB = A[i]
-    }
-    
-    if 0..<A.count ~= idx-1 && idx-1 != i && abs(A[idx-1] + A[i]) < abs(minA+minB) {
-        minA = A[idx-1]
-        minB = A[i]
-    }
-    
-    if 0..<A.count ~= idx+1 && idx+1 != i && abs(A[idx+1] + A[i]) < abs(minA+minB) {
-        minA = A[idx+1]
-        minB = A[i]
-    }
-}
-
-if minA < minB {
-    print("\(minA) \(minB)")
-} else {
-    print("\(minB) \(minA)")
-}
-
+print("\(result.0) \(result.1)")
