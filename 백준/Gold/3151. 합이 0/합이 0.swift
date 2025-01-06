@@ -1,108 +1,67 @@
-// 3명 팀
-// 팀워크 / 실력
+// 시간 제한 4초
+// 메모리 제한 128MB
 
-// A 코딩 실력 : -만~만
-// 세 팀원의 코딩 실력의 합이 0이 되는 팀
+// 3명으로 구성된 팀
+// 코딩 실력 -1만~1만의 정수
+// 3명의 코딩실력 A[x] + A[y] + A[z] = 0 (단, x, y, z는 달라야한다.)
 
-// A[x] + A[y] + A[z] = 0
-// N: 1~10000
-// 팀의 수
-// 사람은 중복될 수도 있다.
+// N명의 코딩 실력 Ai
+// 경우의 수 출력
 
-// 4초
-// O(N^2lgN)언더로 구현, O(N^3)는 불가능
+// N명 중 합이 0이 되는 3명 뽑기
+// 10000C3 -> case sum = 3이다.
+// 10000C3 = 10000 * 9999 * 9998 / 6 .... O(N^3) 시간초과
 
-// 1. 3중 for문으로 x, y, z 찾기 -> 시간 초과
-// 2. T[x'] = A[x] + A[y] -> 1억 길이의 배열
-// -A[z] 가 되는 수를 T[x']에서 이분 탐색
-// O(N * lg(N^8)) + O(N^2)
+// O(N^2) 또는 O(N^2lgN) 안의 풀이가 필요하다.
 
-//let N = Int(readLine()!)!
-//let A = readLine()!.split(separator: " ").map { Int($0)! }
+// 2중 for문에 A[i] + A[j] = - A[z]인 수 이분탐색
 
-//var T: [Int] = []
-//for i in 0..<N {
-//    for j in (i+1)..<N { T.append(A[i] + A[j]) }
-//}
-//
-//var count = 0
-//T.sort()
-//for z in 0..<N {
-//    if binarySearchT(-A[z]) { count += 1 }
-//    if binarySearchA(-2 * A[z]) { count -= 1 }
-//    if binarySearchT(0) { count += 1 }
-//}
-//print(count)
-//
-//func binarySearchT(_ x: Int) -> Bool { // T안에 -A[z]가 존재하는 가?
-//    var min = 0
-//    var max = T.count-1
-//    
-//    while min <= max {
-//        let mid = (min + max) / 2
-//        
-//        if T[mid] == x { return true }
-//        
-//        if T[mid] < x { min = mid + 1 }
-//        else { max = mid - 1 }
-//    }
-//    return false
-//}
-//
-//func binarySearchA(_ x: Int) -> Bool { // A안에 -A[z]가 존재하는 가?
-//    var min = 0
-//    var max = A.count-1
-//    
-//    while min <= max {
-//        let mid = (min + max) / 2
-//        
-//        if A[mid] == x { return true }
-//        
-//        if A[mid] < x { min = mid + 1 }
-//        else { max = mid - 1 }
-//    }
-//    return false
-//}
-//
+// A는 정렬하면 -> 1 2 2 2 3 이렇게 나올 수 있다.
+// A[i] + A[j] = - A[z]인 z는 여러 개일 수 있으므로
+// upperBound, lowerBound를 이용
+
+// 단, 범위의 제한이 있음
+// 여기서, 탐색 범위는 x와 y보다 이상
+
+func upperBound(st: Int, x: Int) -> Int {
+    var min = st
+    var max = A.count
+    
+    while min < max {
+        let mid = (min + max) / 2
+        
+        if A[mid] <= x { min = mid + 1 }
+        else { max = mid }
+    }
+    
+    return min
+}
+
+func lowerBound(st: Int, x: Int) -> Int {
+    var min = st
+    var max = A.count
+    
+    while min < max {
+        let mid = (min + max) / 2
+        
+        if A[mid] < x { min = mid + 1 }
+        else { max = mid }
+    }
+    
+    return min
+}
 
 let N = Int(readLine()!)!
-var A = readLine()!.split(separator: " ").map { Int($0)! }
-
-func lowerBound(st: Int, end: Int, target: Int) -> Int {
-    var min = st
-    var max = end
-    
-    while min < max {
-        let mid = (min + max) / 2
-        
-        if A[mid] < target { min = mid + 1 }
-        else { max = mid }
-    }
-    
-    return min
-}
-
-func upperBound(st: Int, end: Int, target: Int) -> Int {
-    var min = st
-    var max = end
-    
-    while min < max {
-        let mid = (min + max) / 2
-        
-        if A[mid] <= target { min = mid + 1 }
-        else { max = mid }
-    }
-    
-    return min
-}
+var A = readLine()!.split(separator: " ").map { Int($0)! }.sorted()
 
 var count = 0
-A.sort()
-for i in 0..<N {
-    for j in (i+1)..<N {
-        let ub = upperBound(st: j+1, end: N, target: -A[i]-A[j])
-        let lb = lowerBound(st: j+1, end: N, target: -A[i]-A[j])
+for x in 0..<N {
+    for y in (x+1)..<N {
+        let ub = upperBound(st: y+1, x: -A[x]-A[y])
+        let lb = lowerBound(st: y+1, x: -A[x]-A[y])
         count += ub - lb
     }
 }
 print(count)
+
+
