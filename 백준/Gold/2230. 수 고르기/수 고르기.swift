@@ -17,34 +17,19 @@ var A: [Int] = []
 for _ in 0..<N { A.append(Int(readLine()!)!) }
 A.sort() // O(NlgN)
 
-// A[mid]
-// 1 3 5
 var ans = Int.max
-for i in 0..<N {
-    let lb = lowerBound(start: i, x: A[i])
+
+var st = 0
+var en = 0
+
+while true {
+    if en == N || st == N { break }
     
-    if 0..<N ~= lb {
-        ans = min(A[lb]-A[i], ans)
+    if A[en] - A[st] < M {
+        en += 1
+    } else {
+        ans = min(ans, A[en] - A[st])
+        st += 1
     }
 }
-print(ans == Int.max ? M : ans)
-
-// A[mid]는 항상 x보다 크다
-func lowerBound(start: Int, x: Int) -> Int {
-    var st = start
-    var en = N
-    
-    while st < en {
-        let mid = (st + en) / 2
-        
-        if A[mid] - x < M { st = mid + 1 }
-        else { en = mid }
-    }
-    
-    return st
-}
-
-// TestCase
-// 1 0
-// 1
-
+print(ans)
