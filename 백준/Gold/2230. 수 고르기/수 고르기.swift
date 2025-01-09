@@ -18,18 +18,12 @@ for _ in 0..<N { A.append(Int(readLine()!)!) }
 A.sort() // O(NlgN)
 
 var ans = Int.max
-
-var st = 0
 var en = 0
 
-while true {
-    if en == N || st == N { break }
-    
-    if A[en] - A[st] < M {
-        en += 1
-    } else {
-        ans = min(ans, A[en] - A[st])
-        st += 1
-    }
+for st in 0..<N {
+    while en < N && A[en] - A[st] < M { en += 1 }
+    if en == N { break }
+    ans = min(ans, A[en] - A[st])
 }
+
 print(ans)
