@@ -28,20 +28,23 @@ for i in 0..<isPrime.count {
 var A = (2...N).filter { isPrime[$0] } // N과 같거나 작은 소수의 배열
 
 // 2. 소수 배열의 부분합으로 N이 되는 경우의 수 찾기
+var st = 0
 var en = 0
-var tot = A[0]
+var sum = A[0]
 var cnt = 0
 
-for st in 0..<A.count {
-    while tot < N && en < A.count {
-        en += 1
-        if en != A.count { tot += A[en] }
-    }
-    
-    if en == A.count { break }
-    
-    if tot == N { cnt += 1 }
-    tot -= A[st]
+while st < A.count {
+		
+		while sum < N && en < A.count {
+				en += 1
+				if en != A.count { sum += A[en] }
+		}
+		
+		if en == A.count { break }
+		
+		if sum == N { cnt += 1 }
+		sum -= A[st]
+		st += 1
 }
 
 print(cnt)
