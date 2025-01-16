@@ -6,36 +6,14 @@
 // L: 1~10만 대기목록의 길이 -> O(N) / O(NlgN)
 // 학번은 8자리 숫자
 
-// 순서가 있는 Set
-// Set() 순서가 없는데...
-// Dict
-
 // Dict: [Int:Int] [학번:카운트]
+// 중복되면 카운트를 업데이트 -> 자동으로 이전 데이터가 사라진다.
 
 let KL = readLine()!.split(separator: " ").map { Int($0)! }
 let K = KL[0]
 let L = KL[1]
-var A: [String] = []
-var D: [String:Int] = [:]
+var D = [String: Int]()
+for i in 0..<L { D[readLine()!] = i }
 
-for _ in 0..<L {
-    let input = readLine()!
-    A.append(input)
-    if D[input] != nil { D[input] = D[input]! + 1 }
-    else { D[input] = 1 }
-}
-
-var ans = ""
-var cnt = 0
-var idx = 0
-
-while cnt < K && idx < L {
-    if D[A[idx]] == 1 {
-        ans += "\(A[idx])\n"
-        cnt += 1
-    } else {
-        D[A[idx]] = D[A[idx]]! - 1
-    }
-    idx += 1
-}
-print(ans)
+// O(NlgN)으로 정렬
+D.sorted { $0.value < $1.value }.prefix(K).forEach { print($0.key) }
