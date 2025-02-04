@@ -21,37 +21,20 @@ import Foundation
 
 func solution(_ progresses:[Int], _ speeds:[Int]) -> [Int] {
     
-    var result: [Int] = []
-    var p: [Int] = [] // Queue
-    var s: [Int] = [] // Queue
+    var lastReleaseDate: Int = 0
+    var numOfReleases: [Int] = []
     
-    // Queue 생성
     for i in 0..<progresses.count {
-        p.append(progresses[i])
-        s.append(speeds[i])
-    }
+        let progress = Double(progresses[i])
+        let speed = Double(speeds[i])
+        let day = Int(ceil((100 - progress) / speed))
     
-    // Queue가 빌때까지 작업
-    while !p.isEmpty {
-        
-        // 작업 진행도 업데이트
-        for i in 0..<p.count { 
-            p[i] += s[i] 
-        }
-        
-        // 완료 작업 카운트
-        var doneCnt = 0
-        while !p.isEmpty && p.first! >= 100 {
-            p.removeFirst()
-            s.removeFirst()
-            doneCnt += 1
-        }
-        
-        // 1개 이상 작업 완료 시
-        if doneCnt != 0 { 
-            result.append(doneCnt)
+        if day > lastReleaseDate {
+            lastReleaseDate = day
+            numOfReleases.append(1)
+        } else {
+            numOfReleases[numOfReleases.count - 1] += 1
         }
     }
-    
-    return result
+    return numOfReleases
 }
