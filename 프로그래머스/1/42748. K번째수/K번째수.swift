@@ -5,7 +5,7 @@ func solution(_ array:[Int], _ commands:[[Int]]) -> [Int] {
     var result: [Int] = []
     
     for cmd in commands { // 50번
-        var arr = Array(array[cmd[0]-1...cmd[1]-1]).sorted() // (100 + 100) * 100lg100
+        var arr = array[cmd[0]-1...cmd[1]-1].sorted() // (100) * 100lg100
         result.append(arr[cmd[2]-1])    
     }
     
