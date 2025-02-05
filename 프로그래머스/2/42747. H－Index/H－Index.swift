@@ -3,17 +3,13 @@ import Foundation
 func solution(_ citations:[Int]) -> Int {
     
     var C = citations.sorted(by: >)
-    var maxH = 0
+    var H = 0
     
     for i in 0..<C.count {
-        if i+1 <= C[i] { 
-            maxH = i+1
-        } else {
-            break
-        }
+        if i+1 <= C[i] { H = i+1 } 
     }
     
-    return maxH
+    return H
 }
 
 // 논문 n편, h번 이상 인용된 논문 h편 이상
