@@ -3,10 +3,7 @@ import Foundation
 func solution(_ clothes:[[String]]) -> Int {
     var D: [String: Int] = [:]
     
-    for cloth in clothes {
-        if D[cloth[1]] == nil { D[cloth[1]] = 1 }
-        else { D[cloth[1]] = D[cloth[1]]! + 1 }
-    }
+    clothes.forEach { D[$0[1], default: 0] += 1 }
     
     return D.values.reduce(1) { $0 * ($1+1) } - 1
 }
