@@ -2,15 +2,16 @@ import Foundation
 
 func solution(_ sizes:[[Int]]) -> Int {
     
-    var w: [Int] = []
-    var h: [Int] = []
+    var w: Int = 0
+    var h: Int = 0
     
-    for size in sizes {
-        w.append(size.max()!)
-        h.append(size.min()!)
+    for array in sizes {
+        let sortedArray = array.sorted()
+        w = max(w, sortedArray.first ?? 0)
+        h = max(h, sortedArray.last ?? 0)
     }
     
-    return w.max()! * h.max()!
+    return w * h
 }
 
 // 지갑의 크기
