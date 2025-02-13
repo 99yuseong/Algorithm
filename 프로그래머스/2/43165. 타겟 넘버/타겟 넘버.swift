@@ -13,16 +13,16 @@ func solution(_ numbers:[Int], _ target:Int) -> Int {
 // 완전 탐색
 // 2^20 -> 100만
     
-    func bfs(index: Int, cur: Int) -> Int {
+    func dfs(index: Int, cur: Int) -> Int {
         if index == numbers.count {
             return cur == target ? 1 : 0
         } 
         
-        let plus = bfs(index: index+1, cur: cur + numbers[index])
-        let minus = bfs(index: index+1, cur: cur - numbers[index])
+        let plus = dfs(index: index+1, cur: cur + numbers[index])
+        let minus = dfs(index: index+1, cur: cur - numbers[index])
         
         return plus + minus
     }   
     
-    return bfs(index: 0, cur: 0)
+    return dfs(index: 0, cur: 0)
 }
