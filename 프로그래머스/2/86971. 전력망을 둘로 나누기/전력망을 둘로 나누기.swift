@@ -1,17 +1,17 @@
 import Foundation
 
 func solution(_ n:Int, _ wires:[[Int]]) -> Int {
-    // 1개를 끊어서 2개로 분할
-    // 송전탑의 개수를 최대한 비슷하게
-
-    // n개의 송전탑
-    // 연결정보
-    // 송전탑의 개수 차이를 리턴
-
-    // n: 2~100
-    // wires: 2차원 배열 1~99
+    // n개의 송전탑이 연결된 상태
+    // 1개만 끊어서 최대한 비슷한 수가 되도록 2그룹으로 나누자
+    // 차이의 절댓값을 리턴
     
-    // BFS로 구현
+    // n: 2~100개의 송전탑
+    // wires: 1~99개의 선
+    
+    // 연결된 송전탑 수 세기 -> BFS 이용 O(n)
+    // 어떤 걸 잘라야 차이가 최소가 되는가...? -> n-1개를 돌아가면서 잘라봐야할 듯
+    // BFS를 n-1번 체크한 최솟값 -> O(n^2)
+    
     var graph: [[Int]] = Array(repeating: [], count: n+1)
     var result = n-1
     
@@ -20,7 +20,8 @@ func solution(_ n:Int, _ wires:[[Int]]) -> Int {
         graph[wire[1]].append(wire[0])
     }
     
-    func bfs(_ st: Int, _ remA: Int, _ remB: Int) -> Int {
+    // 1개를 잘랐을때 연결된 송전탑의 개수를 리턴하는 함수
+    func bfs(_ st: Int, _ wire: [Int]) -> Int {
         var visited = Set<Int>()
         var queue = [st]
         visited.insert(st)
@@ -28,12 +29,12 @@ func solution(_ n:Int, _ wires:[[Int]]) -> Int {
         while !queue.isEmpty {
             let cur = queue.removeFirst()
             
-            for tower in graph[cur] {
-                if (cur == remA && tower == remB) || (cur == remB && tower == remA) { continue }
+            for near in graph[cur] {
+                if (near == wire[0] && cur == wire[1]) || (near == wire[1] && cur == wire[0]) { continue }
                 
-                if !visited.contains(tower) {
-                    visited.insert(tower)
-                    queue.append(tower)
+                if !visited.contains(near) {
+                    queue.append(near)
+                    visited.insert(near)
                 }
             }
         }
@@ -42,13 +43,11 @@ func solution(_ n:Int, _ wires:[[Int]]) -> Int {
     }
     
     for wire in wires {
-        let countA = bfs(wire[0], wire[0], wire[1])
+        let cntA = bfs(wire[0], wire)
+        let cntB = n - cntA
         
-        result = min(result, abs(2*countA - n))
+        result = min(result, abs(cntA - cntB))
     }
     
     return result
 }
-
-
-
