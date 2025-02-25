@@ -1,86 +1,84 @@
-import Foundation
-
-struct Q<T: Equatable> {
-    var inbox: [T] = []
-    var outbox: [T] = []
-    var isEmpty: Bool { inbox.isEmpty && outbox.isEmpty }
-    mutating func enqueue(_ value: T) { inbox.append(value) }
-    mutating func dequeue() -> T? {
-        if outbox.isEmpty {
-            outbox = inbox.reversed()
-            inbox.removeAll()
+// 토마토가 모두 익게 되는 최소 일수
+// M: 가로 2~100
+// N: 세로 2~100
+// H: 높이 1~100
+// 1 익은 토마토, 0 익지 않은 토마토, -1 없는 칸
+func solution(_ M: Int, _ N: Int, _ H: Int, _ arr: [[[Int]]]) -> Int {
+    struct Queue<T> {
+        var inbox: [T] = []
+        var outbox: [T] = []
+        var isEmpty: Bool { inbox.isEmpty && outbox.isEmpty }
+        mutating func append(_ x: T) {
+            inbox.append(x)
         }
-        return outbox.popLast()
-    }
-}
-
-let line = readLine()!.split(separator: " ").map { Int($0)! }
-
-let mz = line[0] // 최대 100 // m
-let my = line[1] // 최대 100 // n
-let mx = line[2] // 최대 100 // h
-
-// 1 - 익은 토마토
-// 0 - 익지 않은 토마토
-// -1 - 토마토 없음
-var box: [[[Int]]] = []
-
-for _ in 0..<mx {
-    var layer: [[Int]] = []
-    for _ in 0..<my {
-        let line = readLine()!.split(separator: " ").map { Int($0)! }
-        layer.append(line)
-    }
-    box.append(layer)
-}
-
-var queue = Q<[Int]>()
-
-var time = 0
-let dx = [0, 0, 1, -1, 0, 0]
-let dy = [0, 1, 0, 0, -1, 0]
-let dz = [1, 0, 0, 0, 0, -1]
-
-for i in 0..<mx {
-    for j in 0..<my {
-        for k in 0..<mz {
-            if box[i][j][k] == 1 {
-                queue.enqueue([i,j,k])
+        mutating func removeFirst() -> T? {
+            if outbox.isEmpty {
+                outbox = inbox.reversed()
+                inbox.removeAll()
             }
+            return outbox.popLast()
         }
     }
-}
-
-while !queue.isEmpty {
-    let cur = queue.dequeue()!
     
-    for i in 0..<6 {
-        let x = cur[0] + dx[i]
-        let y = cur[1] + dy[i]
-        let z = cur[2] + dz[i]
-        
-        if
-            (0..<mx) ~= x
-            && (0..<my) ~= y
-            && (0..<mz) ~= z
-            && box[x][y][z] == 0
-        {
-            queue.enqueue([x,y,z])
-            box[x][y][z] = box[cur[0]][cur[1]][cur[2]] + 1
-            time = max(box[cur[0]][cur[1]][cur[2]], time)
-        }
-    }
-}
-
-for i in 0..<mx {
-    for j in 0..<my {
-        for k in 0..<mz {
-            if box[i][j][k] == 0 {
-                print(-1)
-                exit(0)
+    // o(100만)
+    let dx = [0,0,-1,1,0,0]
+    let dy = [-1,1,0,0,0,0]
+    let dz = [0,0,0,0,-1,1]
+    
+    var visited = arr
+    var queue = Queue<[Int]>()
+    var t = 0
+    
+    for k in 0..<H {
+        for i in 0..<N {
+            for j in 0..<M {
+                if visited[k][i][j] > 0 {
+                    queue.append([k,i,j])
+                }
             }
         }
     }
+    
+    while !queue.isEmpty {
+        let cur = queue.removeFirst()!
+        
+        for i in 0..<6 {
+            let z = cur[0] + dz[i]
+            let x = cur[1] + dx[i]
+            let y = cur[2] + dy[i]
+            
+            if 0..<H ~= z && 0..<N ~= x && 0..<M ~= y && visited[z][x][y] == 0 {
+                queue.append([z,x,y])
+                visited[z][x][y] = visited[cur[0]][cur[1]][cur[2]] + 1
+                t = max(t, visited[cur[0]][cur[1]][cur[2]])
+            }
+        }
+    }
+    
+    for k in 0..<H {
+        for i in 0..<N {
+            for j in 0..<M {
+                if visited[k][i][j] == 0 {
+                    return -1
+                }
+            }
+        }
+    }
+    
+    return t
 }
 
-print(time)
+let input = readLine()!.split(separator: " ").map { Int($0)! }
+let M = input[0]
+let N = input[1]
+let H = input[2]
+var arr: [[[Int]]] = []
+for _ in 0..<H {
+    var floor: [[Int]] = []
+    for _ in 0..<N {
+        let input = readLine()!.split(separator: " ").map { Int($0)! }
+        floor.append(input)
+    }
+    arr.append(floor)
+}
+print(solution(M,N,H,arr))
