@@ -1,32 +1,32 @@
-// 1. 문자열 S가 팰린드롬 - 거꾸로 읽어도 동일
-// 2. S.count / 2의 길이 접두사 접미사가 모두 팰린드롬
+import Foundation
 
 func solution(_ S: String) -> String {
-    // 문자열 길이: 1~200만
-    // O(NlgN)안으로
-   
-    let A = Array(S)
-    var isPalindrom = false
-    var isAkaraka = false
-    // 1. 팰린드롬 체크
-    isPalindrom = palindrom(A)
-    isAkaraka = akarakaPalindrom(A)
+    let chars = Array(S)  // 한 번만 변환
+    let n = chars.count
     
-    func akarakaPalindrom(_ A: [Character]) -> Bool {
-        if A.count == 1 { return true }
-        
-        let SLen = A.count / 2
-        return palindrom(A) && akarakaPalindrom(Array(A[0..<SLen])) && akarakaPalindrom(Array(A[A.count-SLen..<A.count]))
-    }
-    
-    func palindrom(_ A: [Character]) -> Bool {
-        for i in 0..<A.count/2 {
-            if A[i] != A[A.count-1-i] { return false }
+    // **팰린드롬 확인 (O(N))**
+    func isPalindrom(_ l: Int, _ r: Int) -> Bool {
+        var left = l, right = r
+        while left < right {
+            if chars[left] != chars[right] { return false }
+            left += 1
+            right -= 1
         }
         return true
     }
-    
-    if isPalindrom && isAkaraka { return "AKARAKA" }
-    else { return "IPSELENTI" }
+
+    // **아카라카 팰린드롬 확인 (O(N log N))**
+    func isAkaraka(_ l: Int, _ r: Int) -> Bool {
+        if l >= r { return true }  // 길이 1이면 자동으로 팰린드롬
+        let mid = (r - l + 1) / 2
+        
+        return isPalindrom(l, r) &&
+               isAkaraka(l, l + mid - 1) &&
+               isAkaraka(r - mid + 1, r)
+    }
+
+    return isAkaraka(0, n - 1) ? "AKARAKA" : "IPSELENTI"
 }
+
+// 입력 받기
 print(solution(readLine()!))
