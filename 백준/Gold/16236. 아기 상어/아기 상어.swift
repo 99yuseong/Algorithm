@@ -30,12 +30,12 @@ func solution(_ N: Int, _ A: [[Int]]) -> Int {
     var A = A
     var sharkSize = 2
     var eatCnt = 0
-    var shark: [Int] = [] // 상어 위치
+    var shark: (x: Int, y: Int) = (-1,-1) // 상어 위치
     
     for i in 0..<N {
         for j in 0..<N {
             if A[i][j] == 9 {
-                shark = [i,j]
+                shark = (i,j)
                 A[i][j] = 0
                 break
             }
@@ -46,50 +46,50 @@ func solution(_ N: Int, _ A: [[Int]]) -> Int {
     let dy = [-1,0,1,0]
 
     while true {
-        var queue: [[Int]] = []
-        var target: [Int] = []
-        var visited = Array(repeating: Array(repeating: -1, count: N), count: N)
+        var queue: [(x: Int, y: Int)] = []
+        var target: (x: Int, y: Int) = (-1, -1)
+        var dist = Array(repeating: Array(repeating: -1, count: N), count: N)
         queue.append(shark)
-        visited[shark[0]][shark[1]] = 0
+        dist[shark.x][shark.y] = 0
         
         while !queue.isEmpty {
             let cur = queue.removeFirst()
             
             for i in 0..<4 {
-                let x = cur[0] + dx[i]
-                let y = cur[1] + dy[i]
+                let x = cur.x + dx[i]
+                let y = cur.y + dy[i]
                 
                 if 0..<N ~= x
                     && 0..<N ~= y
-                    && visited[x][y] == -1
+                    && dist[x][y] == -1
                     && A[x][y] <= sharkSize {
                     
-                    queue.append([x,y])
-                    visited[x][y] = visited[cur[0]][cur[1]] + 1
+                    queue.append((x,y))
+                    dist[x][y] = dist[cur.x][cur.y] + 1
                     
                     if 1..<sharkSize ~= A[x][y] {
-                        if target.isEmpty
-                            || visited[x][y] < visited[target[0]][target[1]]
-                            || visited[x][y] == visited[target[0]][target[1]]
-                            && (x < target[0] || target[0] == x && y < target[1]) {
+                        if target.x == -1
+                            || dist[x][y] < dist[target.x][target.y]
+                            || dist[x][y] == dist[target.x][target.y]
+                            && (x < target.x || target.x == x && y < target.y) {
                             
-                            target = [x,y]
+                            target = (x,y)
                         }
                     }
                 }
             }
         }
         
-        if target.isEmpty {
+        if target.x == -1 {
             return time
         } else {
-            time += visited[target[0]][target[1]]
+            time += dist[target.x][target.y]
             eatCnt += 1
             if eatCnt == sharkSize {
                 sharkSize += 1
                 eatCnt = 0
             }
-            A[target[0]][target[1]] = 0
+            A[target.x][target.y] = 0
             shark = target
         }
     }
