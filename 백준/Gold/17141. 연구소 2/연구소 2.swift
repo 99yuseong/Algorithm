@@ -48,24 +48,11 @@ func solution(_ N: Int, _ M: Int, _ A: [[Int]]) -> Int {
     brute(0, 0)
     
     // O(N^2 * 3)
-    struct Queue<T> {
-        var inbox: [T] = []
-        var outbox: [T] = []
-        var isEmpty: Bool { inbox.isEmpty && outbox.isEmpty }
-        mutating func append(_ k: T) { inbox.append(k) }
-        mutating func removeFirst() -> T? {
-            if outbox.isEmpty {
-                outbox = inbox.reversed()
-                inbox.removeAll()
-            }
-            return outbox.popLast()
-        }
-    }
     func BFS() -> Int {
         // BFS()
         let dx = [-1,1,0,0]
         let dy = [0,0,-1,1]
-        var queue = Queue<[Int]>()
+        var queue: [[Int]] = []
         var visited = Array(repeating: Array(repeating: -1, count: N), count: N)
         for i in 0..<N {
             for j in 0..<N {
@@ -81,7 +68,7 @@ func solution(_ N: Int, _ M: Int, _ A: [[Int]]) -> Int {
         }
         
         while !queue.isEmpty {
-            let cur = queue.removeFirst()!
+            let cur = queue.removeFirst()
             for i in 0..<4 {
                 let x = cur[0] + dx[i]
                 let y = cur[1] + dy[i]
