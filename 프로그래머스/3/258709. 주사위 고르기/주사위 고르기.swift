@@ -1,87 +1,90 @@
 import Foundation
 
-// 주어진 주사위 배열 dices: 각 주사위는 [Int] (6면의 값)입니다.
-func solution(_ dices: [[Int]]) -> [Int] {
-    let n = dices.count
-    let half = n / 2
-    var bestWins = -1
-    var bestCombination: [Int] = []
+func solution(_ dice:[[Int]]) -> [Int] {
+    let n = dice.count
+    var maxWin = -1
+    var maxCombi: [Int] = []
     
-    // 0부터 n-1까지 dice 인덱스 중, n/2개를 선택하는 모든 조합 생성
-    let allCombinations = getCombinations(Array(0..<n), half)
+    let allCombi = getCombinations(of: Array(0..<n), n/2)
     
-    for combination in allCombinations {
-        // A가 선택한 주사위 인덱스: combination
-        // B는 나머지 주사위 인덱스
-        let setA = combination
-        let setB = Array(Set(0..<n).subtracting(setA))
+    for combi in allCombi {
         
-        // A와 B가 선택한 주사위로 나올 수 있는 모든 합 계산
-        let sumsA = getSums(for: setA, dices: dices)
-        let sumsB = getSums(for: setB, dices: dices).sorted()
+        let A = combi
+        let B = Array(Set(0..<n).subtracting(A))
         
-        // A의 각 합에 대해, B의 합 중 A의 합보다 작은 값의 개수를 이분 탐색으로 찾기
-        var wins = 0
+        let sumsA = getSum(of: A, dice: dice)
+        let sumsB = getSum(of: B, dice: dice).sorted()
+        
+        var win = 0
         for sumA in sumsA {
-            let count = lowerBound(in: sumsB, target: sumA)
-            wins += count
+            win += lowerBound(of: sumsB, target: sumA)
         }
         
-        // 최대 승리 경우를 갱신
-        if wins > bestWins {
-            bestWins = wins
-            bestCombination = combination
+        if win > maxWin {
+            maxWin = win
+            maxCombi = combi
         }
     }
     
-    // 문제에서 요구하는 출력은 1-indexed이므로 변환하여 반환
-    return bestCombination.map { $0 + 1 }
+    return maxCombi.map { $0 + 1 }
 }
 
-// MARK: - 조합 생성 (elements 배열에서 k개를 뽑는 모든 조합)
-func getCombinations<T>(_ elements: [T], _ k: Int) -> [[T]] {
-    var result: [[T]] = []
-    func comb(_ start: Int, _ current: [T]) {
-        if current.count == k {
-            result.append(current)
-            return
-        }
-        for i in start..<elements.count {
-            comb(i + 1, current + [elements[i]])
-        }
+func lowerBound(of arr: [Int], target: Int) -> Int {
+    var st = 0
+    var en = arr.count
+    
+    while st < en {
+        let mid = (st + en) / 2
+        
+        if arr[mid] < target { st = mid + 1 }
+        else { en = mid }
     }
-    comb(0, [])
-    return result
+    
+    return st
 }
 
-// MARK: - 주어진 dice 인덱스들에 대해 모든 가능한 주사위 합을 구하는 함수
-func getSums(for indices: [Int], dices: [[Int]]) -> [Int] {
-    var sums: [Int] = []
-    func helper(_ index: Int, _ currentSum: Int) {
-        if index == indices.count {
-            sums.append(currentSum)
+func getSum(of arr: [Int], dice: [[Int]]) -> [Int] {
+    // arr: 선택한 주사위의 인덱스 배열
+    var sums: [Int] = [] // 여기에 나올 수 있는 눈의 합의 모든 경우의 수
+    
+    var curDices: [[Int]] = []
+    for idx in arr { curDices.append(dice[idx]) }
+    
+    var sum = 0
+    func permu(_ n: Int) {
+        if n == curDices.count {
+            sums.append(sum)
             return
         }
-        let dieIndex = indices[index]
-        // 각 주사위의 6면에 대해 재귀적으로 합 계산
-        for face in dices[dieIndex] {
-            helper(index + 1, currentSum + face)
+        
+        for i in 0..<6 {
+            sum += curDices[n][i]
+            permu(n+1)
+            sum -= curDices[n][i]
         }
     }
-    helper(0, 0)
+    permu(0)
+    
     return sums
 }
 
-// MARK: - 이분 탐색: 정렬된 배열에서 target보다 작은 원소의 개수를 찾는 함수
-func lowerBound(in array: [Int], target: Int) -> Int {
-    var lo = 0, hi = array.count
-    while lo < hi {
-        let mid = (lo + hi) / 2
-        if array[mid] < target {
-            lo = mid + 1
-        } else {
-            hi = mid
+func getCombinations<T>(of elements: [T], _ k: Int) -> [[T]] {
+    var results: [[T]] = []
+    
+    var selected: [T] = []
+    func comb(_ n: Int, _ start: Int) {
+        if n == k {
+            results.append(selected)
+            return
+        }
+        
+        for i in start..<elements.count {
+            selected.append(elements[i])
+            comb(n+1, i+1)
+            selected.removeLast()
         }
     }
-    return lo
+    comb(0,0)
+    
+    return results
 }
