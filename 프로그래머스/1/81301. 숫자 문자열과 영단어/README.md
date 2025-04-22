@@ -4,7 +4,7 @@
 
 ### 성능 요약
 
-메모리: 16 MB, 시간: 0.09 ms
+메모리: 16.4 MB, 시간: 0.08 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 03월 19일 12:23:10
+2025년 04월 22일 17:18:55
 
 ### 문제 설명
 
@@ -31,7 +31,7 @@
 <li>10203 → "1zerotwozero3"</li>
 </ul>
 
-<p class="xt-translated">이렇게 숫자의 일부 자릿수가 영단어로 바뀌어졌거나, 혹은 바뀌지 않고 그대로인 문자열 <code>s</code>가 매개변수로 주어집니다. <code>s</code>가 의미하는 원래 숫자를 return 하도록 solution 함수를 완성해주세요.<xt-dual class="xt-dual block" xt-origin="이렇게 숫자의 일부 자릿수가 영단어로 바뀌어졌거나, 혹은 바뀌지 않고 그대로인 문자열 s가 매개변수로 주어집니다. s가 의미하는 원래 숫자를 return 하도록 solution 함수를 완성해주세요." style="opacity: 0.8; font-size: 16px;" xt-translation="이렇게 숫자의 일부 자릿수가 영단어로 바뀌어졌거나, 혹은 바뀌지 않고 그대로인 문자열 s가 매개변수로 주어집니다. s가 의미하는 원래 숫자를 return 하도록 solution 함수를 완성해주세요."><xt-br></xt-br><xt-content style="opacity: 0.8;">이렇게 숫자의 일부 자릿수가 영단어로 바뀌어졌거나, 혹은 바뀌지 않고 그대로인 문자열 s가 매개변수로 주어집니다. s가 의미하는 원래 숫자를 return 하도록 solution 함수를 완성해주세요.</xt-content></xt-dual></p>
+<p>이렇게 숫자의 일부 자릿수가 영단어로 바뀌어졌거나, 혹은 바뀌지 않고 그대로인 문자열 <code>s</code>가 매개변수로 주어집니다. <code>s</code>가 의미하는 원래 숫자를 return 하도록 solution 함수를 완성해주세요.</p>
 
 <p>참고로 각 숫자에 대응되는 영단어는 다음 표와 같습니다.</p>
 <table class="table">
