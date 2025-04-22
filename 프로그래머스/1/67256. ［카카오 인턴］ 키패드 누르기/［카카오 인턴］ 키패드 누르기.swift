@@ -11,41 +11,35 @@ func solution(_ numbers:[Int], _ hand:String) -> String {
     // leftSet, rightSet
     // ans
     
+    func distance(_ a: (Int, Int), _ b: (Int, Int)) -> Int {
+        return abs(a.0 - b.0) + abs(a.1 - b.1)
+    }
+    
     func pressL(for number: Int) {
         ans += "L"
-        L = loc["\(number)"]!
+        L = keypad[number]!
     }
     
     func pressR(for number: Int) {
         ans += "R"
-        R = loc["\(number)"]!
+        R = keypad[number]!
     }
     
     let leftSet: Set<Int> = [1,4,7]
     let rightSet: Set<Int> = [3,6,9]
     
-    let loc = [
-        "1": (x: 0, y: 0),
-        "2": (x: 0, y: 1),
-        "3": (x: 0, y: 2),
-        "4": (x: 1, y: 0),
-        "5": (x: 1, y: 1),
-        "6": (x: 1, y: 2),
-        "7": (x: 2, y: 0),
-        "8": (x: 2, y: 1),
-        "9": (x: 2, y: 2),
-        "0": (x: 3, y: 1),
+    let keypad = [
+        1: (0, 0), 2: (0, 1), 3: (0, 2),
+        4: (1, 0), 5: (1, 1), 6: (1, 2),
+        7: (2, 0), 8: (2, 1), 9: (2, 2),
+       -1: (3, 0), 0: (3, 1),-2: (3, 2)
     ]
     
-    var L = (x: 3, y: 0)
-    var R = (x: 3, y: 2)
+    var L = keypad[-1]!
+    var R = keypad[-2]!
     var ans = ""
     
     for number in numbers {
-        
-        let targetNum = loc["\(number)"]!
-        let lToNum = distance(L, targetNum)
-        let rToNum = distance(R, targetNum)
         
         if leftSet.contains(number) { 
             pressL(for: number)
@@ -57,28 +51,28 @@ func solution(_ numbers:[Int], _ hand:String) -> String {
             continue
         }
         
-        if lToNum < rToNum {
-            pressL(for: number)
-            continue
-        }
+        let target = keypad[number]!
         
-        if rToNum < lToNum {
-            pressR(for: number)
-            continue
-        }
+        let dL = distance(L, target)
+        let dR = distance(R, target)
         
-        if hand == "right" {
-            pressR(for: number)
-        } else {
+        if dL < dR {
             pressL(for: number)
+            
+        } else if dR < dL {
+            pressR(for: number)
+            
+        } else { // dL == dR
+            
+            if hand == "right" {
+                pressR(for: number)
+            } else {
+                pressL(for: number)
+            }   
         }
     }
 
     return ans
-}
-
-func distance(_ a: (x: Int, y: Int), _ b: (x: Int, y: Int)) -> Int {
-    return abs(a.x - b.x) + abs(a.y - b.y)
 }
 
 // 순서대로 누를 번호 numbers
