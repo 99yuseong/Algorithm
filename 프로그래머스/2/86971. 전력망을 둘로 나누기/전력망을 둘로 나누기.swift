@@ -1,53 +1,72 @@
 import Foundation
 
-func solution(_ n:Int, _ wires:[[Int]]) -> Int {
-    // n개의 송전탑이 연결된 상태
-    // 1개만 끊어서 최대한 비슷한 수가 되도록 2그룹으로 나누자
-    // 차이의 절댓값을 리턴
+struct Queue<T> {
+    var inbox = [T]()
+    var outbox = [T]()
     
-    // n: 2~100개의 송전탑
-    // wires: 1~99개의 선
-    
-    // 연결된 송전탑 수 세기 -> BFS 이용 O(n)
-    // 어떤 걸 잘라야 차이가 최소가 되는가...? -> n-1개를 돌아가면서 잘라봐야할 듯
-    // BFS를 n-1번 체크한 최솟값 -> O(n^2)
-    
-    var graph: [[Int]] = Array(repeating: [], count: n+1)
-    var result = n-1
-    
-    for wire in wires {
-        graph[wire[0]].append(wire[1])
-        graph[wire[1]].append(wire[0])
+    var isEmpty: Bool { inbox.isEmpty && outbox.isEmpty }
+    mutating func append(_ k: T) { inbox.append(k) }
+    mutating func removeFirst() -> T? {
+        if outbox.isEmpty { 
+            outbox = inbox.reversed()
+            inbox.removeAll()
+        }
+        return outbox.popLast()
     }
+}
+
+func solution(_ n:Int, _ wires:[[Int]]) -> Int {
     
-    // 1개를 잘랐을때 연결된 송전탑의 개수를 리턴하는 함수
-    func bfs(_ st: Int, _ wire: [Int]) -> Int {
-        var visited = Set<Int>()
-        var queue = [st]
-        visited.insert(st)
+    var ans = n
+    
+    for i in 0..<wires.count {
+        var Connected: [[Int]] = Array(repeating: [], count: n+1)
+        
+        for wire in wires {
+            guard wire != wires[i] else { continue }
+            
+            let a = wire[0]
+            let b = wire[1]
+            
+            Connected[a].append(b)
+            Connected[b].append(a)
+        }
+        
+        var k = 0
+        var queue = Queue<Int>()
+        queue.append((i+1) % n + 1)
+        var visited: [Bool] = Array(repeating: false, count: n+1)
         
         while !queue.isEmpty {
-            let cur = queue.removeFirst()
+            let cur = queue.removeFirst()!
             
-            for near in graph[cur] {
-                if (near == wire[0] && cur == wire[1]) || (near == wire[1] && cur == wire[0]) { continue }
-                
-                if !visited.contains(near) {
-                    queue.append(near)
-                    visited.insert(near)
+            for top in Connected[cur] {
+                if !visited[top] {
+                    visited[top] = true
+                    queue.append(top)
+                    k += 1
                 }
             }
         }
         
-        return visited.count
+        if abs(n - k * 2) < ans { ans = abs(n - k * 2) }
     }
     
-    for wire in wires {
-        let cntA = bfs(wire[0], wire)
-        let cntB = n - cntA
-        
-        result = min(result, abs(cntA - cntB))
-    }
-    
-    return result
+    return ans
 }
+
+// n: 2~100
+// wires: n-1길이의 정수형 이차원 배열
+
+// 하나의 트리 형태
+
+// 송전탑의 개수 n,
+// 전선정보 wires
+// 전선 하나를 끊어서 송전탑 개수가 비슷하도록 나누었을때, 송전탑의 개수 차이를 리턴
+
+// 1. wires loop 
+//    -> i번째를 제외한 탑 배열 선언
+//    -> n번째 탑과 연결된 탑 배열 - 이차원 배열 선언
+
+// 2. BFS 돌면서 연결된 탑의 개수 k 계산 -> O(N)
+// 3. abs(n - k - k) 최솟값 계산
