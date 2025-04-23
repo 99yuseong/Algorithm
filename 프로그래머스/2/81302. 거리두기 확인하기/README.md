@@ -4,7 +4,7 @@
 
 ### 성능 요약
 
-메모리: 16.3 MB, 시간: 0.32 ms
+메모리: 16.1 MB, 시간: 0.23 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 03월 19일 12:23:37
+2025년 04월 23일 19:23:00
 
 ### 문제 설명
 
@@ -28,12 +28,12 @@
 <ol>
 <li>대기실은 5개이며, 각 대기실은 5x5 크기입니다.</li>
 <li>거리두기를 위하여 응시자들 끼리는 맨해튼 거리<sup id="fnref1"><a href="#fn1">1</a></sup>가 2 이하로 앉지 말아 주세요.</li>
-<li class="xt-translated">단 응시자가 앉아있는 자리 사이가 파티션으로 막혀 있을 경우에는 허용합니다.<xt-dual class="xt-dual block" xt-origin="단 응시자가 앉아있는 자리 사이가 파티션으로 막혀 있을 경우에는 허용합니다." style="opacity: 0.8; font-size: 16px;" xt-translation="단 응시자가 앉아있는 자리 사이가 파티션으로 막혀 있을 경우에는 허용합니다."><xt-br></xt-br><xt-content style="opacity: 0.8;">단 응시자가 앉아있는 자리 사이가 파티션으로 막혀 있을 경우에는 허용합니다.</xt-content></xt-dual></li>
+<li>단 응시자가 앉아있는 자리 사이가 파티션으로 막혀 있을 경우에는 허용합니다.</li>
 </ol>
 </blockquote>
 
 <p>예를 들어, </p>
-<table class="table xt-translated">
+<table class="table">
         <thead><tr>
 <th style="text-align: center"><img src="https://grepp-programmers.s3.ap-northeast-2.amazonaws.com/files/production/8c056cac-ec8f-435c-a49a-8125df055c5e/PXP.png" title="" alt="PXP.png"></th>
 <th style="text-align: center"><img src="https://grepp-programmers.s3.ap-northeast-2.amazonaws.com/files/production/d611f66e-f9c4-4433-91ce-02887657fe7f/PX_XP.png" title="" alt="PX_XP.png"></th>
@@ -56,16 +56,7 @@
 <td style="text-align: center">파티션(<code>X</code>)을 의미합니다.</td>
 </tr>
 </tbody>
-      <xt-dual class="xt-dual block" xt-origin="		
-위 그림처럼 자리 사이에 파티션이 존재한다면 맨해튼 거리가 2여도 거리두기를 지킨 것입니다.	위 그림처럼 파티션을 사이에 두고 앉은 경우도 거리두기를 지킨 것입니다.	위 그림처럼 자리 사이가 맨해튼 거리 2이고 사이에 빈 테이블이 있는 경우는 거리두기를 지키지 않은 것입니다.
-		
-응시자가 앉아있는 자리(P)를 의미합니다.	빈 테이블(O)을 의미합니다.	파티션(X)을 의미합니다." style="opacity: 0.8; font-size: 16px;" xt-translation="		
-위 그림처럼 자리 사이에 파티션이 존재한다면 맨해튼 거리가 2여도 거리두기를 지킨 것입니다.	위 그림처럼 파티션을 사이에 두고 앉은 경우도 거리두기를 지킨 것입니다.	위 그림처럼 자리 사이가 맨해튼 거리 2이고 사이에 빈 테이블이 있는 경우는 거리두기를 지키지 않은 것입니다.
-		
-응시자가 앉아있는 자리(P)를 의미합니다.	빈 테이블(O)을 의미합니다.	파티션(X)을 의미합니다."><xt-br></xt-br><xt-content style="opacity: 0.8;">		
-위 그림처럼 자리 사이에 파티션이 존재한다면 맨해튼 거리가 2여도 거리두기를 지킨 것입니다.	위 그림처럼 파티션을 사이에 두고 앉은 경우도 거리두기를 지킨 것입니다.	위 그림처럼 자리 사이가 맨해튼 거리 2이고 사이에 빈 테이블이 있는 경우는 거리두기를 지키지 않은 것입니다.
-		
-응시자가 앉아있는 자리(P)를 의미합니다.	빈 테이블(O)을 의미합니다.	파티션(X)을 의미합니다.</xt-content></xt-dual></table>
+      </table>
 <p>5개의 대기실을 본 죠르디는 각 대기실에서 응시자들이 거리두기를 잘 기키고 있는지 알고 싶어졌습니다. 자리에 앉아있는 응시자들의 정보와 대기실 구조를 대기실별로 담은 2차원 문자열 배열 <code>places</code>가 매개변수로 주어집니다. 각 대기실별로 거리두기를 지키고 있으면 1을, 한 명이라도 지키지 않고 있으면 0을 배열에 담아 return 하도록 solution 함수를 완성해 주세요.</p>
 
 <hr>
