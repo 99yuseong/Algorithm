@@ -1,35 +1,36 @@
 import Foundation
 
 func solution(_ n:Int, _ times:[Int]) -> Int64 {
-    
-    
-    // 한번에 1명만 심사
-    // 걸리는 시간 최소
-    // n명을 심사
-    // times: 걸리는 시간 배열
-    // 최소 걸리는 시간
-    
-    // n: 1~10억 -> O(N) 또는 O(lgN)
-    // t: 1~10억분 이하
-    // t.count: 1~10만
-    
-    // 1~100만분
-    // times.reduce(0) { $0 + t / $1 }
-    // 이분 탐색으로 찾기
-    // 매 분당 처리할 수 있는 인원 수 배열 -> 최대 100만 -> O(N)
-    // 이분탐색으로 찾기 -> O(lgN)
-    
     var st = times.min()!
     var en = times.max()! * n
     
     while st < en {
         let mid = (st + en) / 2
+        let passed = times.reduce(0) { $0 + mid / $1 }
         
-        let p = times.reduce(0) { $0 + (mid / $1) }
-        
-        if p < n { st = mid + 1 }
-        else { en = mid }
+        if passed >= n {  
+            en = mid
+        } else { // passed < n -> 시간 늘려야함
+            st = mid + 1
+        }
     }
     
     return Int64(st)
 }
+
+// 기다리는 사람수 n, 
+// 각 심시관이 심사를 하는데 걸리는 시간 times
+// 모든 사람이 심사를 받는데 걸리는 최솟값
+
+// n: 1~10억명
+// time: 1~10억분
+// times -> 1~10만명
+
+// 시간의 최솟값
+// 1초일때 몇명?
+// 2초일때 몇명?
+
+// parametric Search
+// 1. 1~10억에서 lowerbound 이분탐색 -> O(lg10억)
+// 2. 조건이 times / t를 합한게 n이 넘나? -> O(10만)
+// -> O(10만 * lg10억)
