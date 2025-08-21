@@ -1,19 +1,14 @@
 import Foundation
 
 func solution(_ clothes:[[String]]) -> Int {
+    
     var dict: [String: Int] = [:]
 
     for cloth in clothes {
         dict[cloth[1], default: 0] += 1
     }
     
-    var result = 1
-    
-    for value in dict.values {
-        result *= value + 1
-    }
-    
-    return result - 1
+    return dict.values.reduce(1) { $0 * ($1 + 1) } - 1
 }
 
 
