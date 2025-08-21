@@ -4,31 +4,46 @@
     # 2. for문을 돌면서:
         # target의 길이만큼 mid를 자르고
         # 크기 비교 후 이분탐색
-
+        
 def solution(phone_book):
+    phone_dict = {}
     
-    answer = True
+    for phone in phone_book:
+        phone_dict[phone] = 1
     
-    sorted_phone_book = sorted(phone_book)
-    
-    for idx in range(len(sorted_phone_book)):
-        
-        l = idx
-        r = len(sorted_phone_book) - 1
-        
-        while l <= r:
-            m = (l + r) // 2
+    for phone in phone_book:
+        temp = ""
+        for i in range(len(phone)):
+            temp += phone[i]
             
-            if idx != m and sorted_phone_book[m].startswith(sorted_phone_book[idx]): 
-                answer = False
-                break
+            if temp in phone_dict and temp != phone:
+                return False
             
-            if idx < m:
-                r = m - 1
-            else:
-                l = m + 1
+    return True
+        
+# def solution(phone_book):
     
-    return answer
+#     n = len(phone_book)    
+#     sorted_phone_book = sorted(phone_book)
+        
+#     for i in range(n):
+        
+#         l = i
+#         r = n - 1
+        
+#         while l <= r:
+            
+#             m = (l + r) // 2
+            
+#             if idx != m and sorted_phone_book[m].startswith(sorted_phone_book[idx]): 
+#                 return False
+            
+#             if sorted_phone_book[m] < sorted_phone_book[idx]:
+#                 l = m + 1
+#             else:
+#                 r = m - 1
+    
+#     return answer
 
 # 전화번호 중 다른 번호의 접두어가 있는지?
 
