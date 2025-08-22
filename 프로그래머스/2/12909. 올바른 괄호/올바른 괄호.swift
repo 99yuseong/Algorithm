@@ -11,11 +11,11 @@ func solution(_ s:String) -> Bool {
     var stack: [Character] = []
     
     for c in s {
-        if stack.isEmpty {
+        if c == "(" {
             stack.append(c)
         } else {
-            if c == "(" { stack.append(c) }
-            if c == ")" { stack.popLast() }
+            if stack.isEmpty { return false } 
+            else { stack.popLast() }
         }
     }
 
