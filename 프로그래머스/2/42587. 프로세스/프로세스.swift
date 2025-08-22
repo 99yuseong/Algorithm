@@ -18,29 +18,55 @@
 import Foundation
 
 func solution(_ priorities:[Int], _ location:Int) -> Int {
-    
-    var queue: [Int] = []
-    var result = 1
+
+    var queue: [Int] = priorities
+    var head = 0
     var target = location
+    var executeOrder = 1
     
-    queue.append(contentsOf: priorities)
-    
-    while !queue.isEmpty {
-        print(queue)
-        let cur = queue.first!
+    while head < queue.count {
+        print(queue[head...])
         
-        if let p = queue.firstIndex(where: { cur < $0 }) {
-            queue.removeFirst()
-            queue.append(cur)
-            target = target == 0 ? queue.count - 1 : target - 1  
+        let curPriority = queue[head]
+        
+        if queue[head+1..<queue.count].contains(where: { curPriority < $0 }) {
+            queue.append(curPriority)
+            if target == head { target = queue.count - 1 }
+            head += 1
         } else {
-            queue.removeFirst()
-            if target == 0 { return result } 
-            target -= 1
-            result += 1
+            if target == head { return executeOrder }
+            executeOrder += 1
+            head += 1
         }
     }
     
-    return result
+    return executeOrder
 }
+
+// func solution(_ priorities:[Int], _ location:Int) -> Int {
+    
+//     var queue: [Int] = []
+//     var result = 1
+//     var target = location
+    
+//     queue.append(contentsOf: priorities)
+    
+//     while !queue.isEmpty {
+//         print(queue)
+//         let cur = queue.first!
+        
+//         if let p = queue.firstIndex(where: { cur < $0 }) {
+//             queue.removeFirst()
+//             queue.append(cur)
+//             target = target == 0 ? queue.count - 1 : target - 1  
+//         } else {
+//             queue.removeFirst()
+//             if target == 0 { return result } 
+//             target -= 1
+//             result += 1
+//         }
+//     }
+    
+//     return result
+// }
 
