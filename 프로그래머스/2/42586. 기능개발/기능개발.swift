@@ -25,35 +25,58 @@ import Foundation
 
 // 최종 값 리턴
 
+// func solution(_ progresses:[Int], _ speeds:[Int]) -> [Int] {
+    
+//     var deploys: [Int] = []
+//     var totalDeployCount = 0
+//     var passedDay = 0
+    
+//     while totalDeployCount < progresses.count {
+        
+//         let progress = progresses[totalDeployCount]
+//         let speed = speeds[totalDeployCount]
+//         let neededDay = Int(ceil(Double(100 - progress) / Double(speed)))
+        
+//         // 맨앞 작업 배포
+//         var curDeployCount = 1
+//         totalDeployCount += 1
+//         passedDay = neededDay
+        
+//         // 배포할 수 있는 뒷 작업 배포
+//         while totalDeployCount < progresses.count 
+//         && progresses[totalDeployCount] + passedDay * speeds[totalDeployCount] >= 100 {
+//             curDeployCount += 1
+//             totalDeployCount += 1
+//         }
+        
+//         deploys.append(curDeployCount)
+//     }
+    
+//     return deploys
+// }
+
 func solution(_ progresses:[Int], _ speeds:[Int]) -> [Int] {
     
-    var deploy: [Int] = []
-    var deployCount = 0
-    var passedDay = 0
+    var p_queue: [Int] = progresses
+    var s_queue: [Int] = speeds
+    var deploys: [Int] = []
     
-    while deployCount < progresses.count {
+    while !p_queue.isEmpty {
         
-        let progress = progresses[deployCount]
-        let speed = speeds[deployCount]
-        let day = (100 - progress) / speed + ((100 - progress) % speed > 0 ? 1 : 0)
+        var deployCnt = 0
+        let day = Int(ceil(Double(100 - p_queue.first!) / Double(s_queue.first!)))
         
-        var curDeployCount = 1
-        deployCount += 1
-        passedDay = day
-        
-        while deployCount < progresses.count 
-        && progresses[deployCount] + passedDay * speeds[deployCount] >= 100 {
-            curDeployCount += 1
-            deployCount += 1
+        while !p_queue.isEmpty
+        && p_queue.first! + day * s_queue.first! >= 100 {
+            p_queue.removeFirst()
+            s_queue.removeFirst()
+            deployCnt += 1
         }
         
-        deploy.append(curDeployCount)
+        deploys.append(deployCnt)
     }
-    
-    return deploy
+    return deploys
 }
-
-
 
 
 
