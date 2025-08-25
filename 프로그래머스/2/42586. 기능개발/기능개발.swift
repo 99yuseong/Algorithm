@@ -33,9 +33,9 @@ func solution(_ progresses:[Int], _ speeds:[Int]) -> [Int] {
     
     while deployCount < progresses.count {
         
-        let progress = Double(progresses[deployCount])
-        let speed = Double(speeds[deployCount])
-        let day = Int(ceil((100 - progress) / speed))
+        let progress = progresses[deployCount]
+        let speed = speeds[deployCount]
+        let day = (100 - progress) / speed + ((100 - progress) % speed > 0 ? 1 : 0)
         
         var curDeployCount = 1
         deployCount += 1
