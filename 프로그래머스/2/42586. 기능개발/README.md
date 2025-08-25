@@ -1,10 +1,10 @@
 # [level 2] 기능개발 - 42586 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42586) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42586?language=swift) 
 
 ### 성능 요약
 
-메모리: 16.2 MB, 시간: 0.05 ms
+메모리: 16.3 MB, 시간: 0.03 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 02월 04일 18:10:58
+2025년 08월 25일 09:50:54
 
 ### 문제 설명
 
