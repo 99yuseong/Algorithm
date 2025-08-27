@@ -19,50 +19,37 @@ func solution(_ numbers:String) -> Int {
     
     
     let n = numbers.count
-    let arr = Array(numbers).map { String($0) }
-    var selected: [String] = []
-    var isUsed: [Bool] = Array(repeating: false, count: arr.count)
-    var primeCnt = 0
+    let arr = Array(numbers)
+    var visited = Array(repeating: false, count: n)
     var primeSet = Set<Int>()
     
-    func permute(_ k: Int) {
-        
-        if k == n {
-            let num = Int(selected.joined())!
-            
-            if isPrime(num) && !primeSet.contains(num) {
-                primeCnt += 1
+    func dfs(_ cur: String) {
+        if let num = Int(cur) {
+            if isPrime(num) {
                 primeSet.insert(num)
             }
-            
-            return
         }
         
         for i in 0..<n {
-            if !isUsed[i] {
-                isUsed[i] = true
-                selected.append(arr[i])
-                permute(k+1)
-                selected.removeLast()
-                isUsed[i] = false
-            } else {
-                permute(k+1)
+            if !visited[i] {
+                visited[i] = true
+                dfs(cur + String(arr[i]))
+                visited[i] = false
             }
         }
     }
-    permute(0)
     
-    return primeCnt
+    dfs("") 
+    
+    return primeSet.count
 }
 
-func isPrime(_ v: Int) -> Bool {
+func isPrime(_ n: Int) -> Bool {
     
-    if v < 2 { return false }
-    
-    if (v < 4) { return v != 1 }
-    
-    for i in 2...Int(sqrt(Double(v))) {
-        if (v % i == 0) { return false }
+    if n < 2 { return false }
+    if n < 4 { return true } 
+    for i in 2...Int(sqrt(Double(n))) {
+        if (n % i == 0) { return false }
     }
     
     return true
