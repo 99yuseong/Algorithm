@@ -12,13 +12,15 @@ import Foundation
 
 func solution(_ brown:Int, _ yellow:Int) -> [Int] {
     
-    for w in 3...5000 {
-        
-        let h = brown / 2 + 2 - w
-        
-        if w >= h && w * h == brown + yellow { 
-            return [w, h]
-        }
+    let area = brown + yellow
+    
+    for h in 3...Int(sqrt(Double(area))) {
+        if area % h == 0 {
+            let w = area / h
+            if w >= h && (w + h) == (brown / 2 + 2) { 
+                return [w, h]
+            }
+        }    
     }
     
     return []
