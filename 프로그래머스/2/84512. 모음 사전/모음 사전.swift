@@ -3,30 +3,45 @@
 
 import Foundation
 
-func solution(_ word:String) -> Int {
+func solution(_ word: String) -> Int {
+    let chars = ["A", "E", "I", "O", "U"]
+    let weights = [781, 156, 31, 6, 1]  // 각 자리의 가중치
     
-    let n = word.count
-    let chars: [String] = ["A", "E", "I", "O", "U"]
-    var dict = Set<String>()
+    var answer = 0
     
-    func dfs(_ char: String) {
-        if char.count == 5 { return }
-        
-        for c in chars {
-            let newChar = char + c
-            dict.insert(newChar)
-            dfs(newChar)
+    for (i, ch) in word.enumerated() {
+        if let idx = chars.firstIndex(of: String(ch)) {
+            answer += idx * weights[i] + 1
         }
     }
-    dfs("")
     
-    let arr = Array(dict).sorted()
-    
-    for i in 0..<arr.count {
-        if arr[i] == word { return i + 1 }
-    }
-    
-    return 0
+    return answer
 }
+
+// func solution(_ word:String) -> Int {
+    
+//     let n = word.count
+//     let chars: [String] = ["A", "E", "I", "O", "U"]
+//     var dict = Set<String>()
+    
+//     func dfs(_ char: String) {
+//         if char.count == 5 { return }
+        
+//         for c in chars {
+//             let newChar = char + c
+//             dict.insert(newChar)
+//             dfs(newChar)
+//         }
+//     }
+//     dfs("")
+    
+//     let arr = Array(dict).sorted()
+    
+//     for i in 0..<arr.count {
+//         if arr[i] == word { return i + 1 }
+//     }
+    
+//     return 0
+// }
 
 
