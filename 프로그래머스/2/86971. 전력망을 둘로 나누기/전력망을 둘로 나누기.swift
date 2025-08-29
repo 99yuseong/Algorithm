@@ -17,45 +17,57 @@
 import Foundation
 
 func solution(_ n:Int, _ wires:[[Int]]) -> Int {
-    var minDiff = n
     
-    for i in 0..<wires.count {
-        // i번째 wire를 끊기
-        var newWires = wires
-        newWires.remove(at: i)
-        
-        let vertexs = makeVertexs(n, newWires)
-        let cnt = bfs(vertexs)
-        minDiff = min(abs((n - cnt) - cnt), minDiff)
-    }
+    var result = n - 1
+    let graph = makeGraph(n, wires)
     
-    return minDiff
-}
-
-func makeVertexs(_ n: Int, _ wires: [[Int]]) -> [[Int]] {
-    var vertexs: [[Int]] = Array(repeating: [], count: n+1)
     for wire in wires {
-        vertexs[wire[0]].append(wire[1])
-        vertexs[wire[1]].append(wire[0])
+        let cntA = bfs(wire, graph)
+        let cntB = n - cntA
+        
+        result = min(abs(cntA - cntB), result)
     }
-    return vertexs
+    
+    return result
 }
 
-func bfs(_ vertexs: [[Int]]) -> Int {
-    var queue: [Int] = [1]   
-    var visited = Array(repeating: false, count: vertexs.count)
+func makeGraph(_ n: Int, _ wires: [[Int]]) -> [[Int]] {
+    
+    var graph: [[Int]] = Array(repeating: [], count: n+1)
+    
+    for wire in wires {
+        graph[wire[0]].append(wire[1])
+        graph[wire[1]].append(wire[0])
+    }
+    
+    return graph
+}
+
+func bfs(_ cutWire: [Int], _ graph: [[Int]]) -> Int {
+    
+    var queue: [Int] = []   
+    var visited = Array(repeating: false, count: graph.count)
+    var cnt = 0
+    
+    queue.append(1)
     visited[1] = true
-    var cnt = 1
+    cnt += 1
     
     while !queue.isEmpty {
         let cur = queue.removeFirst()
-        for near in vertexs[cur] {
-            if !visited[near] {
-                queue.append(near)
-                visited[near] = true
+        
+        for v in graph[cur] {
+            
+            if !visited[v] 
+            && cutWire != [cur, v]
+            && cutWire != [v, cur] {
+                
+                queue.append(v)
+                visited[v] = true
                 cnt += 1
             }
         }
     }
+    
     return cnt
 }
