@@ -1,68 +1,65 @@
+// 도난
+
+// 번호
+// 앞 아니면 뒤만 빌려줄 수 있음
+
+// 전체 n명
+// 도난 lost 리스트
+// 여벌 reserve 리스트
+
+// 최대 학생수 return
+
+// n: 2~30
+// lost: 1~n 중복 x
+// reserve: 1~n 중복 x
+// 여벌이 도난이면 빌려줄 수 없음
+
+// lostSet, reserveSet -> contain여부로 확인
+// 1. 본인 도난 체크
+// 2. 본인 여벌 체크
+// 3. 주변 필요 체크
+
 import Foundation
 
 func solution(_ n:Int, _ lost:[Int], _ reserve:[Int]) -> Int {
     
-    // 0. 최소 인원 세팅
-    var lectureStu = n - lost.count
+    var stu = 0
+    var lostSet = Set(lost)
+    var reserveSet = Set(reserve)
     
-    // 1. 나눠 줄 수 있는 reserve 카운팅
-    var lostStu = Set(lost)
-    var reserveStu = Set(reserve)
-    
-    for std in reserve.sorted() {
+    for i in (1...n) {
         
-        // 2. 여벌 체육복이 있는 학생인가?
-        if lostStu.contains(std) {
-            lostStu.remove(std)
-            lectureStu += 1
-            continue
-        }
+        let isLost = lostSet.contains(i)
+        let hasReserve = reserveSet.contains(i)
         
-        // 3. 왼쪽 끝
-        if std > 1 && lostStu.contains(std-1) && !reserveStu.contains(std-1) {
-            lostStu.remove(std-1)
-            lectureStu += 1
-            continue
-        }
-        
-        // 오른쪽 끝
-        if std < n && lostStu.contains(std+1) && !reserveStu.contains(std+1) {
-            lostStu.remove(std+1)
-            lectureStu += 1
+        if isLost {
+            // 도난 O
+            
+            if hasReserve { 
+                // 여분 O
+                reserveSet.remove(i) 
+                stu += 1
+                
+            } else {
+                
+                // 여분 X
+                let hasFront = reserveSet.contains(i-1) && !lostSet.contains(i-1)
+                let hasBack = reserveSet.contains(i+1) && !lostSet.contains(i+1)
+                
+                if hasFront {
+                    reserveSet.remove(i-1) 
+                    stu += 1
+                } else if hasBack {
+                    reserveSet.remove(i+1) 
+                    stu += 1
+                }
+            }
+            
+        } else {
+            // 도난 X
+            stu += 1
         }
     }
     
-    return lectureStu
+    return stu
 }
-
-// 전체 n명
-// 도난당한 학생 번호 배열
-// 여벌 체육복 있는 학생들 번호 배열
-// 체육 수업 들을 수 있는 학생의 최댓값
-
-// 체격순으로 번호
-// 바로 앞 뒤만 빌려줄 수 있다.
-
-// n: 2~30명
-// 도난: 1~n명
-// 여벌: 1~n명
-
-// 1 2 3 4 5
-//   2   4
-//   2 3   5
-
-// 1 2 3 4 5
-//   2   4
-//     3
-
-// 1 2 3
-//     3
-// 1
-
-// 1. 전체 수 - 도난 학생 수 계산 n - lost.count
-// 2. 도난 학생 중 빌릴 수 있는 경우의 수 체크
-
-// 2. 2^n의 최대 경우의 수
-//    모든 경우의 수 탐색도 가능하긴함. 2^30까지니까. 
-
-// 3. reserve 순서대로, 앞뒤에 있으면 찔러넣기로 줘야함. 최대한 옷을 나눠주는 것이 목표이니까 앞에서부터 체크하는 것이 최대
