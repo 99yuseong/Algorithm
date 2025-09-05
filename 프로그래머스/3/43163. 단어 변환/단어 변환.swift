@@ -19,14 +19,42 @@ import Foundation
 
 func solution(_ begin:String, _ target:String, _ words:[String]) -> Int {
     
-    // 1. 변환할 수 없는 경우
+    // 1. 변환 조건이 성립이 안되는 경우
     guard words.contains(target) else { return 0 }
     
+    // 2. 변환 시도 -> 최소값 카운트
     let N = words.count
     var visited = Array(repeating: false, count: N)
-    var result = N
+    var result = Int.max
+    
+    func bfs() {
+        var queue: [(Int, String)] = []
+        
+        queue.append((0, begin))
+        
+        while !queue.isEmpty {
+            
+            let cur = queue.removeFirst()
+            let curK = cur.0
+            let curWord = cur.1
+            
+            if curWord == target {
+                result = curK
+                return
+            } 
+            
+            for i in 0..<N {
+                if !visited[i] && curWord.canChange(to: words[i]) {
+                    queue.append((curK+1, words[i]))
+                    visited[i] = true
+                }
+            }
+        }
+    }
     
     func dfs(_ k: Int, _ word: String) {
+        
+        if k > result { return }
         
         if word == target { 
             result = min(result, k)
@@ -42,9 +70,11 @@ func solution(_ begin:String, _ target:String, _ words:[String]) -> Int {
         }
     }
     
-    dfs(0, begin)
+    // dfs(0, begin)
+    bfs()
     
-    return result
+    // 3. 변환 가능여부 확인
+    return result == Int.max ? 0 : result
 }
 
 extension String {
@@ -56,6 +86,7 @@ extension String {
         
         for i in 0..<self.count {
             diff += arrA[i] != arrB[i] ? 1 : 0
+            if diff > 1 { return false }
         }
         
         return diff == 1
