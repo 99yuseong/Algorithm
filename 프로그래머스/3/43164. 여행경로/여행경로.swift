@@ -1,35 +1,39 @@
 import Foundation
 
-func solution(_ tickets:[[String]]) -> [String] {
-    var tickets = tickets
-    let N = tickets.count
-    var answer: [String] = []
-    var finished = false
+// dfs
+// N: 3~1만 -> O(N) 풀이 or O(NlgN) 풀이
+// [a, b]
 
-    // 사전순 정렬 (도착지 기준)
-    tickets.sort { $0[1] < $1[1] }
+func solution(_ tickets:[[String]]) -> [String] {
     
-    var used = Array(repeating: false, count: N)
+    // 1. 도착 경로가 알파벳 순서가 앞서도록 정렬
+    var tickets = tickets.sorted { $0[1] < $1[1] }
+    print(tickets)
     
-    func dfs(route: [String]) {
-        if finished { return }
+    let N = tickets.count
+    var isUsed = Array(repeating: false, count: N)
+    var result: [String] = []
+    var isFinished = false
+    
+    func dfs(_ k: Int, _ route: [String]) {
         
-        if route.count == N + 1 {
-            answer = route
-            finished = true
-            return
+        if isFinished { return }
+        
+        if k == N { 
+            isFinished = true
+            result = route
+            return  
         }
         
-        let last = route.last!
         for i in 0..<N {
-            if !used[i], tickets[i][0] == last {
-                used[i] = true
-                dfs(route: route + [tickets[i][1]])
-                used[i] = false
+            if !isUsed[i] && route.last! == tickets[i][0] {
+                isUsed[i] = true
+                dfs(k+1, route + [tickets[i][1]])
+                isUsed[i] = false
             }
         }
     }
+    dfs(0, ["ICN"])
     
-    dfs(route: ["ICN"])
-    return answer
+    return result
 }
