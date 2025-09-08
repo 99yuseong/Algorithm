@@ -26,30 +26,23 @@ func solution(_ game_board:[[Int]], _ table:[[Int]]) -> Int {
     let emptys = findBlocks(game_board, for: 0)
     
     var isUsed = Array(repeating: false, count: blocks.count)
-    var fillCount = 0
+    var fillCnt = 0
     
     for empty in emptys {
-        
-        out: for i in 0..<blocks.count {    
-            
+        for i in 0..<blocks.count {    
             guard !isUsed[i] else { continue }
             
-            var block = blocks[i]
+            let cntIfMatched = matchBlocks(blocks[i], target: empty)
             
-            for _ in 0..<4 {
-                if block == empty {
-                    fillCount += countBlock(block)
-                    isUsed[i] = true
-                    break out
-                    
-                } else {
-                    block = rotate(block)
-                }
+            if cntIfMatched > 0 {
+                isUsed[i] = true
+                fillCnt += cntIfMatched
+                break
             }
         }
     }
     
-    return fillCount
+    return fillCnt
 }
 
 func printBlock(_ block: [[Int]]) {
@@ -66,6 +59,26 @@ func countBlock(_ block: [[Int]]) -> Int {
     }
     
     return cnt
+}
+
+func matchBlocks(_ block: [[Int]], target: [[Int]]) -> Int {
+    
+    var block = block
+    
+    for i in 0..<4 {
+        
+        if block == target {
+            return countBlock(block)
+        }
+        
+        if i == 3 { 
+            return 0 
+        }
+        
+        block = rotate(block)
+    }
+    
+    return 0
 }
 
 // table에서 block을 찾아 6*6 크기의 블럭 배열로 리턴 -> [block, block]
