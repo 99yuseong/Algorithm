@@ -1,28 +1,34 @@
+// 적절히 더하거나 빼라
+
+// target을 만드는 방법의 개수
+
+// N: 2~20개
+// 1~50의 자연수 -> 50 * 20 다더하면 1000
+// target: 1~1000
+
+// 0 +-a +-b
+// dfs -> N개를 모두 했을때 target이면 cnt++
+
+// dfs : O(2^20) = O(1024 * 1024)
+
 import Foundation
 
 func solution(_ numbers:[Int], _ target:Int) -> Int {
     
-// 자연수를 더하거나 빼서 타겟 넘머
-// 방법의 수를 리턴
-
-// numbers: 2~20개
-// 1~50 자연수
-// 타겟 1~5000
-
-// [1, -1]
-// 완전 탐색
-// 2^20 -> 100만
+    let N = numbers.count
+    var cnt = 0
     
-    func dfs(index: Int, cur: Int) -> Int {
-        if index == numbers.count {
-            return cur == target ? 1 : 0
-        } 
+    func dfs(_ k: Int, _ cur: Int) {
         
-        let plus = dfs(index: index+1, cur: cur + numbers[index])
-        let minus = dfs(index: index+1, cur: cur - numbers[index])
+        if k == N {
+            cnt += cur == target ? 1 : 0
+            return
+        }
         
-        return plus + minus
-    }   
+        dfs(k+1, cur+numbers[k])
+        dfs(k+1, cur-numbers[k])
+    }
+    dfs(0, 0)
     
-    return dfs(index: 0, cur: 0)
+    return cnt
 }
