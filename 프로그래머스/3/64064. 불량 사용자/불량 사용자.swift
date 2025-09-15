@@ -29,38 +29,35 @@ import Foundation
 
 func solution(_ user_id: [String], _ banned_id: [String]) -> Int {
     
-    var bannedSet = Set<Set<String>>()
-    var currentBanned = Set<String>()
-    var usedUsers = [Bool](repeating: false, count: user_id.count)
+    var allBannedSet = Set<Set<String>>()
+    var curBannedSet = Set<String>()
     
-    func dfs(_ bannedIndex: Int) {
-        // 모든 banned_id를 처리했다면 현재 조합을 저장
-        if bannedIndex == banned_id.count {
-            bannedSet.insert(currentBanned)
+    var isUserUsed = [Bool](repeating: false, count: user_id.count)
+    
+    func dfs(_ k: Int) {
+        
+        if k == banned_id.count {
+            allBannedSet.insert(curBannedSet)
             return
         }
         
-        // 현재 banned_id와 매칭 가능한 user_id들을 찾아서 시도
-        for userIndex in 0..<user_id.count {
-            // 이미 사용된 사용자는 건너뛰기
-            guard !usedUsers[userIndex] else { continue }
+        for i in 0..<user_id.count {
             
-            // 현재 사용자가 현재 banned_id와 매칭되는지 확인
-            if user_id[userIndex].isMatched(with: banned_id[bannedIndex]) {
-                // 백트래킹: 선택하고 재귀 호출 후 원복
-                usedUsers[userIndex] = true
-                currentBanned.insert(user_id[userIndex])
-                
-                dfs(bannedIndex + 1)
-                
-                currentBanned.remove(user_id[userIndex])
-                usedUsers[userIndex] = false
+            guard !isUserUsed[i] else { continue }
+            
+            if user_id[i].isMatched(with: banned_id[k]) {
+                isUserUsed[i] = true
+                curBannedSet.insert(user_id[i])
+                dfs(k+1)
+                curBannedSet.remove(user_id[i])
+                isUserUsed[i] = false
             }
         }
     }
     
     dfs(0)
-    return bannedSet.count
+    
+    return allBannedSet.count
 }
 
 
