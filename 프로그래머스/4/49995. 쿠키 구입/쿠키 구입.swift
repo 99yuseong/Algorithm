@@ -20,45 +20,31 @@ import Foundation
 // D[i][j]는 i~j까지의 쿠키의 총합
 // D[i][j] = D[i][j-1] + C[j]
 
-// 시간 초과 -> O(N^3)
-
-// O(N^2) 풀이가 필요하다.
-
-// 0~n-1가지 돌면서
-    // mid를 중심으로 좌측으로 확장, 우측으로 확장
-    // left가 작다면 left 확장, right가 작다면 right 확장
-    // 값이 동일하다면 cnt += 1
-    // 값이 동일하지 않은 채로 끝에 도달 ? contonue
-
 func solution(_ cookie: [Int]) -> Int {
     let n = cookie.count
     var maxCookie = 0
     
-    for i in 0..<n-1 {
-        let mid = i
-        var left = i
-        var right = i+1
-        var leftSum = cookie[left]
-        var rightSum = cookie[right]
+    // 모든 중간점에 대해 처리
+    for mid in 0..<n-1 {
+        var l = mid, r = mid + 1
+        var lSum = cookie[l], rSum = cookie[r]
         
-        while 0..<n ~= left && 0..<n ~= right {
-            
-            if leftSum == rightSum {
-                maxCookie = max(maxCookie, leftSum)
+        repeat {
+            if lSum == rSum {
+                maxCookie = max(maxCookie, lSum)
             }
             
-            if leftSum <= rightSum && left > 0 {
-                left -= 1
-                leftSum += cookie[left]
-                
-            } else if leftSum > rightSum && right < n-1 {
-                right += 1
-                rightSum += cookie[right]
-                
+            // 작은 쪽을 확장
+            if lSum <= rSum && l > 0 {
+                l -= 1
+                lSum += cookie[l]
+            } else if rSum < lSum && r < n - 1 {
+                r += 1
+                rSum += cookie[r]
             } else {
                 break
             }
-        }
+        } while true
     }
     
     return maxCookie
