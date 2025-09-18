@@ -1,59 +1,86 @@
 import Foundation
 
+// n개의 집에 배달
+// 택배 배달 - 수거
+// 최대 cap개 실을 수 있다.
+
+// 최소 이동 거리를 리턴해라
+
+// cap: 용량 1~50
+// n: 집 1~10만
+// d, p: 0~50
+
+// 한 집에 최대 용량만
+// 최대 이동 거리 -> 1+...+10만 => Int 안넘침
+
+// 배달 idx
+// 픽업 idx
+
+// - O(10만)
+
+// 맨 뒤 인덱스부터 있냐를 확인
+// 배달 = 최초 0이상 인덱스 체크, 최대 cap만큼을 빼기
+// 픽업 = 최초 0이상 인덱스 체크, 최대 cap만큼을 빼기
+// 1번의 왔다갔다 동안 최대 배달 인덱스 중 max * 2를 경로합에 연산
+// idx가 모두 0이하다 - 정지
+
 func solution(_ cap:Int, _ n:Int, _ deliveries:[Int], _ pickups:[Int]) -> Int64 {
-    // cap: 1~50
-    // n: 1~10만
-    // deliveries: 0~50사이 값
-    // pickups: 0~50사이 값
-    var dStack = deliveries
-    var pStack = pickups
-    var distance = 0
     
-    // 근데, n을 매번 찾아야하나...?
-    // 500만개 배달, 500만개 수거
-    // 50개 용량 -> 최대 10만번 배달, 10만번 수거 -> 10만번 왔다갔다.
-    while !dStack.isEmpty && dStack.last! == 0 {
-        _ = dStack.removeLast()
-    }
+    var D = deliveries
+    var P = pickups
     
-    while !pStack.isEmpty && pStack.last! == 0 {
-        _ = pStack.removeLast()
-    }
+    var dEnd = n-1
+    var pEnd = n-1
+    var move = 0
     
-    // 10만번 * O(n) > 시간 초과
-    while !dStack.isEmpty || !pStack.isEmpty {
+    while true {
         
-        distance += max(dStack.count, pStack.count) * 2
+        if dEnd < 0 && pEnd < 0 { break }
         
-        var deliver = 0
-        var pickup = 0
+        var curD = cap
+        var curP = cap
+        var curM = 0
         
-        while !dStack.isEmpty {    
-            if deliver + dStack.last! <= cap {
-                deliver += dStack.removeLast()
+        // 이번 주행에서 최대한 배달
+        while dEnd >= 0 && curD > 0 {
+            
+            if D[dEnd] == 0 { 
+                dEnd -= 1
+                continue
+            }
+            
+            curM = max(curM, dEnd+1)
+            
+            // 배달 용량 체크
+            if D[dEnd] > curD { 
+                D[dEnd] -= curD
+                curD = 0
             } else {
-                dStack[dStack.count-1] -= cap - deliver
-                break
+                curD -= D[dEnd]
+                D[dEnd] = 0
             }
         }
         
-        while !pStack.isEmpty {
-            if pickup + pStack.last! <= cap {
-                pickup += pStack.removeLast()
+        // 이번 주행에서 최대한 수거
+        while pEnd >= 0 && curP > 0 {
+            if P[pEnd] == 0 { 
+                pEnd -= 1 
+                continue
+            }
+            
+            curM = max(curM, pEnd+1)
+            
+            if P[pEnd] > curP {
+                P[pEnd] -= curP
+                curP = 0
             } else {
-                pStack[pStack.count-1] -= cap - pickup
-                break
+                curP -= P[pEnd]
+                P[pEnd] = 0
             }
         }
-    }    
+        
+        move += curM * 2
+    }
     
-    return Int64(distance)
+    return Int64(move)
 }
-
-// n개의 집에 택배 배달 + 수거
-// i번째 집은 i만큼 떨어져있다.
-// 트럭엔 최대 cap개
-// 배달항 택배 상자 수와 빈 상자수
-// 모든 배달과 수거를 마치고, 돌아올 수 있는 최소 이동거리
-// 배달 수거 개수는 제한 없음
-
