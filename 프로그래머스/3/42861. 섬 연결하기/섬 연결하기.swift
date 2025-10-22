@@ -20,6 +20,7 @@ func solution(_ n:Int, _ costs:[[Int]]) -> Int {
         if parent[a] < 0 { return a }
         return find(parent[a])
     }
+    
     func union(_ a: Int, _ b: Int) -> Bool {
         let x = find(a)
         let y = find(b)
@@ -29,18 +30,10 @@ func solution(_ n:Int, _ costs:[[Int]]) -> Int {
     }
     
     var minCost = 0
-    
     for cost in costs {
-        
-        let x = cost[0]
-        let y = cost[1]
-        let c = cost[2]
-        
-        if find(x) != find(y) {
-            union(x, y)
-            minCost += c
+        if union(cost[0], cost[1]) {
+            minCost += cost[2]
         }
     }
-    
     return minCost
 }
