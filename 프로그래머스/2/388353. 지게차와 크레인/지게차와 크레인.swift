@@ -32,15 +32,26 @@ import Foundation
 // BFS
 // 순회 O(2500) * 요청 O(100)
 
-// 1. [String] > [[String]]으로 변환 O(2500)
-// 2. request 마다 BFS 순회를 돌면서 제거
-    // 존재 = 1 (no visited)
-    // 노출됨 = 0 (no visited & can 지게차) 
-    // 제거됨 = -1 (visited & not 지게차)
-    // 외부와 맞닿음 = -2 (visited & can 지게차)
+// BFS의 핵심은 전파에 있다.
+    // 외부에 노출된 경우의 전파를 의미
+    // 이 문제에서는 제거를 하면 = 외부 노출이 전파된다.
+    
+    // 1. 지게차로 제거한 경우 = 제거한 대상의 주위 요소가 1회 외부 노출로 전파된다.
+    // 2. 크레인으로 제거한 경우 = 제거한 대상의 주위 요소가 외부 노출로 전파된다.
 
-    // "A" : 길이 1 request = 주변에 -2 또는 인덱스가 넘어가는 경우 > -2 표기
-    // "AA": 길이 2 request = 주변에 -2 또는 인덱스가 넘어가는 경우 > -2 표기 or -1 표기
+struct Queue<T> {
+    var inbox: [T] = []
+    var outbox: [T] = []
+    var isEmpty: Bool { inbox.isEmpty && outbox.isEmpty }
+    mutating func append(_ x: T) { inbox.append(x) }
+    mutating func removeFirst() -> T? { 
+        if outbox.isEmpty {
+            outbox = inbox.reversed()
+            inbox.removeAll()
+        }
+        return outbox.popLast()
+    }
+}
 
 
 func solution(_ storage:[String], _ requests:[String]) -> Int {
@@ -53,6 +64,7 @@ func solution(_ storage:[String], _ requests:[String]) -> Int {
     // 1. [[String]]으로 변환
     var storage = storage.map { Array($0).map { String($0) } }
     
+    // 2. 요청에 대해 제거 & 외부 노출 전파 처리
     var removed = [[Bool]](repeating: [Bool](repeating: false, count: m), count: n)
     var visited = [[Bool]](repeating: [Bool](repeating: false, count: m), count: n)
     var outSide = [[Bool]](repeating: [Bool](repeating: false, count: m), count: n)
@@ -72,43 +84,60 @@ func solution(_ storage:[String], _ requests:[String]) -> Int {
         let target = String(request.prefix(1))
         let usingCrain = request.count == 2
         
-        var queue = [[Int]]()
+        var queue = Queue<[Int]>()
         
         for i in 0..<n {
             for j in 0..<m {
-                if usingCrain {
-                    if !removed[i][j] && storage[i][j] == target {
-                        // 본인 혹은 인접이 outside라면 전파
+                
+                if usingCrain { // 크레인을 사용하는 경우
+                    
+                    if !removed[i][j]               // 제거되지 않았고
+                    && storage[i][j] == target {    // 타겟인 경우
+                        
+                        // 제거
+                        removed[i][j] = true
+                        
+                        // 본인이 outside라면 전파 (만약 전파된 요소 또한 제거되었다면 그 주변도 전파)
                         if outSide[i][j] { 
                             queue.append([i ,j]) 
                             visited[i][j] = true
                         }
-                        removed[i][j] = true
+                        
                     }
                     
-                } else {
-                    if !removed[i][j] && storage[i][j] == target && outSide[i][j] {
-                        // 추가된 모든 인접으로 outside 전파
+                } else { // 지게차를 사용하는 경우
+                    
+                    if !removed[i][j]           // 제거되지 않았고
+                    && storage[i][j] == target  // 타겟이며
+                    && outSide[i][j] {          // 외부에 노출된 경우
+                        
+                        // 제거
+                        removed[i][j] = true
+                        
+                        // 모든 인접으로 1회 outside 전파
                         queue.append([i ,j])
                         visited[i][j] = true
-                        removed[i][j] = true
                     }
                 }
             }
         }
         
-        // 추가된 모든 인접으로 outside 전파
         while !queue.isEmpty {
-            let cur = queue.removeFirst()
+            let cur = queue.removeFirst()!
             
             for k in 0..<4 {
                 let x = cur[0] + dx[k]
                 let y = cur[1] + dy[k]
                 
-                if 0..<n ~= x && 0..<m ~= y && !visited[x][y] {
+                if 0..<n ~= x && 0..<m ~= y 
+                && !visited[x][y] {
+                    
+                    // 1회만 전파하는 경우 queue에 다시 넣지 않는다.
+                    // 만약 해당 요소가 제거된 상태인 경우 queue에 추가한다. (크레인으로 인접한 여러 요소가 제거되는 경우)
                     if removed[x][y] { queue.append([x, y]) }
-                    visited[x][y] = true
-                    outSide[x][y] = true
+                    
+                    visited[x][y] = true // 방문처리
+                    outSide[x][y] = true // 전파
                 }
             }
         }
