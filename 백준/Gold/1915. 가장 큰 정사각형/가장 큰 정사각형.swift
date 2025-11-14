@@ -1,44 +1,55 @@
-// 1초
-// 128MB
-
-// 0과 1로된 배열
-// n * m 중 1로된 가장 큰 정사각형의 크기
-
-// n,m 1~1000 -> O(N^3)
-
-// 1로 된 정사각형의 넓이
-// 정사각형 -> []
-
-let NM = readLine()!.split(separator: " ").map { Int($0)! }
-let N = NM[0]
-let M = NM[1]
-var A = Array(repeating: Array(repeating: 0, count: M+1), count: N+1)
-var D = Array(repeating: Array(repeating: 0, count: M+1), count: N+1)
-
-for i in 1...N {
-    let line = [0] + Array(readLine()!).map { Int(String($0))! }
-    for j in 1...M {
-        A[i][j] = line[j]
-    }
-}
-
 // 가장 큰 정사각형
-// 두 변의 길이가 같다.
-// BFS?
+// N * M 배열
+// 0과 1
 
-// D[i][j], i, j를 꼭짓점으로 하는 정사각형의 크기
-// D[i][j] = max(D[i-1][j], D[i][j-1], D[i][j]) + 1
+// 1로 된 가장 큰 정사각형의 크기
 
-var ans = 0
-for i in 1...N {
-    for j in 1...M {
-        if A[i][j] == 1 {
-            let area = min(D[i-1][j-1], D[i-1][j], D[i][j-1]) + 1
-            D[i][j] = area
-            ans = max(area, ans)
-        } else {
-            D[i][j] = 0
+// [문제 제한]
+// 1000 * 1000 크기의 맵
+// 정사각형 -> 모서리로부터 동일한 지점에 떨어져있는 도형
+// 1000 * 1000이 정사각형인지 알려면 1000 * 1000칸을 모두 순회해야한다.
+// [i][i]칸이 우측하단 모서리인 정사각형인지 알려면 크기는?
+
+// DP로 순회한 정보를 담는다.
+// DP[i][j]: MAP[i][j]가 우측하단 모서리인 최대 정사각형의 모서리 길이
+
+// DP[i][j] = min(DP[i-1][j-1], DP[i-1][j], DP[i][j-1])
+// DP[i][j] = MAP[i][j]
+
+func solution(_ map: [[Int]]) -> Int {
+    
+    let n = map.count
+    let m = map.first!.count
+
+    var DP = map
+    var maxL = 0
+    
+    for i in 0..<n {
+        for j in 0..<m {
+            if map[i][j] == 1 {
+                maxL = 1
+            }
         }
     }
+    
+    for i in 1..<n {
+        for j in 1..<m {
+            if map[i][j] == 1 {
+                DP[i][j] = min(DP[i-1][j], DP[i][j-1], DP[i-1][j-1]) + 1
+                maxL = max(DP[i][j], maxL)
+            }
+        }
+    }
+    
+    return maxL * maxL
 }
-print(ans*ans)
+
+let NM = readLine()!.split(separator: " ").map { Int(String($0))! }
+let N = NM[0]
+let M = NM[1]
+var MAP: [[Int]] = []
+for _ in 0..<N {
+    let line = Array(readLine()!).map { Int(String($0))! }
+    MAP.append(line)
+}
+print(solution(MAP))
