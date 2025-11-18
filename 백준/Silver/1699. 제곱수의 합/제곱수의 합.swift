@@ -1,35 +1,36 @@
-// 2초
-// 128MB
+// 자연수 N - 제곱수의 합으로 표현 -> 최소 항의 개수
 
-// N은 N보다 작은 제곱 수의 합으로 표현 가능
-// 항의 최소 개수는 3이다.
+// [제한사항]
+// N: 1~10만
 
-// N: 1~10만 -> O(N) / O(NLogN)
-// D[i] = i의 제곱 수 항의 최소 개수
-// D[i] = D[sqrt*sqrt] + D[N-sqrt*sqrt]
-// 7 = 2^2 + 1^2 + 1^2 + 1^2
-// 1 = 1^2
-// 4 = 2^2
-// 11 = 3^2 + 1^2 + 1^2
-// 13 = 3^2 + 2^2
+// DP[i]: i를 제곱수의 합으로 나타낼때 항의 최소 개수
+// DP[i] = DP[i-root_i*root_i] + 1
+
+// 항상 가장 가장 큰 제곱수로 한다고 해서 가장 작아지는 건 아니다.
+// 다 해봐야한다.
+
+// DP[i] = 2 ~ root_i까지 제곱수로 구성
+
+// DP[1] = 1
 import Foundation
 
-let N = Int(readLine()!)!
-var D = Array(repeating: 0, count: N+1)
-
-D[1] = 1
-
-for i in 1...N {
-    let num = Int(sqrt(Double(i)))
-
-    if num * num == i {
-        D[i] = 1
-    } else {
-        D[i] = i
-        for j in 1...num {
-            D[i] = min(D[i], D[j*j] + D[i-j*j])
+func solution(_ N: Int) -> Int {
+    
+    if N == 1 { return 1 }
+    
+    var DP = [Int](repeating: Int.max, count: N+1)
+    
+    DP[0] = 0
+    DP[1] = 1
+    
+    for i in 2...N {
+        for j in 1...Int(sqrt(Double(i))) {
+            DP[i] = min(DP[i], DP[i-j*j] + 1)
         }
     }
+    
+    return DP[N]
 }
-print(D[N])
 
+let N = Int(readLine()!)!
+print(solution(N))
