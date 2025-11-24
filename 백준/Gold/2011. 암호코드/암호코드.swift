@@ -1,31 +1,30 @@
-// 2초
-// 128MB
+func solution(_ secret: String) -> Int {
+    let MOD = 1_000_000
+    let A = Array(secret).map { Int(String($0))! }
+    let n = A.count
+    if A[0] == 0 { return 0 }
 
-// 대화 암호화
-// 암호 해석이 나올 수 있는 가짓수
-// 5000자리 이하 암호
-// 가짓수
-
-// 1 ~ 26
-// D[i]: i번째까지 나올 수 있는 암호 가짓수
-// D[i] = D[i] + D[i-1] if A[i] > 0 // 1개짜리 카운트
-// D[i] = D[i] + D[i-2] if 10...26 ~= A[i-1] * 10 + A[i] // 2개짜리 카운트
-
-import Foundation
-
-let A = [0] + readLine()!.map { Int(String($0))! }
-var D = Array(repeating: 0, count: A.count)
-
-D[0] = 1
-
-for i in 1...A.count-1 {
-    if A[i] > 0 {
-        D[i] = (D[i] + D[i-1]) % 1000000
+    func canOneDigit(_ i: Int) -> Bool {
+        return A[i] != 0
     }
-    
-    if 10...26 ~= A[i-1] * 10 + A[i] {
-        D[i] = (D[i] + D[i-2]) % 1000000
+
+    func canTwoDigit(_ i: Int) -> Bool {
+        if i == 0 { return false }
+        let num = A[i-1] * 10 + A[i]
+        return 10...26 ~= num
     }
+
+    var dp = [Int](repeating: 0, count: n)
+    dp[0] = 1
+
+    for i in 1..<n {
+        if canOneDigit(i) { dp[i] += dp[i-1] }
+        if canTwoDigit(i) { dp[i] += dp[i-2 >= 0 ? i-2 : 0] }
+        dp[i] %= MOD
+    }
+
+    return dp[n-1]
 }
 
-print(D.last!)
+let secret = readLine()!
+print(solution(secret))
