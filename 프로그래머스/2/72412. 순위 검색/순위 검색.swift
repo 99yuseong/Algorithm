@@ -1,73 +1,78 @@
 import Foundation
 
-// 언어 cpp java python
-// 직군 frontend backend
-// 경력 junior senior
-// 음식 chicken pizza
-// 점수 X점
+// 4가지 항목 - 반드시
 
-// 조건 분석 도구 - 다양한 문의
+// lang: cpp / java / python
+// pos: backend / frontend
+// year: junior / senior
+// food: chicken / pizza
+// score
 
-// " " 로 구분
-// "java backend junior pizza 150"
-// "java and backend and junior and pizza 100"
-// "cpp and - and senior and pizza 250"
+// 해당 조건을 만족하는 지원자 몇명?
 
-// info: 1~5만
-// query: 1~10만
+// -> 일부만 조건을 줄수도 있다.
 
-// score: 1~10만
+// info: [언어 직군 경력 푸드 점수]
+// query: []
+// -> [몇명, 몇명, ...]
+
+// [제한 조건]
+// info: 응시자 1~5만명, 점수 1~10만점
+// query: 질문 1~10만개, 구분 and
+    // - : 고려하지 않겠다.
+    // and와 space로 구분
 
 
-// 1. query를 돌면서 - info를 탐색
-// 10만 * 5만 * 5 => 불가능하다.
-// 무작정 탐색은 안됨
+// 1. 우선 q를 돌면서 info를 순회하는 것은 불가능 - 시간 초과
 
-// - 정렬된 상태라면? / 여러 조건이라 정렬은 힘듬
-// 숫자로 표현한다면? 
-
-// 3212 번호로 방을 나누고, 해당 방에서 높은 순 정렬 / lowerBound + 1이 몇명인지 확인 가능
-
-// 1. info 가공
-// 2. info 정렬
-// 3. query 가공
-// 3. query * lowerbound -> ans
+// 2-1. 모든 경우의 수 > Dict로 구성 / lang, pos, year, food를 key로 구성
+// 2-2. 5만명을 순회하면서 점수를 삽입
+// 2-3. 삽입된 점수 배열을 모두 정렬
+// 2-4. 10만 질문을 순회하면서 Dict에서 lowerbound를 찾음 > O(nlgn)
 
 func solution(_ info:[String], _ query:[String]) -> [Int] {
     
-    // 1. info 조합을 Hash로 저장
-    var Dict: [String: [Int]] = [:]
+    let lan = ["cpp", "java", "python", "-"]
+    let pos = ["backend", "frontend", "-"]
+    let year = ["junior", "senior", "-"]
+    let food = ["chicken", "pizza", "-"]
+    
+    var D: [String: [Int]] = [:]
+    for l in lan {
+        for p in pos {
+            for y in year {
+                for f in food {
+                    D["\(l)_\(p)_\(y)_\(f)", default: []] = []
+                }
+            }
+        }
+    }
     
     for i in info {
-        let parts = i.split(separator: " ")
-        let languages = [parts[0], "-"]
-        let works     = [parts[1], "-"]
-        let cares     = [parts[2], "-"]
-        let foods     = [parts[3], "-"]
-        let score     = Int(parts[4])!
+        let parts = i.split(separator: " ").map { String($0) }
+        let lan = parts[0]
+        let pos = parts[1]
+        let year = parts[2]
+        let food = parts[3]
+        let score = Int(parts[4])!
         
-        for language in languages {
-            for work in works {
-                for care in cares {
-                    for food in foods {
-                        let key = "\(language)\(work)\(care)\(food)"
-                        Dict[key, default: []].append(score)
+        for l in [lan, "-"] {
+            for p in [pos, "-"] {
+                for y in [year, "-"] {
+                    for f in [food, "-"] {
+                        let key = "\(l)_\(p)_\(y)_\(f)"                
+                        D[key]!.append(score)
                     }
                 }
             }
         }
     }
     
-    // 2. Hash를 모두 정렬
-    for (key, value) in Dict {
-        Dict[key] = value.sorted()
+    for (k, _) in D {
+        D[k]!.sort()
     }
     
-    // 3. Query 탐색
-    
-    var ans: [Int] = []
-    
-    func lowerBoundIdx(_ arr: [Int], _ score: Int) -> Int {
+    func higherScore(_ score: Int, _ arr: [Int]) -> Int {
         
         var st = 0
         var en = arr.count
@@ -76,26 +81,26 @@ func solution(_ info:[String], _ query:[String]) -> [Int] {
             let mid = (st + en) / 2
             
             if arr[mid] < score {
-                st = mid + 1
+                st = mid + 1    
             } else {
                 en = mid
             }
         }
         
-        return st
+        return arr.count - st
     }
     
+    var ans: [Int] = []
     for q in query {
-        let parts = q.split(separator: " ").filter { $0 != "and" }
-        let key = "\(parts[0])\(parts[1])\(parts[2])\(parts[3])"
+        let parts = q.split(separator: " ").map { String($0) }.filter { $0 != "and" }
+        let lan = parts[0]
+        let pos = parts[1]
+        let year = parts[2]
+        let food = parts[3]
         let score = Int(parts[4])!
+        let key = "\(lan)_\(pos)_\(year)_\(food)"
         
-        if let arr = Dict[key] {
-            let idx = lowerBoundIdx(arr, score)    
-            ans.append(arr.count - idx)
-        } else {
-            ans.append(0)
-        }
+        ans.append(higherScore(score, D[key]!))
     }
     
     return ans
