@@ -1,77 +1,69 @@
 import Foundation
 
-// 해독
+// 1 ~ n 서로 다른 정수 5개 오름차순
 
-// 서로 다른 자연수 오름차순 비밀코드
-// m번의 시도
-// 몇개가 비밀코드에 포함되어 있는지
+// m번의 해독 시도 가능
 
-// 3 5 7 9 10
-// 1 2 3 4 5
-// 응답 2
+// 몇 개가 비밀코드에 포함?
 
-// 정수 n: 10~30
-// 입력 q: count: 1~10
-// 응답 ans
+// intersection
 
-// return 가능한 조합 개수
+// 가능한 정수 조합 개수
 
-// m: 1~10
+// n과 같거나 작은 자연수
+// q의 질문에서
+// ans의 갯수 대답
 
-// 5가지 숫자를 10번
+// 가능한 정수 조합의 개수를 리턴하라
 
-// q를 돌면서
-    // selectedSet 포함된 것 카운트
-    // 포함되지 않은 것 중 ans - selectedSet.count를 선택
+// n: 10 ~ 30과 같거나 작은 수 5개
+// q: 1 ~ 10개의 질문
 
-func combi(_ arr: [Int], _ k: Int) -> [[Int]] {
-    
-    var allCases = [[Int]]()
-    var selected = [Int]()
-    
-    func dfs(_ a: Int, _ start: Int) {
-        
-        if a == k { 
-            allCases.append(selected)
-            return
-        }
-        
-        for i in start..<arr.count {
-            selected.append(arr[i])
-            dfs(a+1, i+1)
-            selected.removeLast()
-        }
-    }
-    dfs(0, 0)
-    
-    return allCases
-}
+// 비밀코드가 존재하지 않는 경우는 없다.
+
+// 5C2 = 10 or 5C3 = 10
+// 최대 경우의 수는 10 ^ 5 = 10만개
+
+// 보통은 경우의 수에서 제거하는 게 맞는 데.
+// 아니면은 30C5 = 14만개 경우의 수 > loop로 돌면서 체크 cnt ++
+
+// 1. 1~n까지 5개 선택 조합
+// 2. loop 돌면서 q확인 충분
 
 func solution(_ n:Int, _ q:[[Int]], _ ans:[Int]) -> Int {
     
-    let m = q.count
-    let allCombi = combi(Array(1...n), 5)
-    var allCases = 0
-    
-    out: for combi in allCombi {
-        
-        for i in 0..<m {
-            let curTry = Set(q[i])
-            var ans = ans[i]
-            
-            for item in combi { 
-                if curTry.contains(item) { 
-                    ans -= 1 
-                } 
-            }
-            
-            if ans != 0 {
-                continue out
-            }
+    var cnt = 0
+
+    out: for combi in combi(n) { // 14만 * 10개 * 5길이
+        for i in 0..<q.count {
+            if ans[i] == combi.filter { q[i].contains($0) }.count { continue }
+            continue out
         }
-        
-        allCases += 1
+        cnt += 1
     }
     
-    return allCases
+    return cnt
+}
+
+func combi(_ n: Int) -> [[Int]] {
+    
+    var result: [[Int]] = []
+    var cur: [Int] = []
+    
+    func select(_ k: Int, _ s: Int) {
+        
+        if k == 5 {
+            result.append(cur)
+            return
+        }
+        
+        for i in s..<n {
+            cur.append(i+1)
+            select(k+1, i+1)
+            cur.removeLast()
+        }
+    }
+    select(0, 0)
+    
+    return result
 }
