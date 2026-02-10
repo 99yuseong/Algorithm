@@ -37,7 +37,7 @@ func solution(_ files:[String]) -> [String] {
         var tail: [String] = []
         
         for i in 0..<file.count {
-            if let n = Int(String(f[i])), num.count < 5 {
+            if let n = Int(String(f[i])) {
                 num.append(f[i])
             
             } else if num.isEmpty {
