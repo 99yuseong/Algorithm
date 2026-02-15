@@ -69,7 +69,7 @@ func dijkstra(_ n: Int, _ s: Int, _ graph: [Int: [(v: Int, f: Int)]]) -> [Int] {
     while !pq.isEmpty {
         let cur = pq.heapPop()!
         
-        // if d[cur.v] < cur.f { continue }
+        if d[cur.v] < cur.f { continue }
         
         for e in graph[cur.v, default: []] {
             if d[cur.v] + e.f < d[e.v] {
