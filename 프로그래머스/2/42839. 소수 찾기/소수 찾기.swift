@@ -1,55 +1,65 @@
-// 종이조각 - 한 자리수
-// 소수
-
-// 1~7자리 수 -> 조합해서 소수를 만들어라
-// 0~9사이 숫자
-
-// 1. 순열을 만들어라
-    // String -> [Character]
-    // loop를 돌면서 2,3 실행
-// 2. 소수인지 판별해라
-// 3. 순열의 값이 소수인지 개수를 세라
-// 4. 개수 값을 리턴해라
-
-// [리턴] : 만들 수 있는 소수는 몇개인가
-
 import Foundation
+
+// 종이 조각으로 소수
+// 7자리 10장
+
+// 10 P 7 순열 -> 10 * 9 * 8 = 720개 경우의 수
 
 func solution(_ numbers:String) -> Int {
     
+    var nums: Set<Int> = []
     
-    let n = numbers.count
-    let arr = Array(numbers)
-    var visited = Array(repeating: false, count: n)
-    var primeSet = Set<Int>()
-    
-    func dfs(_ cur: String) {
-        if let num = Int(cur) {
-            if isPrime(num) {
-                primeSet.insert(num)
-            }
-        }
-        
-        for i in 0..<n {
-            if !visited[i] {
-                visited[i] = true
-                dfs(cur + String(arr[i]))
-                visited[i] = false
-            }
+    for i in 1...numbers.count { // 7
+        for num in permu(i, numbers) { // 10 * 9 * 8 * 7 * 6 * 5 * 4
+            nums.insert(num)
         }
     }
     
-    dfs("") 
+    print(nums)
     
-    return primeSet.count
+    return nums.filter { isPrime($0) }.count
 }
 
-func isPrime(_ n: Int) -> Bool {
+// 1. 경우의 수 뽑고,
+// 2. 소수 여부 확인
+
+func permu(_ n: Int, _ numbers: String) -> [Int] {
     
-    if n < 2 { return false }
-    if n < 4 { return true } 
-    for i in 2...Int(sqrt(Double(n))) {
-        if (n % i == 0) { return false }
+    let numbers = Array(numbers).map { String($0) }
+    var result: Set<Int> = []
+
+    var isUsed = [Bool](repeating: false, count: numbers.count)
+    var cur: [String] = []    
+    
+    func select(_ k: Int) {        
+        
+        if k == n {
+            result.insert(Int(cur.joined())!)
+            return
+        }
+        
+        for i in 0..<numbers.count {
+            if !isUsed[i] {
+                cur.append(numbers[i])
+                isUsed[i] = true
+                select(k+1)
+                isUsed[i] = false
+                cur.removeLast()
+            }
+        }
+    }
+    select(0)
+    
+    return Array(result)
+}
+
+func isPrime(_ num: Int) -> Bool {
+    
+    if num == 0 || num == 1 { return false }
+    if num == 2 || num == 3 { return true }
+    
+    for i in 2...Int(sqrt(Double(num))) {
+        if num % i == 0 { return false }
     }
     
     return true
