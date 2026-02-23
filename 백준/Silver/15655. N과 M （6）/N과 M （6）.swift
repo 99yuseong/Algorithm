@@ -1,22 +1,39 @@
-let input = readLine()!.split(separator: " ").map { Int($0)! }
-let N = input[0]
-let M = input[1]
-var arr = readLine()!.split(separator: " ").map { Int($0)! }.sorted()
-var ans = Array(repeating: 0, count: M)
+// N과 M이 주어졌을 때, 길이가 M인 수열을 모두 작성
 
-func box(_ k: Int) { // 현재까지 k개의 수를 택함
-    if k == M {
-        print(ans.map { String(arr[$0]) }.joined(separator: " "))
-        return
+func solution(_ arr: [Int], _ M: Int) -> [[Int]] {
+    // arr의 요소 중 M개를 고른 수열
+    // 출력은 사전에서 증가하는 순
+    // 고른 수열은 오름차순 & 조합
+    
+    func combi(_ arr: [Int], _ r: Int) -> [[Int]] {
+        let arr = arr.sorted()
+        var result: [[Int]] = []
+        var cur: [Int] = []
+        func select(_ k: Int, _ s: Int) {
+            if k == r {
+                result.append(cur)
+                return
+            }
+            for i in s..<arr.count {
+                cur.append(arr[i])
+                select(k+1, i+1)
+                cur.removeLast()
+            }
+        }
+        select(0, 0)
+        return result
     }
     
-    var start = 0
-    if k != 0 { start = ans[k-1] + 1 }
-    guard start < N else { return }
-    
-    for i in start..<N {
-        ans[k] = i
-        box(k+1)
-    }
+    return combi(arr, M)
 }
-box(0)
+
+let NM = readLine()!.split(separator: " ").map { Int(String($0))! }
+let N = NM[0]
+let M = NM[1]
+let A = readLine()!.split(separator: " ").map { Int(String($0))! }
+var ANS = ""
+for r in solution(A, M) {
+    ANS += r.map { String($0) }.joined(separator: " ")
+    ANS += "\n" 
+}
+print(ANS)
