@@ -1,53 +1,51 @@
-// n명의 입국심사
-
-// 대기 n명, 각 심사관별 t
-// 모든 사람이 심사하는 최소 시간
-
-// 무조건 들어가는게 아니라 더 빠른걸 기다릴 수도 있음
-// n: 1~10억
-// t: 1~10억분
-// t_cnt: 1~10만
-
-// O(NlgN)안쪽으로 -> 이분탐색
-
-// 1. 정렬하고
-
-// 남은시간 + times의 최솟값으로 돌아야하는데
-
-// 최소 시간 안에 다 검사를 받을 수 있나?
-// t시간
-    // 가장 작은 t의 가능 사람 ~ 가장 높은 t의 가능 사람 합산 > n인가?
-
-// 1. times 정렬
-// 2. st = 0, end = 100만 * 1000만
-
 import Foundation
+
+// n명이 대기
+
+// 각 심사 시간은 다르다.
+
+// 처음엔 비어있음
+// 한 번에 1명만 심사
+// 기다렸다가 갈 수도 있음
+
+// 최소로 시간을 하고 싶음 > 최솟값 문제
+
+// n: 1~10억명
+// t: 1~10억분
+// 심사는 1~10만명
+
+// 무조건 빈 곳으로 들어가지 않음 > 더 짧은 시간이 있으면 대기
+
+// 1. 무식하게 생각하면
+// t 시간동안 각각 쳐낼 수 있는 인원의 합이 n에 도달하는 가장 적은 t
+
+// 근데 for문으로 1 ~ 10억 찾으면 불가능
+    // 각 심사자가 t 시간동안 받을 수 있는 인원 연산 > O(10만)
+    // t를 이분 탐색으로 찾으면?
+        // O(10만 * log 10억)
 
 func solution(_ n:Int, _ times:[Int]) -> Int64 {
     
-    // 1. 정렬 - O(NlgN)
-    let times = times.sorted()
+    func canPass(for t: Int) -> Int {
+        var passed = 0
+        for time in times {
+            passed += t / time
+        }
+        return passed
+    }   
     
-    // 2. 이분 탐색 - O(lgN)
     var st = 0
-    var en = Int.max
+    var en = 1_000_000_000 * 1_000_000_000
     
     while st < en {
         
-        let t = (st + en) / 2
+        let mid = (st + en) / 2
         
-        var passed = 0
+        if canPass(for: mid) < n {
+            st = mid + 1
         
-        for time in times {
-            if passed >= n { break }
-            passed += t / time
-        }
-        
-        // 충분한 시간
-        if passed >= n {
-            en = t
         } else {
-            st = t + 1
+            en = mid
         }
     }
     
