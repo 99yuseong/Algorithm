@@ -1,0 +1,18 @@
+-- 코드를 입력하세요
+
+# 보드: 게시글 ID, 작성자 ID, 게시글 제목, 게시글 내용, 가격, 작성일, 거래상태, 조회수
+# 댓글: 댓글 ID, 게시글 ID, 작성자 ID, 댓글 내용, 작성일
+
+SELECT 
+    A.TITLE,
+    A.BOARD_ID,
+    B.REPLY_ID,
+    B.WRITER_ID,
+    B.CONTENTS,
+    DATE_FORMAT(B.CREATED_DATE, '%Y-%m-%d') AS CREATED_DATE
+FROM USED_GOODS_BOARD A
+JOIN USED_GOODS_REPLY B
+ON A.BOARD_ID = B.BOARD_ID
+WHERE 
+    A.CREATED_DATE >= '2022-10-01' AND A.CREATED_DATE < '2022-11-01'
+ORDER BY B.CREATED_DATE, A.TITLE
