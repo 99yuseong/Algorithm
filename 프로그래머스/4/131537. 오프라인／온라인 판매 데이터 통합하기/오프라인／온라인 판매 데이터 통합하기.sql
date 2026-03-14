@@ -1,0 +1,27 @@
+-- 코드를 입력하세요
+
+# 22년 3월
+# 오프라인&온라인
+# 오프라인 > USER_ID > NULL
+# 오프라인 > 판매 종합이랑 온라인 판매 종합을 하나의 테이블로
+
+# 판매일 오름차순, 상품ID 오름차순, 유저ID 오름차순
+SELECT 
+    DATE_FORMAT(SALES_DATE, '%Y-%m-%d') AS SALES_DATE, 
+    PRODUCT_ID, 
+    USER_ID, 
+    SALES_AMOUNT
+FROM ONLINE_SALE
+WHERE SALES_DATE >= '2022-03-01' AND SALES_DATE < '2022-04-01'
+
+UNION
+
+SELECT 
+    DATE_FORMAT(SALES_DATE, '%Y-%m-%d') AS SALES_DATE, 
+    PRODUCT_ID, 
+    NULL AS USER_ID, 
+    SALES_AMOUNT
+FROM OFFLINE_SALE
+WHERE SALES_DATE >= '2022-03-01' AND SALES_DATE < '2022-04-01'
+
+ORDER BY SALES_DATE, PRODUCT_ID, USER_ID
