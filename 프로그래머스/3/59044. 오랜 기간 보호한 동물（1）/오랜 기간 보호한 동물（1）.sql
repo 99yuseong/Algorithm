@@ -1,0 +1,16 @@
+# 보호소 동물 정보
+# 입양 정보
+
+# 아직 입양을 못 간 동물
+# 보호소 가장 오래 3마리
+# 시작일
+
+SELECT 
+    I.NAME,
+    I.DATETIME
+FROM ANIMAL_INS I
+LEFT JOIN ANIMAL_OUTS O 
+ON I.ANIMAL_ID = O.ANIMAL_ID
+WHERE O.DATETIME IS NULL
+ORDER BY I.DATETIME
+LIMIT 3
