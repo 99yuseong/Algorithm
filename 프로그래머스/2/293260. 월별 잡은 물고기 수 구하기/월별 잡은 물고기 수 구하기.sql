@@ -1,0 +1,9 @@
+# 물고기 정보
+# 월별 잡은 물고기 > 월별로 Group
+
+SELECT 
+    COUNT(*) AS FISH_COUNT,
+    MONTH(TIME) AS MONTH
+FROM FISH_INFO
+GROUP BY MONTH(TIME)
+ORDER BY MONTH
