@@ -1,0 +1,13 @@
+# 업그레이드. Parent와 Root의 개념
+
+# ROOT 아이템을 찾아라. > NULL인경우를 찾아라
+
+SELECT
+    A.ITEM_ID,
+    A.ITEM_NAME
+FROM ITEM_INFO A
+JOIN ITEM_TREE B
+ON A.ITEM_ID = B.ITEM_ID
+WHERE B.PARENT_ITEM_ID IS NULL
+ORDER BY A.ITEM_ID
+
