@@ -1,44 +1,48 @@
-# 주어진 항공권 다 사용해서 여행경로
-# ICN에서 시작
+# 항공권을 모두 사용한 여행 경로
+# ICN에서 출발
+# route를 담아라
 
-# 항공권 > 티켓은 중복 가능?
-# 공항은 최대 1만개
-# a > b가 있다.
-# 모두 사용해라.
-# 경로가 2개 이상일 경우엔 알파벳 순 정렬
-# 가능한 케이스만 주어진다.
+# E가 1만개 주어진다 > E를 다써라?
 
-# K개의 티켓을 모두 소모
-# N개의 공항에 모두 방문
-# DFS로 K번의 여행 > 최종에 공항 CNT
-# 인덱스 X > key 기반 graph { 'from': ('to', cnt) }
-# 공항은 set으로 n 카운트
+# 무조건 앞선 경로를 가야한다가 아님
+# 갈 수 있는 route를 다 만들고, 알파벳순 정렬된거 기준으로 가장 빠른 것
+
+# graph 만들고 k개의 루트 생성
 
 def solution(tickets):
     
     n = len(tickets)
-    answer = []
-    finished = False
     
-    tickets.sort(key= lambda x: x[1])
-    used = [False] * n
+    airports = set()
+    graph = {}
+    for ticket in tickets:
+        graph.setdefault(ticket[0], []).append(ticket[1])
+        airports.add(ticket[0])
+        airports.add(ticket[1])
     
-    def dfs(route):
-        nonlocal answer, finished, used
-        if finished:
+    routes = []
+    cur = ["ICN"]
+    used = set()
+    
+    def dfs(k):
+        nonlocal cur, routes
+        
+        if k == n:
+            if len(airports) == len(set(cur)):
+                routes.append(cur[:])
             return
         
-        if len(route) == n+1:
-            answer = route
-            finished = True
-            return
-        
-        last = route[-1]
-        for i in range(n):
-            if used[i] is False and tickets[i][0] == last:
-                used[i] = True
-                dfs(route + [tickets[i][1]])
-                used[i] = False 
-                
-    dfs(["ICN"])
-    return answer
+        for v in graph.get(cur[-1], []):
+            t = (cur[-1], v)
+            if (cur[-1], v) not in used:
+                used.add(t)
+                cur.append(v)
+                dfs(k+1)
+                cur.pop()
+                used.discard(t)
+            
+    dfs(0)
+    
+    routes.sort()
+    
+    return routes[0]
