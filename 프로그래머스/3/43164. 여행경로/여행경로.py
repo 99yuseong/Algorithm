@@ -1,48 +1,32 @@
-# 항공권을 모두 사용한 여행 경로
-# ICN에서 출발
-# route를 담아라
+# 모든 티켓을 다써서 여행 경로, 불가능한 경우는 주어지지 않는다. = 타캣을 다 쓰면 다 도착한다는 개념
+# ICN에서 출발해서 티켓을 다쓰는 경로 중 알파벳 순서가 앞서는 경우가 무엇인가.
 
-# E가 1만개 주어진다 > E를 다써라?
+# 최대 경로는 10000개 티켓
 
-# 무조건 앞선 경로를 가야한다가 아님
-# 갈 수 있는 route를 다 만들고, 알파벳순 정렬된거 기준으로 가장 빠른 것
-
-# graph 만들고 k개의 루트 생성
+# 그리디로 정렬하고
+# dfs로 가장 먼저 도착하는 경우를 return
 
 def solution(tickets):
     
+    # 도착 경로를 알파벳 순으로 정렬
+    tickets.sort(key=lambda x: x[1])
+    
     n = len(tickets)
+    used = [False] * n
     
-    airports = set()
-    graph = {}
-    for ticket in tickets:
-        graph.setdefault(ticket[0], []).append(ticket[1])
-        airports.add(ticket[0])
-        airports.add(ticket[1])
-    
-    routes = []
-    cur = ["ICN"]
-    used = set()
-    
-    def dfs(k):
-        nonlocal cur, routes
+    def dfs(route):
+        nonlocal used
         
-        if k == n:
-            if len(airports) == len(set(cur)):
-                routes.append(cur[:])
-            return
+        if len(route) == n+1:
+            return route
         
-        for v in graph.get(cur[-1], []):
-            t = (cur[-1], v)
-            if (cur[-1], v) not in used:
-                used.add(t)
-                cur.append(v)
-                dfs(k+1)
-                cur.pop()
-                used.discard(t)
-            
-    dfs(0)
+        for i in range(n):
+            if used[i] is False and tickets[i][0] == route[-1]:
+                used[i] = True
+                rt = dfs(route + [tickets[i][1]])
+                used[i] = False
+                
+                if rt:
+                    return rt
     
-    routes.sort()
-    
-    return routes[0]
+    return dfs(["ICN"])
