@@ -1,0 +1,25 @@
+# 환자
+# 의사
+# 진료목록 - PT_NO, MCDP_CD, MDDR_ID
+
+
+# 2022년 4월 13일
+# 취소되지 않은
+# CS
+# 예약일시 오름차순
+
+SELECT
+    A.APNT_NO,
+    B.PT_NAME,
+    A.PT_NO,
+    A.MCDP_CD,
+    C.DR_NAME,
+    A.APNT_YMD
+FROM APPOINTMENT A
+JOIN PATIENT B ON A.PT_NO = B.PT_NO
+JOIN DOCTOR C ON A.MDDR_ID = C.DR_ID
+WHERE 
+    A.APNT_YMD >= '2022-04-13' AND A.APNT_YMD < '2022-04-14'
+    AND A.APNT_CNCL_YN = 'N' 
+    AND A.MCDP_CD = 'CS'
+ORDER BY A.APNT_YMD
