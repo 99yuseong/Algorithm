@@ -1,0 +1,14 @@
+# 잡은 물고기 정보
+# 10이하는 length null
+
+# 물고거 이름
+
+# BASS와 SNAPPER > 수
+# WHERE로 필터링
+
+SELECT
+    COUNT(*) AS FISH_COUNT
+FROM FISH_INFO A
+JOIN FISH_NAME_INFO B
+ON A.FISH_TYPE = B.FISH_TYPE
+WHERE B.FISH_NAME = 'BASS' OR B.FISH_NAME = 'SNAPPER'
