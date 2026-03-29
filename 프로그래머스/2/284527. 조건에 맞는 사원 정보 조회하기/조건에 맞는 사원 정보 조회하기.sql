@@ -1,0 +1,19 @@
+# 회사 부서
+# 회사 사원
+# 사원 평가
+
+# 2022년 평가 점수가 가장 높은 사원 
+
+SELECT
+    SUM(C.SCORE) AS SCORE,
+    B.EMP_NO,
+    B.EMP_NAME,
+    B.POSITION,
+    B.EMAIL
+FROM HR_EMPLOYEES B
+JOIN HR_GRADE C
+ON B.EMP_NO = C.EMP_NO
+WHERE C.YEAR = 2022
+GROUP BY C.EMP_NO
+ORDER BY SCORE DESC
+LIMIT 1
