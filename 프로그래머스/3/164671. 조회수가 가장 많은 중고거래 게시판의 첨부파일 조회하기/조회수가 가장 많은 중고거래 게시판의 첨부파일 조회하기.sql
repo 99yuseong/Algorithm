@@ -1,0 +1,17 @@
+# 중고거래 게시판
+# 첨부파일 정보
+# BOARD_ID로 연결
+
+# 조회수가 가장 높은 중고거래 게시물 > 파일경로
+
+SELECT
+    CONCAT('/home/grep/src/', B.BOARD_ID, '/', B.FILE_ID, B.FILE_NAME, B.FILE_EXT) AS FILE_PATH
+FROM USED_GOODS_FILE B
+JOIN (
+    SELECT BOARD_ID, VIEWS
+    FROM USED_GOODS_BOARD
+    ORDER BY VIEWS DESC
+    LIMIT 1    
+) A
+ON B.BOARD_ID = A.BOARD_ID
+ORDER BY B.FILE_ID DESC
