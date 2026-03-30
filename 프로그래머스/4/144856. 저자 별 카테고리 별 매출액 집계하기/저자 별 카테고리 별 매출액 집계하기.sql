@@ -1,0 +1,26 @@
+# 도서정보
+# 저자정보
+# 판매량 정보
+
+# 2022년 1월 판매 데이터
+# 저자별, 카테고리별 매출액 > 저자 & 카테고리로 Group
+
+SELECT
+    C.AUTHOR_ID,
+    D.AUTHOR_NAME,
+    C.CATEGORY,
+    C.TOTAL_SALES
+FROM (
+    SELECT
+        A.AUTHOR_ID,
+        A.CATEGORY,
+        SUM(B.SALES * A.PRICE) AS TOTAL_SALES
+    FROM BOOK A
+    JOIN BOOK_SALES B
+    ON A.BOOK_ID = B.BOOK_ID
+    WHERE B.SALES_DATE >= '2022-01-01' AND B.SALES_DATE < '2022-02-01'
+    GROUP BY A.AUTHOR_ID, A.CATEGORY
+) C
+JOIN AUTHOR D
+ON C.AUTHOR_ID = D.AUTHOR_ID
+ORDER BY C.AUTHOR_ID, C.CATEGORY DESC
