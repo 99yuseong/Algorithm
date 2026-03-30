@@ -1,0 +1,10 @@
+# 물고기 정보
+
+# 가장 큰 물고기 10마리 > limit
+
+SELECT
+    ID,
+    LENGTH
+FROM FISH_INFO
+ORDER BY IFNULL(LENGTH, 0) DESC, ID
+LIMIT 10
