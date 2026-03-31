@@ -15,15 +15,15 @@ def solution(operations):
     max_heap = []
     removed_set = set()
     
-    id = 1
+    item_id = 1
     for op in operations:
         cmd, num = op.split()
         num = int(num)
         
         if cmd == 'I': # 큐에 추가
-            heapq.heappush(min_heap, (num, id))
-            heapq.heappush(max_heap, (-num, id))
-            id += 1
+            heapq.heappush(min_heap, (num, item_id))
+            heapq.heappush(max_heap, (-num, item_id))
+            item_id += 1
         
         elif num == 1: # 최댓값 삭제
             while max_heap and max_heap[0][1] in removed_set:
