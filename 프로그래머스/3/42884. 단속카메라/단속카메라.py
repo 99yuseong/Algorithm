@@ -1,27 +1,27 @@
-# 정렬 > 끝나는 시간이 빠른 순
+# 모든 차량 > 적어도 1번 카메라를 만나도록
+# 최소 몇대의 카메라를 설치?
 
-# 빨리 끝나는 것 종료 시 > 범위 안에 있는 빠르게 시작한 애들 제거
+# n: 1~1만
+# [시작, 끝]
+# -3만 ~ 3만
+
+# 차들의 주행 거리 > 
+
+# routes를 끝나는 지점이 빠른 순, 시작지점이 빠른 순으로 정렬하고
+# route가 끝나는 지점에 설치
+    # while 만약 해당 위치가 시작 <= 위치 <= 끝이라면 해당 route도 제거
 
 def solution(routes):
     
-    n = len(routes)
-    arr_finish = sorted(routes, key=lambda x: x[1])
-    arr_start = sorted(routes, key=lambda x: -x[0])
+    cams = []
     
-    finish = set()
-    cnt = 0
+    routes.sort(key=lambda x: -x[1])
     
-    for i in range(n):
-        s, e = arr_finish[i]
+    while len(routes) > 0:
+        s, e = routes.pop()
+        cams.append(e)
         
-        if (s, e) in finish: 
-            continue
-        
-        finish.add((s, e))
-        
-        while arr_start and arr_start[-1][0] <= e and arr_start[-1][1] >= s:
-            route = arr_start.pop()
-            finish.add((route[0], route[1]))
-        cnt += 1
+        while routes and routes[-1][0] <= e <= routes[-1][1]:
+            routes.pop()
     
-    return cnt
+    return len(cams)
