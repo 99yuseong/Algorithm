@@ -1,0 +1,39 @@
+# RARE 단계의 업그레이드 무기 정보 나열하기
+# 1. RARE 단계의 업그레이드 대상 찾기
+# 2. 해당 무기와 일치하는 정보 나열하기
+
+
+# SELECT 
+#     C.UPGRADE_ID,
+#     D.ITEM_NAME,
+#     D.RARITY
+# FROM (
+#     SELECT 
+#         A.PARENT_ITEM_ID AS ITEM_ID,
+#         A.ITEM_ID AS UPGRADE_ID
+#     FROM ITEM_TREE A
+#     LEFT JOIN ITEM_INFO B
+#     ON A.ITEM_ID = B.ITEM_ID
+#     WHERE B.RARITY = 'RARE'
+# ) C
+# JOIN ITEM_INFO D
+# ON C.UPGRADE_ID = D.ITEM_ID
+# ORDER BY C.UPGRADE_ID
+
+SELECT 
+    C.UPGRADE_ID AS ITEM_ID,
+    D.ITEM_NAME,
+    D.RARITY
+FROM (
+    SELECT 
+        A.PARENT_ITEM_ID AS ITEM_ID,
+        A.ITEM_ID AS UPGRADE_ID
+    FROM ITEM_TREE A
+    JOIN ITEM_INFO B
+        ON A.PARENT_ITEM_ID = B.ITEM_ID
+    WHERE B.RARITY = 'RARE'
+) C
+JOIN ITEM_INFO D
+    ON C.UPGRADE_ID = D.ITEM_ID
+ORDER BY C.UPGRADE_ID DESC;
+
