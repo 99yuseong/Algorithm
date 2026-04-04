@@ -16,33 +16,29 @@
 
 def solution(N, A):
     
-    D = [[0] * N for _ in range(N)]
-    
-    is_always_false = False
+    needed = [[True] * N for _ in range(N)]
     
     for k in range(N):
         for i in range(N):
             for j in range(N):
-                if is_always_false: break
+
                 if i == j: continue
                 if i == k: continue
                 if j == k: continue
                     
                 if A[i][j] == A[i][k] + A[k][j]:
-                    D[i][j] = 1
+                    needed[i][j] = False
+                
                 elif A[i][j] > A[i][k] + A[k][j]:
-                    is_always_false = True
+                    return -1
     
-    if is_always_false:
-        return -1
-    
-    sum_t = 0
+    answer = 0
     for i in range(N):
         for j in range(N):
-            if D[i][j] == 0:
-                sum_t += A[i][j]
+            if needed[i][j]:
+                answer += A[i][j]
     
-    return sum_t // 2
+    return answer // 2
 
 def main():
     N = int(input())
