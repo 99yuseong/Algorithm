@@ -1,0 +1,29 @@
+WITH FRONT AS (
+    SELECT SUM(CODE) AS CODE
+    FROM SKILLCODES
+    WHERE CATEGORY = 'Front End'
+),
+DEV AS (
+    SELECT
+        D.ID,
+        D.EMAIL,
+        D.FIRST_NAME,
+        D.LAST_NAME,
+        CASE
+            WHEN (D.SKILL_CODE & F.CODE) != 0 AND (D.SKILL_CODE & (SELECT CODE FROM SKILLCODES WHERE NAME = 'Python')) != 0
+                THEN 'A'
+            WHEN (D.SKILL_CODE & (SELECT CODE FROM SKILLCODES WHERE NAME = 'C#')) != 0
+                THEN 'B'
+            WHEN (D.SKILL_CODE & F.CODE) != 0
+                THEN 'C'
+        END AS GRADE
+    FROM DEVELOPERS D
+    CROSS JOIN FRONT F
+)
+SELECT
+    GRADE,
+    ID,
+    EMAIL
+FROM DEV
+WHERE GRADE IS NOT NULL
+ORDER BY GRADE, ID;
