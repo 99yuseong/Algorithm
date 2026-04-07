@@ -42,12 +42,13 @@ def solution(N, A):
             # t초에 불이 켜진다.
             # 출발시간 = cost[cur]
             
-            wait = (t - cur_t % MOD + MOD) % MOD
-            new_t = cur_t + wait + 1
+            # 신호 > 현재인 경우
+            # 현재 > 신호인 경우
+            wait = t - cur_t % MOD if t >= cur_t % MOD else (t + MOD - (cur_t % MOD))
             
-            if new_t < time[v]:
-                time[v] = new_t
-                heapq.heappush(p_queue, (new_t, v))
+            if time[cur] + 1 + wait < time[v]:
+                time[v] = time[cur] + 1 + wait
+                heapq.heappush(p_queue, (time[v], v))
                 
     return -1
 
