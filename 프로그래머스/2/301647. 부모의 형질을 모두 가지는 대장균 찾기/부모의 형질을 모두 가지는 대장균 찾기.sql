@@ -1,0 +1,13 @@
+# 대장균의 분화
+
+# 부모의 형징르 모두 보유한
+
+SELECT
+    A.ID,
+    A.GENOTYPE,
+    B.GENOTYPE AS PARENT_GENOTYPE
+FROM ECOLI_DATA A
+LEFT JOIN ECOLI_DATA B
+ON A.PARENT_ID = B.ID
+WHERE (A.GENOTYPE & B.GENOTYPE) = B.GENOTYPE
+ORDER BY A.ID
