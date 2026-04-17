@@ -2,35 +2,46 @@ import sys
 input = sys.stdin.readline
 write = sys.stdout.write
 
-def solution():
-    M = int(input())
-    t = 0
-
+def solution(M):
+    
+    answer = ""
+    mask_s = 0
+    
+    # 300백만개의 연산
     for _ in range(M):
         cmd = input().split()
-        op = cmd[0]
-
-        if op == "add":
+        
+        if cmd[0] == 'add':
             x = int(cmd[1])
-            t |= (1 << x)
+            mask_s |= (1 << x)
 
-        elif op == "remove":
+        elif cmd[0] == 'remove':
             x = int(cmd[1])
-            t &= ~(1 << x)
-
-        elif op == "check":
+            mask_s &= ~(1 << x)
+        
+        elif cmd[0] == 'check':
             x = int(cmd[1])
-            write("1\n" if (t & (1 << x)) else "0\n")
+            if mask_s & (1 << x):
+                write("1\n")
+            else:
+                write("0\n")
 
-        elif op == "toggle":
+        elif cmd[0] == 'toggle':
             x = int(cmd[1])
-            t ^= (1 << x)
+            mask_s ^= (1 << x)
+        
+        elif cmd[0] == 'all':
+            mask_s = (1 << 21) - 2
+        
+        elif cmd[0] == 'empty':
+            mask_s = 0
+    
+    print(answer)
+    
 
-        elif op == "all":
-            t = (1 << 21) - 2
-
-        elif op == "empty":
-            t = 0
-
-if __name__ == '__main__':
-    solution()
+def main():
+    M = int(input())
+    solution(M)
+        
+if __name__ == "__main__":
+    main()
