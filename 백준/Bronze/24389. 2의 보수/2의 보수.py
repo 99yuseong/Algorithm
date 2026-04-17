@@ -1,9 +1,12 @@
-# 뺄셈 > 2의 보수
-# 비트 반전 + 1
+# 2의 보수
+# 모든 비트를 반전 + 1
+
+# N: 1~10억
 
 def solution(N):
-    twos = (~N + 1) & ((1 << 32) - 1)
-    return bin((N ^ twos) & ((1 << 32) - 1)).count('1')
+    N_tc = ((~N) + 1) & ((1 << 32) - 1)
+    return bin(N ^ N_tc).count('1')
+    
 
 def main():
     N = int(input())
