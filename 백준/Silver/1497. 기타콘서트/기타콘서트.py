@@ -18,51 +18,57 @@
 # 기타 이름 불필요 > 인덱스로 구분
 # 50개 곡 * 10개 기타 > 500개 확인을 10번 > 5000회
 
-# 1. INFO: > [0, 1]로 가공 - N * M
-# 2. 
+# 풀이 1. Combination 활용
+# 1. INFO -> [0, 1]로 가공 - O(500)
+# 2. 1~k개를 선택할지 결정 - O(N * NCK * M)
+    # combination으로 nCk 결정
+        # nCk를 돌면서 M개의 연주 가능을 결정
+    # 연주할 수 있는 곡수로 값을 갱신
+
+# 풀이 2. 비트마스킹 사용
+# 1. INFO -> int로 가공 - O(10)
+# 2. 기타를 선택 조합 모든 경우 range(1 << N) O(2^N)
+    #
 
 # combination > nCk
 
-
 from itertools import combinations
 
-def solution(INFO):
+def solution(GUITAR_INFO):
     
-    N = len(INFO)
-    M = len(INFO[0][1])
+    N = len(GUITAR_INFO)
+    M = len(GUITAR_INFO[0][1])
     
     max_songs = 0
     min_guitars = N
     
+    # O(500)
     I = []
-    for info in INFO:
-        play = []
-        for p in info[1]:
-            play.append(1 if p == "Y" else 0)
-        I.append(play)
+    
+    for guitar, play in GUITAR_INFO:
+        mask = 0
+        for i in range(M):
+            if play[i] == "Y":
+                mask |= (1 << i)
+        I.append(mask)
         
-    # 1 ~ 10개 기타 선택
-    for num_guitars in range(1, N+1):
+    for play_mask in range(1 << N): # 0~N번째 기타 선택여부에 대해서 - O(2^N)
         
-        # NCk로 기타 조합 선택
-        for combi in combinations([x for x in range(0, N)], num_guitars):
-
-            songs = [0] * M
-            
-            for guitar in combi:
-                for j in range(M):
-                    if songs[j] == 0 and I[guitar][j] == 1:
-                         songs[j] = 1
-
-            play_songs = sum(songs)
-            
-            # 현재 기타 조합 combi, 
-            # 연주할 수 있는 곡 수 play_songs
-            if play_songs > max_songs:
-                min_guitars = num_guitars
-                max_songs = play_songs
-            elif play_songs == max_songs and num_guitars < min_guitars:
-                min_guitars = num_guitars
+        song_mask = 0
+        
+        for i in range(N): # O(N)
+            if play_mask & (1 << i):
+                song_mask |= I[i] # i번째 기타가 연주할 수 있는 노래 추가
+        
+        # play_songs = bin(song_mask).bit_count()
+        num_guitars = bin(play_mask).count('1')
+        play_songs = bin(song_mask).count('1')
+        
+        if play_songs > max_songs:
+            max_songs = play_songs
+            min_guitars = num_guitars
+        elif play_songs == max_songs and num_guitars < min_guitars:
+            min_guitars = num_guitars
             
     return min_guitars if max_songs != 0 else -1
 
