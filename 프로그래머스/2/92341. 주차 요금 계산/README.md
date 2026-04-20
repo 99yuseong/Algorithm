@@ -1,10 +1,10 @@
 # [level 2] 주차 요금 계산 - 92341 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/92341) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/92341?language=python3) 
 
 ### 성능 요약
 
-메모리: 16.8 MB, 시간: 8.51 ms
+메모리: 9.65 MB, 시간: 3.52 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 03월 18일 14:17:16
+2026년 04월 20일 16:17:47
 
 ### 문제 설명
 
@@ -27,7 +27,7 @@
 <ul>
 <li><strong>요금표</strong></li>
 </ul>
-<table class="table xt-translated">
+<table class="table">
         <thead><tr>
 <th>기본 시간(분)</th>
 <th>기본 요금(원)</th>
@@ -42,11 +42,8 @@
 <td>600</td>
 </tr>
 </tbody>
-      <xt-dual class="xt-dual block" xt-origin="기본 시간(분)	기본 요금(원)	단위 시간(분)	단위 요금(원)
-180	5000	10	600" style="opacity: 0.8; font-size: 16px;" xt-translation="기본 시간(분)	기본 요금(원)	단위 시간(분)	단위 요금(원)
-180	5000	10	600"><xt-br></xt-br><xt-content style="opacity: 0.8;">기본 시간(분)	기본 요금(원)	단위 시간(분)	단위 요금(원)
-180	5000	10	600</xt-content></xt-dual></table>
-<p class="">&nbsp;</p>
+      </table>
+<p>&nbsp;</p>
 
 <ul>
 <li><strong>입/출차 기록</strong></li>
@@ -138,13 +135,10 @@
 <li>어떤 차량이 입차된 후에 출차된 내역이 없다면, 23:59에 출차된 것으로 간주합니다.
 
 <ul>
-<li class=""><code>0000</code>번 차량은 18:59에 입차된 이후, 출차된 내역이 없습니다. 따라서, 23:59에 출차된 것으로 간주합니다.</li>
+<li><code>0000</code>번 차량은 18:59에 입차된 이후, 출차된 내역이 없습니다. 따라서, 23:59에 출차된 것으로 간주합니다.</li>
 </ul></li>
 <li>00:00부터 23:59까지의 입/출차 내역을 바탕으로 차량별 누적 주차 시간을 계산하여 요금을 일괄로 정산합니다. </li>
-<li class="xt-translated">누적 주차 시간이 <code>기본 시간</code>이하라면, <code>기본 요금</code>을 청구합니다.<br><xt-dual class="xt-dual block" xt-origin="누적 주차 시간이 기본 시간이하라면, 기본 요금을 청구합니다.
-" style="opacity: 0.8; font-size: 16px;" xt-translation="누적 주차 시간이 기본 시간이하라면, 기본 요금을 청구합니다.
-"><xt-br></xt-br><xt-content style="opacity: 0.8;">누적 주차 시간이 기본 시간이하라면, 기본 요금을 청구합니다.
-</xt-content></xt-dual></li>
+<li>누적 주차 시간이 <code>기본 시간</code>이하라면, <code>기본 요금</code>을 청구합니다.<br></li>
 <li>누적 주차 시간이 <code>기본 시간</code>을 초과하면, <code>기본 요금</code>에 더해서, 초과한 시간에 대해서 <code>단위 시간</code> 마다 <code>단위 요금</code>을 청구합니다.
 
 <ul>
@@ -181,7 +175,7 @@
 <li><code>HH:MM</code>은 00:00부터 23:59까지 주어집니다.</li>
 <li>잘못된 시각("25:22", "09:65" 등)은 입력으로 주어지지 않습니다.</li>
 </ul></li>
-<li class=""><code>차량번호</code>는 자동차를 구분하기 위한, `0'~'9'로 구성된 길이 4인 문자열입니다.<br></li>
+<li><code>차량번호</code>는 자동차를 구분하기 위한, `0'~'9'로 구성된 길이 4인 문자열입니다.<br></li>
 <li><code>내역</code>은 길이 2 또는 3인 문자열로, <code>IN</code> 또는 <code>OUT</code>입니다. <code>IN</code>은 입차를, <code>OUT</code>은 출차를 의미합니다. </li>
 <li><code>records</code>의 원소들은 시각을 기준으로 오름차순으로 정렬되어 주어집니다.</li>
 <li><code>records</code>는 하루 동안의 입/출차된 기록만 담고 있으며, 입차된 차량이 다음날 출차되는 경우는 입력으로 주어지지 않습니다.</li>
@@ -199,7 +193,7 @@
 <hr>
 
 <h5>입출력 예</h5>
-<table class="table xt-translated">
+<table class="table">
         <thead><tr>
 <th>fees</th>
 <th>records</th>
@@ -222,16 +216,7 @@
 <td>[14841]</td>
 </tr>
 </tbody>
-      <xt-dual class="xt-dual block" xt-origin="fees	records	result
-[180, 5000, 10, 600]	[&quot;05:34 5961 IN&quot;, &quot;06:00 0000 IN&quot;, &quot;06:34 0000 OUT&quot;, &quot;07:59 5961 OUT&quot;, &quot;07:59 0148 IN&quot;, &quot;18:59 0000 IN&quot;, &quot;19:09 0148 OUT&quot;, &quot;22:59 5961 IN&quot;, &quot;23:00 5961 OUT&quot;]	[14600, 34400, 5000]
-[120, 0, 60, 591]	[&quot;16:00 3961 IN&quot;,&quot;16:00 0202 IN&quot;,&quot;18:00 3961 OUT&quot;,&quot;18:00 0202 OUT&quot;,&quot;23:58 3961 IN&quot;]	[0, 591]
-[1, 461, 1, 10]	[&quot;00:00 1234 IN&quot;]	[14841]" style="opacity: 0.8; font-size: 16px;" xt-translation="수수료 기록 결과
-[180, 5000, 10, 600]	[&quot;05:34 5961 입력&quot;, &quot;06:00 0000 입력&quot;, &quot;06:34 0000 출력&quot;, &quot;07:59 5961 출력&quot;, &quot;07:59 0148 입력&quot;, &quot;18:59 0000 입력&quot;, &quot;19:09 0148 출력&quot;, &quot;22:59 5961 입력&quot;, &quot;23:00 5961 출력&quot;]	[14600, 34400, 5000]
-[120, 0, 60, 591]	[&quot;16:00 3961 입력&quot;,&quot;16:00 0202 입력&quot;,&quot;18:00 3961 출력&quot;,&quot;18:00 0202 출력&quot;,&quot;23:58 3961 입력&quot;]	[0, 591]
-[1, 461, 1, 10]	[&quot;00:00 1234 IN&quot;]	[14841]"><xt-br></xt-br><xt-content style="opacity: 0.8;">수수료 기록 결과
-[180, 5000, 10, 600]	["05:34 5961 입력", "06:00 0000 입력", "06:34 0000 출력", "07:59 5961 출력", "07:59 0148 입력", "18:59 0000 입력", "19:09 0148 출력", "22:59 5961 입력", "23:00 5961 출력"]	[14600, 34400, 5000]
-[120, 0, 60, 591]	["16:00 3961 입력","16:00 0202 입력","18:00 3961 출력","18:00 0202 출력","23:58 3961 입력"]	[0, 591]
-[1, 461, 1, 10]	["00:00 1234 IN"]	[14841]</xt-content></xt-dual></table>
+      </table>
 <hr>
 
 <h5>입출력 예 설명</h5>
