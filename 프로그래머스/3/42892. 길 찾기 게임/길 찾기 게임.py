@@ -15,8 +15,8 @@
 # 링크드리스트 > 가능
 # 딕셔너리 > edge가 주어진게 아니라 어려움
 
-import sys
-sys.setrecursionlimit(10**6)
+# import sys
+# sys.setrecursionlimit(10**6)
 
 def postorder(root):
     result = []
@@ -40,6 +40,44 @@ def preorder(root):
     dfs(root)
     return result
 
+def postorder_stack(root):
+    
+    if root is None:
+        return []
+    
+    stack = [root]
+    result = []
+    
+    while stack:
+        node = stack.pop()
+        result.append(node.i)
+        
+        if node.left:
+            stack.append(node.left)
+        if node.right:
+            stack.append(node.right)
+    
+    return result[::-1]
+
+def preorder_stack(root):
+    
+    if root is None:
+        return []
+    
+    stack = [root]
+    result = []
+    
+    while stack:
+        node = stack.pop()
+        result.append(node.i)
+        
+        if node.right:
+            stack.append(node.right)
+        if node.left:
+            stack.append(node.left)
+    
+    return result
+
 class Node:
     
     def __init__(self, i, x, y):
@@ -60,6 +98,21 @@ class Node:
                 self.right = child
             else:
                 self.right.insert(child)
+                
+    def insert_iter(self, child):
+        cur = self
+        
+        while True:
+            if child.x < cur.x:
+                if cur.left is None:
+                    cur.left = child
+                    return
+                cur = cur.left
+            else:
+                if cur.right is None:
+                    cur.right = child
+                    return
+                cur = cur.right
 
 def solution(nodeinfo):
     
@@ -73,9 +126,9 @@ def solution(nodeinfo):
     root_node = nodes[0]
     
     for node in nodes[1:]:
-        root_node.insert(node)
+        root_node.insert_iter(node)
     
-    return [preorder(root_node), postorder(root_node)]
+    return [preorder_stack(root_node), postorder_stack(root_node)]
 
 
 
