@@ -1,10 +1,10 @@
 # [level 3] 디스크 컨트롤러 - 42627 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42627?language=python3) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42627?language=swift) 
 
 ### 성능 요약
 
-메모리: 9.39 MB, 시간: 56.12 ms
+메모리: 16.6 MB, 시간: 5.44 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2026년 04월 02일 11:37:28
+2026년 04월 30일 22:28:42
 
 ### 문제 설명
 
@@ -36,7 +36,7 @@
 </code></pre></div>
 <p>와 같은 요청이 들어왔습니다. 이를 그림으로 표현하면 다음과 같습니다.</p>
 
-<p><img src="https://grepp-programmers.s3.ap-northeast-2.amazonaws.com/files/production/02c70993-ca43-4130-ac63-0dec59e091c6/image.001.jpeg" title="" alt="image.001.jpeg"></p>
+<p><img src="https://asset.programmers.co.kr/files/production/02c70993-ca43-4130-ac63-0dec59e091c6/image.001.jpeg" title="" alt="image.001.jpeg"></p>
 
 <p>이 요청을 <strong>우선순위 디스크 컨트롤러</strong>가 처리하는 과정은 다음 표와 같습니다.</p>
 <table class="table">
@@ -111,7 +111,7 @@
       </table>
 <p>모든 요청 작업을 마쳤을 때 각 작업에 대한 <strong>반환 시간(turnaround time)</strong>은 작업 요청부터 종료까지 걸린 시간으로 정의합니다. 위의 <strong>우선순위 디스크 컨트롤러</strong>가 처리한 각 작업의 <strong>반환 시간</strong>은 다음 그림, 표와 같습니다.</p>
 
-<p><img src="https://grepp-programmers.s3.ap-northeast-2.amazonaws.com/files/production/fdfb33a3-1ad4-443a-a5d0-09b3dc548ece/image.002.jpeg" title="" alt="image.002.jpeg"></p>
+<p><img src="https://asset.programmers.co.kr/files/production/fdfb33a3-1ad4-443a-a5d0-09b3dc548ece/image.002.jpeg" title="" alt="image.002.jpeg"></p>
 <table class="table">
         <thead><tr>
 <th>작업 번호</th>
