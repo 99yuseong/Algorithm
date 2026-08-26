@@ -1,10 +1,10 @@
 # [level 1] 신고 결과 받기 - 92334 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/92334) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/92334?language=python3) 
 
 ### 성능 요약
 
-메모리: 38.1 MB, 시간: 830.54 ms
+메모리: 50.5 MB, 시간: 92.51 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 03월 18일 14:17:57
+2026년 08월 26일 09:29:17
 
 ### 문제 설명
 
@@ -38,7 +38,7 @@
 </ul></li>
 </ul>
 
-<p class="">다음은 전체 유저 목록이 ["muzi", "frodo", "apeach", "neo"]이고, k = 2(즉, 2번 이상 신고당하면 이용 정지)인 경우의 예시입니다.</p>
+<p>다음은 전체 유저 목록이 ["muzi", "frodo", "apeach", "neo"]이고, k = 2(즉, 2번 이상 신고당하면 이용 정지)인 경우의 예시입니다.</p>
 <table class="table">
         <thead><tr>
 <th>유저 ID</th>
@@ -47,29 +47,29 @@
 </tr>
 </thead>
         <tbody><tr>
-<td class="">"muzi"</td>
-<td class="">"frodo"</td>
-<td class="">"muzi"가 "frodo"를 신고했습니다.</td>
+<td>"muzi"</td>
+<td>"frodo"</td>
+<td>"muzi"가 "frodo"를 신고했습니다.</td>
 </tr>
 <tr>
-<td class="">"apeach"</td>
-<td class="">"frodo"</td>
-<td class="">"apeach"가 "frodo"를 신고했습니다.</td>
+<td>"apeach"</td>
+<td>"frodo"</td>
+<td>"apeach"가 "frodo"를 신고했습니다.</td>
 </tr>
 <tr>
-<td class="">"frodo"</td>
-<td class="">"neo"</td>
-<td class="">"frodo"가 "neo"를 신고했습니다.</td>
+<td>"frodo"</td>
+<td>"neo"</td>
+<td>"frodo"가 "neo"를 신고했습니다.</td>
 </tr>
 <tr>
-<td class="">"muzi"</td>
-<td class="">"neo"</td>
-<td class="">"muzi"가 "neo"를 신고했습니다.</td>
+<td>"muzi"</td>
+<td>"neo"</td>
+<td>"muzi"가 "neo"를 신고했습니다.</td>
 </tr>
 <tr>
-<td class="">"apeach"</td>
-<td class="">"muzi"</td>
-<td class="">"apeach"가 "muzi"를 신고했습니다.</td>
+<td>"apeach"</td>
+<td>"muzi"</td>
+<td>"apeach"가 "muzi"를 신고했습니다.</td>
 </tr>
 </tbody>
       </table>
@@ -81,25 +81,25 @@
 </tr>
 </thead>
         <tbody><tr>
-<td class="">"muzi"</td>
+<td>"muzi"</td>
 <td>1</td>
 </tr>
 <tr>
-<td class="">"frodo"</td>
+<td>"frodo"</td>
 <td>2</td>
 </tr>
 <tr>
-<td class="">"apeach"</td>
+<td>"apeach"</td>
 <td>0</td>
 </tr>
 <tr>
-<td class="">"neo"</td>
+<td>"neo"</td>
 <td>2</td>
 </tr>
 </tbody>
       </table>
 <p>위 예시에서는 2번 이상 신고당한 "frodo"와 "neo"의 게시판 이용이 정지됩니다. 이때, 각 유저별로 신고한 아이디와 정지된 아이디를 정리하면 다음과 같습니다.</p>
-<table class="table xt-translated">
+<table class="table">
         <thead><tr>
 <th>유저 ID</th>
 <th>유저가 신고한 ID</th>
@@ -127,19 +127,7 @@
 <td>없음</td>
 </tr>
 </tbody>
-      <xt-dual class="xt-dual block" xt-origin="유저 ID	유저가 신고한 ID	정지된 ID
-&quot;muzi&quot;	[&quot;frodo&quot;, &quot;neo&quot;]	[&quot;frodo&quot;, &quot;neo&quot;]
-&quot;frodo&quot;	[&quot;neo&quot;]	[&quot;neo&quot;]
-&quot;apeach&quot;	[&quot;muzi&quot;, &quot;frodo&quot;]	[&quot;frodo&quot;]
-&quot;neo&quot;	없음	없음" style="opacity: 0.8; font-size: 16px;" xt-translation="유저 ID 유저가 신고한 ID 정지된 ID
-&quot;muzi&quot; [&quot;프로도&quot;, &quot;네오&quot;] [&quot;프로도&quot;, &quot;네오&quot;]
-&quot;frodo&quot; [&quot;네오&quot;] [&quot;네오&quot;]
-&quot;apeach&quot; [&quot;muzi&quot;, &quot;frodo&quot;] [&quot;프로도&quot;]
-&quot;neo&quot; 없음 없음"><xt-br></xt-br><xt-content style="opacity: 0.8;">유저 ID 유저가 신고한 ID 정지된 ID
-"muzi" ["프로도", "네오"] ["프로도", "네오"]
-"frodo" ["네오"] ["네오"]
-"apeach" ["muzi", "frodo"] ["프로도"]
-"neo" 없음 없음</xt-content></xt-dual></table>
+      </table>
 <p>따라서 "muzi"는 처리 결과 메일을 2회, "frodo"와 "apeach"는 각각 처리 결과 메일을 1회 받게 됩니다.</p>
 
 <p>이용자의 ID가 담긴 문자열 배열 <code>id_list</code>, 각 이용자가 신고한 이용자의 ID 정보가 담긴 문자열 배열 <code>report</code>, 정지 기준이 되는 신고 횟수 <code>k</code>가 매개변수로 주어질 때, 각 유저별로 처리 결과 메일을 받은 횟수를 배열에 담아 return 하도록 solution 함수를 완성해주세요.</p>
@@ -161,7 +149,7 @@
 <ul>
 <li>3 ≤ <code>report</code>의 원소 길이 ≤ 21</li>
 <li><code>report</code>의 원소는 "이용자id 신고한id"형태의 문자열입니다.</li>
-<li class="">예를 들어 "muzi frodo"의 경우 "muzi"가 "frodo"를 신고했다는 의미입니다.</li>
+<li>예를 들어 "muzi frodo"의 경우 "muzi"가 "frodo"를 신고했다는 의미입니다.</li>
 <li>id는 알파벳 소문자로만 이루어져 있습니다.</li>
 <li>이용자id와 신고한id는 공백(스페이스)하나로 구분되어 있습니다.</li>
 <li>자기 자신을 신고하는 경우는 없습니다.</li>
@@ -173,7 +161,7 @@
 <hr>
 
 <h5>입출력 예</h5>
-<table class="table xt-translated">
+<table class="table">
         <thead><tr>
 <th>id_list</th>
 <th>report</th>
@@ -182,25 +170,19 @@
 </tr>
 </thead>
         <tbody><tr>
-<td class=""><code>["muzi", "frodo", "apeach", "neo"]</code></td>
-<td class=""><code>["muzi frodo","apeach frodo","frodo neo","muzi neo","apeach muzi"]</code></td>
+<td><code>["muzi", "frodo", "apeach", "neo"]</code></td>
+<td><code>["muzi frodo","apeach frodo","frodo neo","muzi neo","apeach muzi"]</code></td>
 <td>2</td>
-<td class="">[2,1,1,0]</td>
+<td>[2,1,1,0]</td>
 </tr>
 <tr>
-<td class=""><code>["con", "ryan"]</code></td>
-<td class=""><code>["ryan con", "ryan con", "ryan con", "ryan con"]</code></td>
+<td><code>["con", "ryan"]</code></td>
+<td><code>["ryan con", "ryan con", "ryan con", "ryan con"]</code></td>
 <td>3</td>
-<td class="">[0,0]</td>
+<td>[0,0]</td>
 </tr>
 </tbody>
-      <xt-dual class="xt-dual block" xt-origin="id_list	report	k	result
-[&quot;muzi&quot;, &quot;frodo&quot;, &quot;apeach&quot;, &quot;neo&quot;]	[&quot;muzi frodo&quot;,&quot;apeach frodo&quot;,&quot;frodo neo&quot;,&quot;muzi neo&quot;,&quot;apeach muzi&quot;]	2	[2,1,1,0]
-[&quot;con&quot;, &quot;ryan&quot;]	[&quot;ryan con&quot;, &quot;ryan con&quot;, &quot;ryan con&quot;, &quot;ryan con&quot;]	3	[0,0]" style="opacity: 0.8; font-size: 16px;" xt-translation="id_list k 결과 보고
-[&quot;muzi&quot;, &quot;frodo&quot;, &quot;apeach&quot;, &quot;neo&quot;]	[&quot;muzi frodo&quot;,&quot;apeach frodo&quot;,&quot;frodo neo&quot;,&quot;muzi neo&quot;,&quot;apeach muzi&quot;] 2 [2,1,1,0]
-[&quot;사기꾼&quot;, &quot;라이언&quot;]	[&quot;라이언 콘&quot;, &quot;라이언 콘&quot;, &quot;라이언 콘&quot;] 3 [0,0]"><xt-br></xt-br><xt-content style="opacity: 0.8;">id_list k 결과 보고
-["muzi", "frodo", "apeach", "neo"]	["muzi frodo","apeach frodo","frodo neo","muzi neo","apeach muzi"] 2 [2,1,1,0]
-["사기꾼", "라이언"]	["라이언 콘", "라이언 콘", "라이언 콘"] 3 [0,0]</xt-content></xt-dual></table>
+      </table>
 <hr>
 
 <h5>입출력 예 설명</h5>
