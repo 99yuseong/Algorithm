@@ -1,66 +1,59 @@
 import Foundation
 
-// 종이 조각으로 소수
-// 7자리 10장
-
-// 10 P 7 순열 -> 10 * 9 * 8 = 720개 경우의 수
-
-func solution(_ numbers:String) -> Int {
-    
-    var nums: Set<Int> = []
-    
-    for i in 1...numbers.count { // 7
-        for num in permu(i, numbers) { // 10 * 9 * 8 * 7 * 6 * 5 * 4
-            nums.insert(num)
+extension Int {
+    func isPrime() -> Bool {
+        if self < 2 { return false }
+        var i = 2
+        while i * i <= self {
+            if self % i == 0 { return false }
+            i += 1
         }
+        return true
     }
-    
-    print(nums)
-    
-    return nums.filter { isPrime($0) }.count
 }
 
-// 1. 경우의 수 뽑고,
-// 2. 소수 여부 확인
-
-func permu(_ n: Int, _ numbers: String) -> [Int] {
+func permutation(_ arr: [String], _ k: Int) -> [String] {
     
-    let numbers = Array(numbers).map { String($0) }
-    var result: Set<Int> = []
-
-    var isUsed = [Bool](repeating: false, count: numbers.count)
-    var cur: [String] = []    
+    var answer: [String] = []
+    var selected: [String] = []
+    var isUsed = [Bool](repeating: false, count: arr.count)
     
-    func select(_ k: Int) {        
+    func select(_ s: Int) {
         
-        if k == n {
-            result.insert(Int(cur.joined())!)
-            return
+        if s == k {
+            answer.append(selected.reduce("", +))
         }
         
-        for i in 0..<numbers.count {
+        for i in 0..<arr.count {
             if !isUsed[i] {
-                cur.append(numbers[i])
+                selected.append(arr[i])
                 isUsed[i] = true
-                select(k+1)
+                select(s+1)
                 isUsed[i] = false
-                cur.removeLast()
+                selected.removeLast()
             }
         }
     }
     select(0)
     
-    return Array(result)
+    return answer
 }
 
-func isPrime(_ num: Int) -> Bool {
+func solution(_ numbers:String) -> Int {
     
-    if num == 0 || num == 1 { return false }
-    if num == 2 || num == 3 { return true }
+    var nums = Array(numbers).map { String($0) }
     
-    for i in 2...Int(sqrt(Double(num))) {
-        if num % i == 0 { return false }
+    var primeSet = Set<Int>()
+    
+    for i in 1...nums.count {
+        let num = permutation(nums, i).map { Int($0)! }
+        
+        for n in num {
+            if n.isPrime() {
+                primeSet.insert(n)
+            }
+        }
     }
     
-    return true
+    return primeSet.count
 }
