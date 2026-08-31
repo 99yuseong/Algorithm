@@ -62,6 +62,44 @@ class SyncNotionTests(unittest.TestCase):
         self.assertEqual(difficulty_for("백준", "Silver II"), "실버 2")
         self.assertIsNone(difficulty_for("백준", "Platinum V"))
 
+    def test_baekjoon_keeps_every_readme_category(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            repo = Path(directory)
+            problem = repo / "백준/Gold/1707. 이분 그래프"
+            problem.mkdir(parents=True)
+            (problem / "README.md").write_text(
+                """# [Gold IV] 이분 그래프 - 1707
+
+[문제 링크](https://www.acmicpc.net/problem/1707)
+
+### 분류
+
+그래프 이론, 그래프 탐색, 너비 우선 탐색, 깊이 우선 탐색, 이분 그래프
+
+### 제출 일자
+
+2026년 2월 28일 01:27:11
+""",
+                encoding="utf-8",
+            )
+            source_path = problem.relative_to(repo) / "이분 그래프.py"
+            (repo / source_path).write_text("print('ok')\n", encoding="utf-8")
+
+            submission = parse_submission(repo, source_path, "abc123", "99yuseong/Algorithm")
+
+            assert submission is not None
+            self.assertEqual(
+                submission.tags,
+                (
+                    "그래프 이론",
+                    "그래프 탐색",
+                    "너비 우선 탐색",
+                    "깊이 우선 탐색",
+                    "이분 그래프",
+                ),
+            )
+            self.assertFalse(submission.tags_are_manual)
+
     def test_next_attempt_property(self) -> None:
         page = {
             "properties": {
@@ -194,6 +232,63 @@ class SyncNotionTests(unittest.TestCase):
             ["DFS", "재귀"],
         )
         self.assertIn("2차=12분", result)
+
+    def test_baekjoon_categories_merge_into_existing_tags(self) -> None:
+        submission = Submission(
+            site="백준",
+            problem_id="1707",
+            title="이분 그래프",
+            difficulty="골드 4",
+            problem_url="https://www.acmicpc.net/problem/1707",
+            submitted_date="2026-08-31",
+            source_path="solution.py",
+            language="python",
+            source="pass",
+            solve_time=None,
+            tags=("그래프 이론", "이분 그래프"),
+            tags_are_manual=False,
+            commit_sha="def",
+            commit_url="https://github.com/example/commit/def",
+        )
+        page = {
+            "id": "page-id",
+            "last_edited_time": "2026-08-30T00:00:00Z",
+            "properties": {
+                "URL": {"url": submission.problem_url},
+                "1차": {"number": 15},
+                "2차": {"number": None},
+                "3차": {"number": None},
+                "키워드": {"multi_select": [{"name": "그래프"}]},
+                "푼 날짜": {"date": {"start": "2026-08-30"}},
+            },
+        }
+
+        class FakeClient:
+            def __init__(self) -> None:
+                self.updated = None
+
+            def find_pages(self, _submission):
+                return [page]
+
+            def has_marker(self, _page_id, _marker):
+                return False
+
+            def update_page(self, page_id, properties):
+                self.updated = (page_id, properties)
+
+            def append_children(self, _page_id, _children):
+                pass
+
+        client = FakeClient()
+
+        sync_submission(client, submission)
+
+        assert client.updated is not None
+        _, properties = client.updated
+        self.assertEqual(
+            [option["name"] for option in properties["키워드"]["multi_select"]],
+            ["그래프", "그래프 이론", "이분 그래프"],
+        )
 
 
 if __name__ == "__main__":

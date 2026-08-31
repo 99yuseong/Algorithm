@@ -115,6 +115,12 @@ def _manual_tags(source: str) -> tuple[str, ...]:
     return tuple(dict.fromkeys(tag for tag in tags if tag))
 
 
+def _baekjoon_tags(category: str) -> tuple[str, ...]:
+    """Keep every category emitted by BaekjoonHub, without aliasing it."""
+    tags = (_normalized_text(tag) for tag in re.split(r"[,，]", category))
+    return tuple(dict.fromkeys(tag for tag in tags if tag))
+
+
 def _inferred_tags(category: str) -> tuple[str, ...]:
     normalized = _normalized_text(category).lower()
     tags: list[str] = []
@@ -207,7 +213,12 @@ def parse_submission(
     )
     category = _section(readme, "구분") or _section(readme, "분류")
     manual_tags = _manual_tags(source)
-    tags = manual_tags or _inferred_tags(category)
+    if site == "백준":
+        # BaekjoonHub already provides authoritative algorithm categories.
+        # Preserve every category verbatim so Notion can create missing options.
+        tags = tuple(dict.fromkeys((*_baekjoon_tags(category), *manual_tags)))
+    else:
+        tags = manual_tags or _inferred_tags(category)
     time_match = TIME_PATTERN.search(source)
     solve_time = int(time_match.group(1)) if time_match else None
     return Submission(
@@ -394,7 +405,9 @@ def page_properties(
     # Inferred tags are useful for new rows, but should not replace tags the
     # user has curated in an existing Notion record. Explicit @tags may update
     # both new and existing rows.
-    if submission.tags and (creating or submission.tags_are_manual):
+    if submission.tags and (
+        creating or submission.tags_are_manual or submission.site == "백준"
+    ):
         properties["키워드"] = {
             "multi_select": [{"name": tag} for tag in submission.tags]
         }
@@ -456,7 +469,7 @@ def sync_submission(client: NotionClient, submission: Submission) -> str:
         return f"건너뜀(이미 처리): {submission.title}"
     attempt = next_attempt_property(page) if submission.solve_time is not None else None
     properties = page_properties(submission, attempt, creating=False)
-    if submission.tags_are_manual:
+    if submission.tags_are_manual or submission.site == "백준":
         merged_tags = list(dict.fromkeys([
             *_property_multi_select(page, "키워드"),
             *submission.tags,
