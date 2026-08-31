@@ -1,39 +1,32 @@
-# 네트워크, 정보교환 형태
-# 컴퓨터 n대, 네트워크는 몇개? > BFS
-# 200대 컴퓨터, 연결은 adjMatrix로 준다.
+# @time 11
 
-from collections import deque
+from collections import defaultdict, deque
 
 def solution(n, computers):
-
-    graph = {}
+    
+    graph = defaultdict(list)
     
     for i in range(n):
         for j in range(n):
-            if i == j:
-                continue
-                
-            if computers[i][j] == 1:
-                graph.setdefault(i, []).append(j)
+            if computers[i][j] and i != j:
+                graph[i].append(j)
     
-    
-    
-    network = 0
-    visited = [False] * n
     queue = deque()
+    network = [-1 for _ in range(n)]
+    cnt = 0
     
     for i in range(n):
-        if visited[i] is False:
-            network += 1
+        if network[i] == -1:
+            cnt += 1
             queue.append(i)
-            visited[i] = True
-
-            while len(queue) > 0:
+            network[i] = cnt
+            
+            while queue:
                 cur = queue.popleft()
-
-                for v in graph.get(cur, []):
-                    if visited[v] is False:
-                        queue.append(v)
-                        visited[v] = True
-                    
-    return network
+                
+                for next in graph[cur]:
+                    if network[next] == -1:
+                        queue.append(next)
+                        network[next] = cnt
+    
+    return cnt
