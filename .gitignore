@@ -132,3 +132,7 @@ iOSInjectionProject/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.toptal.com/developers/gitignore/api/swift,macos,xcode
+
+# Python tooling used by the Notion sync automation
+__pycache__/
+*.py[cod]
