@@ -1,33 +1,32 @@
-# 음이 아닌 정수
-# 더하거나 빼서
-# 0에서 더할거냐 뺄거냐
-
-# 2^20 > 1024 * 1024
-# DFS
-
-def solution(numbers, target):
-    
+def dfs(numbers, target):
     answer = 0
-    cur = 0
+    total = 0
     
-    def cal(k):
-        nonlocal cur, answer
+    def select(k):
+        nonlocal answer, numbers, target, total
         
-        if k == len(numbers):
-            if cur == target:
+        if len(numbers) == k:
+            if total == target:
                 answer += 1
             return
         
-        num = numbers[k]
+        total += numbers[k]
+        select(k+1)
+        total -= numbers[k]
         
-        cur += num
-        cal(k+1)
-        cur -= num
+        total -= numbers[k]
+        select(k+1)
+        total += numbers[k]
         
-        cur -= num
-        cal(k+1)
-        cur += num
-    
-    cal(0)
+    select(0)
     
     return answer
+
+def solution(numbers, k):
+    return dfs(numbers, k)
+
+
+
+
+# 숫자는 2~20개
+# 2 ^ 20의 개수 -> 104만 > Safe
