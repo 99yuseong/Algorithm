@@ -1,3 +1,5 @@
+# @time 45
+# @tags BFS
 from collections import deque
 
 def makeQueue(queue, visited, n, m):
