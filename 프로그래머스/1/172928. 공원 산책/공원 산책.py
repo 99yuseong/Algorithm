@@ -1,62 +1,53 @@
-# 9분~
+# @time 15
+# @tags 구현
 
-# 길 o, 장애물 x
-# 직사각형
-
-# 최종 위치
-
-# park: 50 * 50  2500칸
-
-# routes: 50
-
-# cur을 잡고
-# 9 * 50 = 450번 움직여야함
-
-def move(d):
-    if d == "E": 
+def direction(d):
+    if d == "E":
         return [0, 1]
-    elif d == "W": 
+    elif d == "W":
         return [0, -1]
-    elif d == "N": 
-        return [-1, 0]
-    else: 
+    elif d == "S":
         return [1, 0]
+    else:
+        return [-1, 0]
 
 def solution(park, routes):
     
-    cur = [0,0]
+    n = len(park)
+    m = len(park[0])
     
-    for x in range(len(park)):
-        for y in range(len(park[0])):
-            if park[x][y] == "S":
-                cur = [x, y]
+    # 1. 시작 위치 좌표 찾기
+    
+    for i in range(n):
+        for j in range(m):
+            if park[i][j] == "S":
+                dog = [i, j]
                 break
+    
+    # 2. 명령 수행
     
     for route in routes:
+        d, step = map(str, route.split())
         
-        tmp = cur
+        d = direction(d)
+        step = int(step)
         
-        (d, s) = route.split()    
-        mv = move(d)
-        s = int(s)
+        tmp = dog.copy()
         
-        while s:
+        while step > 0:
             
-            nx = tmp[0] + mv[0]
-            ny = tmp[1] + mv[1]
+            tmp[0] += d[0]
+            tmp[1] += d[1]
             
-            if nx < 0 or nx >= len(park) or ny < 0 or ny >= len(park[0]):
+            if tmp[0] < 0 or tmp[0] >= n or tmp[1] < 0 or tmp[1] >= m:
                 break
             
-            if park[nx][ny] == "X":
+            if park[tmp[0]][tmp[1]] == "X":
                 break
             
-            s -= 1
-            tmp = [nx, ny]
+            step -= 1
         
-        if s > 0:
-            continue
-            
-        cur = tmp
+        if step == 0:
+            dog = tmp
     
-    return cur
+    return dog
