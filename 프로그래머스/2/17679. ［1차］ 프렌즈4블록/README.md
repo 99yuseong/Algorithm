@@ -1,10 +1,10 @@
 # [level 2] [1차] 프렌즈4블록 - 17679 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/17679?language=python3) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/17679) 
 
 ### 성능 요약
 
-메모리: 9.32 MB, 시간: 202.24 ms
+메모리: 11.5 MB, 시간: 30.87 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2026년 04월 21일 16:38:42
+2026년 09월 04일 13:12:09
 
 ### 문제 설명
 

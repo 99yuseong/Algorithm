@@ -1,73 +1,81 @@
+# @time 25
+# @tags 구현
 
-# 최대 900칸
+def clear(board):
+    
+    m = len(board)
+    n = len(board[0])
+    
+    for j in range(n):
+        
+        items = []
+        
+        for i in range(m):
+            if board[i][j] != "-":
+                items.append(board[i][j])
+                board[i][j] = "-"
+                
+        for i in range(m-1, -1, -1):
+            if items:
+                board[i][j] = items.pop()
+            
+            
+def remove(i, j, board):
+    
+    removed = 0
+    
+    for x in [i, i+1]:
+        for y in [j, j+1]:
+            if board[x][y] != "-":
+                board[x][y] = "-"
+                removed += 1
+    
+    return removed
 
+def is_boom(i, j, board):
+    
+    cur = board[i][j]
+    
+    if cur == "-":
+        return False
+    
+    if cur != board[i+1][j]:
+        return False
+    
+    if cur != board[i][j+1]:
+        return False
+    
+    if cur != board[i+1][j+1]:
+        return False
+    
+    return True
+    
+    
 def solution(m, n, board):
     
-    def is_4_block(x, y):
-        nonlocal m, n, board
-        
-        if x < 0 or x >= m-1 or y < 0 or y >= n-1:
-            return False
-        
-        return True if len(set([
-            board[x][y], 
-            board[x+1][y], 
-            board[x][y+1], 
-            board[x+1][y+1]
-        ])) == 1 and board[x][y] != "-" else False
-        
-    def erase(x, y):
-        nonlocal board
-        board[x][y] = "-"
-        board[x+1][y] = "-" 
-        board[x][y+1] = "-"
-        board[x+1][y+1] = "-"
+    board = list(map(lambda x: list(x), board))
     
-    def drop():
-        
-        nonlocal m, n, board
-        
-        for j in range(n):
-            
-            vertical = []
-            
-            for i in range(m):
-                if board[i][j] != "-":
-                    vertical.append(board[i][j])
-                    board[i][j] = "-"
-            
-            vertical = ["-"] * (m - len(vertical)) + vertical
-            
-            for i in range(m):
-                board[i][j] = vertical[i]
+    removed = 0
     
-    new_board = []
-    for row in board:
-        new_board.append(list(row))
-    board = new_board
-        
     while True:
         
-        erase_target = []
-
+        # 1. 모든 점의 터짐 여부를 체크한다.
+        booms = []
+        
         for i in range(m-1):
             for j in range(n-1):
-                if is_4_block(i, j):
-                    erase_target.append((i, j))
+                if is_boom(i, j, board):
+                    booms.append([i,j])
         
-        if len(erase_target) == 0:
-            break
+        if booms:
+            # 2. 터진 점의 4개 블럭을 실제 카운트하며 제거한다. 이미 제거되었으면 넘어간다.
+            for boom in booms:
+                removed += remove(boom[0], boom[1], board)
+                
+            # 3. 떨어짐을 처리한다.
+            clear(board)
             
-        for (i, j) in erase_target:
-            erase(i, j)
-        
-        drop()     
-        
+        else:     
+            break
     
-    count = 0
-    for i in range(m):
-        for j in range(n):
-            if board[i][j] == "-":
-                count += 1
-    
-    return count
+    return removed
