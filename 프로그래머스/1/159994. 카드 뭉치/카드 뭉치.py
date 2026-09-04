@@ -1,4 +1,5 @@
 # @time 5
+# @tags Stack
 
 def solution(cards1, cards2, goal):
     
