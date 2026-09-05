@@ -1,10 +1,10 @@
 # [level 3] 이중우선순위큐 - 42628 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42628?language=python3) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42628) 
 
 ### 성능 요약
 
-메모리: 23.1 MB, 시간: 94.84 ms
+메모리: 20.8 MB, 시간: 45.32 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2026년 03월 31일 10:27:19
+2026년 09월 05일 18:35:14
 
 ### 문제 설명
 
