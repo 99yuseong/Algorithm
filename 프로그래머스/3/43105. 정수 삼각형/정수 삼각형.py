@@ -4,10 +4,9 @@
 # 거쳐간 숫자의 합이 가장 큰 경우
 
 # DP[i][j] : i번째에서 j인덱스를 선택했을 떄 최댓값
-
 # DP[i][j] = max(DP[i-1][j-1], DP[i-1][j]) + triangle[i][j]
-
 # DP[0][0] = triangle[0][0]
+
 
 def solution(triangle):
     
